@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import ResNavBar from './ResNavBar.js';
+import ResNavBar from './components/ResNavBar.js';
+import Login from './components/Login.js';
 
 // import './App.css';
 
@@ -8,6 +9,9 @@ class App extends Component {
     return (
       <div className="App">
         <ResNavBar />
+        <div className="main">
+          <Login />
+        </div>
       </div>
     );
   }

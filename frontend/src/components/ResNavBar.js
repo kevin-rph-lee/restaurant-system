@@ -12,6 +12,8 @@ import {
   DropdownMenu,
   DropdownItem } from 'reactstrap';
 
+import axios from 'axios'
+
 
 class ResNavBar extends Component {
   constructor(props) {
@@ -19,7 +21,8 @@ class ResNavBar extends Component {
 
     this.toggle = this.toggle.bind(this);
     this.state = {
-      isOpen: false
+      isOpen: false,
+      email:null
     };
   }
   toggle() {
@@ -27,6 +30,21 @@ class ResNavBar extends Component {
       isOpen: !this.state.isOpen
     });
   }
+
+  componentDidMount(){
+      //binding this
+      axios.get('users/', {
+
+      })
+      .then(function (response) {
+        // self.setState({menuItems:response.data})
+        console.log(response.data);
+      })
+      .catch(function (error) {
+        console.log('error is ',error);
+      })
+  }
+
   render() {
     return (
       <div>
@@ -39,7 +57,7 @@ class ResNavBar extends Component {
                 <NavLink href="/components/">Components</NavLink>
               </NavItem>
               <NavItem>
-                <NavLink href="https://github.com/reactstrap/reactstrap">Github</NavLink>
+                <NavLink>Github</NavLink>
               </NavItem>
               <UncontrolledDropdown nav inNavbar>
                 <DropdownToggle nav caret>
