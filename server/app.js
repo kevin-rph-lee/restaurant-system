@@ -7,7 +7,6 @@ import compression from 'compression';
 import path from 'path';
 
 import env from './config/env';
-import routes from './routes';
 
 const ENV = process.env.ENV || "development";
 const app = express();
@@ -45,8 +44,9 @@ app.use('/static', express.static(path.join(__dirname, 'public', 'static')));
 /*=====  End of COR  ======*/
 
 // Routes
-app.use('/api/v1', routes.api_v1);
-app.use('/page', routes.page);
+const usersRoutes = require("./routes/users");
+app.use("/users", usersRoutes(knex));
+
 
 // Load React App
 // Serve HTML file for production

@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
-import { Button } from 'reactstrap';
+import ResNavBar from './ResNavBar.js';
 
-import './App.css';
+// import './App.css';
 
 class App extends Component {
   render() {
     return (
       <div className="App">
-        <Button color="primary">primary</Button>{' '}
+        <ResNavBar />
       </div>
     );
   }
