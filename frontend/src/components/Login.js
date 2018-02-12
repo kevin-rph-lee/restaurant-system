@@ -1,16 +1,19 @@
 import React, { Component } from 'react';
-import { Button, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
-
-
+import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
 import axios from 'axios'
 
 
 class Login extends Component {
   constructor(props) {
     super(props);
+    // this.signIn = this.signIn.bind(this);
+    this.handleEmailInput = this.handleEmailInput.bind(this);
+    this.handlePasswordInput = this.handlePasswordInput.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
 
     this.state = {
-      email:null
+      email:'',
+      password:''
     };
   }
 
@@ -18,77 +21,46 @@ class Login extends Component {
 
   }
 
+  // signIn(){
+  //   axios.post('/signin', {
+  //     email: this.state.email,
+  //     password: this.state.password
+  //   })
+  //   .then(function (response) {
+
+  //   })
+  //   .catch(function (error) {
+  //     console.log('error!');
+  //   });
+  // }
+
+  handleEmailInput(event){
+    this.setState({email: event.target.value});
+  }
+
+  handlePasswordInput(event){
+    this.setState({password: event.target.value});
+  }
+
+
+  handleSubmit(event) {
+    alert('Email: ' + this.state.email + ' Password ' + this.state.password);
+    event.preventDefault();
+  }
+
+
   render() {
     return (
       <Form>
         <FormGroup>
           <Label for="exampleEmail">Email</Label>
-          <Input type="email" name="email" id="exampleEmail" placeholder="with a placeholder" />
+          <Input type="email" name="email" value={this.state.value} onChange={this.handleEmailInput}  id="exampleEmail" placeholder="Your email" />
         </FormGroup>
         <FormGroup>
           <Label for="examplePassword">Password</Label>
-          <Input type="password" name="password" id="examplePassword" placeholder="password placeholder" />
+          <Input type="password" name="password" value={this.state.value}  onChange={this.handlePasswordInput} id="examplePassword" placeholder="Your password" />
         </FormGroup>
-        <FormGroup>
-          <Label for="exampleSelect">Select</Label>
-          <Input type="select" name="select" id="exampleSelect">
-            <option>1</option>
-            <option>2</option>
-            <option>3</option>
-            <option>4</option>
-            <option>5</option>
-          </Input>
-        </FormGroup>
-        <FormGroup>
-          <Label for="exampleSelectMulti">Select Multiple</Label>
-          <Input type="select" name="selectMulti" id="exampleSelectMulti" multiple>
-            <option>1</option>
-            <option>2</option>
-            <option>3</option>
-            <option>4</option>
-            <option>5</option>
-          </Input>
-        </FormGroup>
-        <FormGroup>
-          <Label for="exampleText">Text Area</Label>
-          <Input type="textarea" name="text" id="exampleText" />
-        </FormGroup>
-        <FormGroup>
-          <Label for="exampleFile">File</Label>
-          <Input type="file" name="file" id="exampleFile" />
-          <FormText color="muted">
-            This is some placeholder block-level help text for the above input.
-            It's a bit lighter and easily wraps to a new line.
-          </FormText>
-        </FormGroup>
-        <FormGroup tag="fieldset">
-          <legend>Radio Buttons</legend>
-          <FormGroup check>
-            <Label check>
-              <Input type="radio" name="radio1" />{' '}
-              Option one is this and that—be sure to include why it's great
-            </Label>
-          </FormGroup>
-          <FormGroup check>
-            <Label check>
-              <Input type="radio" name="radio1" />{' '}
-              Option two can be something else and selecting it will deselect option one
-            </Label>
-          </FormGroup>
-          <FormGroup check disabled>
-            <Label check>
-              <Input type="radio" name="radio1" disabled />{' '}
-              Option three is disabled
-            </Label>
-          </FormGroup>
-        </FormGroup>
-        <FormGroup check>
-          <Label check>
-            <Input type="checkbox" />{' '}
-            Check me out
-          </Label>
-        </FormGroup>
-        <Button>Submit</Button>
+        <Button onClick={this.handleSubmit}>Submit</Button>
       </Form>
     );
   }
