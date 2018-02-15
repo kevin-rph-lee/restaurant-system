@@ -6,7 +6,6 @@ import axios from 'axios'
 class Login extends Component {
   constructor(props) {
     super(props);
-    // this.signIn = this.signIn.bind(this);
     this.handleEmailInput = this.handleEmailInput.bind(this);
     this.handlePasswordInput = this.handlePasswordInput.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -21,19 +20,6 @@ class Login extends Component {
 
   }
 
-  // signIn(){
-  //   axios.post('/signin', {
-  //     email: this.state.email,
-  //     password: this.state.password
-  //   })
-  //   .then(function (response) {
-
-  //   })
-  //   .catch(function (error) {
-  //     console.log('error!');
-  //   });
-  // }
-
   handleEmailInput(event){
     this.setState({email: event.target.value});
   }
@@ -45,6 +31,16 @@ class Login extends Component {
 
   handleSubmit(event) {
     alert('Email: ' + this.state.email + ' Password ' + this.state.password);
+    axios.post('users/login', {
+      email: this.state.email,
+      password: this.state.password
+    })
+    .then(function (response) {
+      this.props.checkSignInStatus
+    })
+    .catch(function (error) {
+      console.log('ERror! ', error);
+    });
     event.preventDefault();
   }
 
@@ -61,6 +57,7 @@ class Login extends Component {
           <Input type="password" name="password" value={this.state.value}  onChange={this.handlePasswordInput} id="examplePassword" placeholder="Your password" />
         </FormGroup>
         <Button onClick={this.handleSubmit}>Submit</Button>
+        <Button onClick={this.props.checkSignInStatus}>Update?</Button>
       </Form>
     );
   }

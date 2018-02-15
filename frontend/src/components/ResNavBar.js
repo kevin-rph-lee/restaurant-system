@@ -21,8 +21,7 @@ class ResNavBar extends Component {
 
     this.toggle = this.toggle.bind(this);
     this.state = {
-      isOpen: false,
-      email:null
+      isOpen: false
     };
   }
   toggle() {
@@ -31,19 +30,20 @@ class ResNavBar extends Component {
     });
   }
 
-  componentDidMount(){
-      //binding this
-      axios.get('users/', {
+  logout(event){
+
+      axios.get('users/logout', {
 
       })
       .then(function (response) {
-        // self.setState({menuItems:response.data})
-        console.log(response.data);
+
       })
       .catch(function (error) {
-        console.log('error is ',error);
+
       })
   }
+
+
 
   render() {
     return (
@@ -54,25 +54,16 @@ class ResNavBar extends Component {
           <Collapse isOpen={this.state.isOpen} navbar>
             <Nav className="ml-auto" navbar>
               <NavItem>
-                <NavLink href="/components/">Components</NavLink>
-              </NavItem>
-              <NavItem>
-                <NavLink>Github</NavLink>
+                <NavLink>{this.props.email}</NavLink>
               </NavItem>
               <UncontrolledDropdown nav inNavbar>
                 <DropdownToggle nav caret>
                   Options
                 </DropdownToggle>
                 <DropdownMenu >
-                  <DropdownItem>
-                    Option 1
-                  </DropdownItem>
-                  <DropdownItem>
-                    Option 2
-                  </DropdownItem>
                   <DropdownItem divider />
                   <DropdownItem>
-                    Reset
+                    Logout
                   </DropdownItem>
                 </DropdownMenu>
               </UncontrolledDropdown>
