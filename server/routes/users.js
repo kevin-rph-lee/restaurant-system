@@ -8,7 +8,7 @@ module.exports = (knex) => {
 
   router.get('/', (req, res) => {
     if(!req.session.email){
-      res.json('Not Logged In');
+      res.json('Guest');
     } else{
       res.json(req.session.email);
     }

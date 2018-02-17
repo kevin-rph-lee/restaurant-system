@@ -11,9 +11,9 @@ import {
   DropdownToggle,
   DropdownMenu,
   DropdownItem } from 'reactstrap';
+import FontAwesome from 'react-fontawesome'
 
 import axios from 'axios'
-
 
 class ResNavBar extends Component {
   constructor(props) {
@@ -29,21 +29,6 @@ class ResNavBar extends Component {
       isOpen: !this.state.isOpen
     });
   }
-
-  logout(event){
-
-      axios.get('users/logout', {
-
-      })
-      .then(function (response) {
-
-      })
-      .catch(function (error) {
-
-      })
-  }
-
-
 
   render() {
     return (
@@ -62,8 +47,11 @@ class ResNavBar extends Component {
                 </DropdownToggle>
                 <DropdownMenu >
                   <DropdownItem divider />
-                  <DropdownItem>
-                    Logout
+                  <DropdownItem onClick={this.props.logout}>
+                          <FontAwesome
+        className="super-crazy-colors"
+        name="rocket"
+      />
                   </DropdownItem>
                 </DropdownMenu>
               </UncontrolledDropdown>

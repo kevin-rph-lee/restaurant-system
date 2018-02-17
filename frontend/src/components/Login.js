@@ -29,16 +29,18 @@ class Login extends Component {
   }
 
 
-  handleSubmit(event) {
+  handleSubmit = (event) => {
+    console.log(this.props.updateSignIn);
     alert('Email: ' + this.state.email + ' Password ' + this.state.password);
     axios.post('users/login', {
       email: this.state.email,
       password: this.state.password
     })
-    .then(function (response) {
-      this.props.checkSignInStatus
+    .then((response) => {
+      console.log(response.data);
+      this.props.updateSignIn(response.data)
     })
-    .catch(function (error) {
+    .catch((error) => {
       console.log('ERror! ', error);
     });
     event.preventDefault();
@@ -57,7 +59,6 @@ class Login extends Component {
           <Input type="password" name="password" value={this.state.value}  onChange={this.handlePasswordInput} id="examplePassword" placeholder="Your password" />
         </FormGroup>
         <Button onClick={this.handleSubmit}>Submit</Button>
-        <Button onClick={this.props.checkSignInStatus}>Update?</Button>
       </Form>
     );
   }
