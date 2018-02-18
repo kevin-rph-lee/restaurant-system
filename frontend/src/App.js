@@ -50,7 +50,7 @@ class App extends Component {
     if(isLoggedIn === "Guest"){
       page = <Login updateSignIn = {this.updateSignIn} />
     } else{
-      page = <Menu />
+      page = <div className = 'container'><Menu /></div>
     }
 
 

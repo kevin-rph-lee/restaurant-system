@@ -7,14 +7,12 @@ module.exports = (knex) => {
 
   router.get('/', (req, res) => {
     knex
-      .select("email", "password")
-      .from("users")
-      .where({email:req.body.email})
+      .select("*")
+      .from("menu_items")
       .then((results) => {
-
+        res.json(results);
       });
   });
-
 
   return router;
 };

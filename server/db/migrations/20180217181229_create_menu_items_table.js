@@ -4,6 +4,7 @@ exports.up = function(knex, Promise) {
     table.string('name');
     table.decimal ('price');
     table.string('image');
+    table.string('description');
   });
 };
 
