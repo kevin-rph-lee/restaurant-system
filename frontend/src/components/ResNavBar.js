@@ -13,8 +13,6 @@ import {
   DropdownItem } from 'reactstrap';
 import FontAwesome from 'react-fontawesome'
 
-import axios from 'axios'
-
 class ResNavBar extends Component {
   constructor(props) {
     super(props);

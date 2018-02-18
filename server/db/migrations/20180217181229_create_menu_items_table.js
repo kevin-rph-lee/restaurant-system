@@ -3,6 +3,9 @@ exports.up = function(knex, Promise) {
     table.increments('id').primary();
     table.string('name');
     table.decimal ('price');
+    table.string('image');
+    table.string('description');
+    table.string('type');
   });
 };
 

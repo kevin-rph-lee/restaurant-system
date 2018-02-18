@@ -57,7 +57,9 @@ app.use('/static', express.static(path.join(__dirname, 'public', 'static')));
 
 // Routes
 const usersRoutes = require("./routes/users");
+const menuItemsRoutes = require("./routes/menu_items");
 app.use("/users", usersRoutes(knex, cookieSession));
+app.use("/menu_items", menuItemsRoutes(knex));
 
 
 // Load React App

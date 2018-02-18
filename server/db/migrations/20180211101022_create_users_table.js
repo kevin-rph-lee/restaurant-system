@@ -4,6 +4,7 @@ exports.up = function(knex, Promise) {
     table.string('email');
     table.string('phone_number');
     table.string('password');
+    table.string('type');
   });
 };
 
