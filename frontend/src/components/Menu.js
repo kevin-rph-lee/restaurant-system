@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { Container, Card, CardImg, CardText, CardBody,
-  CardTitle, CardSubtitle, Button, Row, Col, Media} from 'reactstrap';
+import { Container, Card, CardText, CardBody,
+  CardTitle, CardSubtitle, Row, Col} from 'reactstrap';
 import axios from 'axios'
 
 
@@ -88,7 +88,7 @@ class Menu extends Component {
     let sidesCards = this.state.sides.map(item => {
       return (
           <Col md="4">
-            <Card>
+            <Card >
               <CardBody>
                 <CardTitle>{item.name}</CardTitle>
                 <CardSubtitle>${item.price}</CardSubtitle>
