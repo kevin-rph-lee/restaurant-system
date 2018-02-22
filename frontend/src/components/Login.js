@@ -31,7 +31,6 @@ class Login extends Component {
 
 
   handleSubmit = (event) => {
-    console.log(this.props.updateSignIn);
     axios.post('users/login', {
       email: this.state.email,
       password: this.state.password
@@ -60,7 +59,7 @@ class Login extends Component {
           <Input type="password" name="password" value={this.state.value}  onChange={this.handlePasswordInput} id="examplePassword" placeholder="Your password" />
         </FormGroup>
         <Button onClick={this.handleSubmit}>Submit</Button>
-        <Button onClick={this.handleSubmit}>Register</Button>
+        <Button onClick={this.props.showRegistration}>Register</Button>
       </Form>
     );
   }

@@ -61,6 +61,8 @@ class Register extends Component {
           <Input type="password" name="password" value={this.state.value}  onChange={this.handlePasswordInput} id="examplePassword" placeholder="Your password" />
         </FormGroup>
         <Button onClick={this.handleSubmit}>Submit</Button>
+        <Button onClick={this.props.showRegistration}>Login</Button>
+
       </Form>
     );
   }

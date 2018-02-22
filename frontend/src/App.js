@@ -43,6 +43,13 @@ class App extends Component {
       this.setState({email:email})
   }
 
+  showRegistration = () => {
+    console.log('toggle')
+    this.setState({
+      toggleRegistration: !this.state.toggleRegistration
+    });
+  }
+
   logout = () => {
 
       axios.post('users/logout', {
@@ -63,9 +70,11 @@ class App extends Component {
   render() {
     const isLoggedIn = this.state.email;
     let page = null;
-    if(isLoggedIn === "Guest"){
-      page = <Login updateSignIn = {this.updateSignIn} />
-    } else{
+    if(isLoggedIn === "Guest" && this.state.toggleRegistration === false){
+      page = <Login updateSignIn = {this.updateSignIn} showRegistration = {this.showRegistration} />
+    } else if(this.state.toggleRegistration === true) {
+      page = <Register showRegistration = {this.showRegistration} />
+    } else {
       page = <div className = 'container'><Menu /></div>
     }
 
