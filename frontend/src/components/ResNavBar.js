@@ -29,6 +29,27 @@ class ResNavBar extends Component {
   }
 
   render() {
+
+    let dropDown = null;
+    if(this.props.email !== 'Guest'){
+      dropDown =
+            <UncontrolledDropdown nav inNavbar>
+              <DropdownToggle nav caret >
+                <FontAwesome
+                  className="super-crazy-colors"
+                  name="edit"
+                />
+              </DropdownToggle>
+              <DropdownMenu right>
+                <DropdownItem divider />
+                <DropdownItem onClick={this.props.logout}>
+                  Logoff
+                </DropdownItem>
+              </DropdownMenu>
+            </UncontrolledDropdown>
+    }
+
+
     return (
       <div>
         <Navbar color="grey" className="navbar-dark bg-dark" light expand="md">
@@ -39,20 +60,7 @@ class ResNavBar extends Component {
               <NavItem>
                 <NavLink>{this.props.email}</NavLink>
               </NavItem>
-              <UncontrolledDropdown nav inNavbar>
-                <DropdownToggle nav caret>
-                  Options
-                </DropdownToggle>
-                <DropdownMenu >
-                  <DropdownItem divider />
-                  <DropdownItem onClick={this.props.logout}>
-                          <FontAwesome
-        className="super-crazy-colors"
-        name="rocket"
-      />
-                  </DropdownItem>
-                </DropdownMenu>
-              </UncontrolledDropdown>
+            {dropDown}
             </Nav>
           </Collapse>
         </Navbar>

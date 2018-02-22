@@ -2,7 +2,10 @@ import React, { Component } from 'react';
 import ResNavBar from './components/ResNavBar.js';
 import Login from './components/Login.js';
 import Menu from './components/Menu.js';
-import axios from 'axios'
+import axios from 'axios';
+import Register from './components/Register.js';
+import { BrowserRouter } from 'react-router-dom';
+
 // import './App.css';
 
 
@@ -13,7 +16,8 @@ class App extends Component {
 
 
     this.state = {
-      email: ''
+      email: '',
+      toggleRegistration:false
     };
 
 
@@ -39,17 +43,38 @@ class App extends Component {
       this.setState({email:email})
   }
 
+  showRegistration = () => {
+    console.log('toggle')
+    this.setState({
+      toggleRegistration: !this.state.toggleRegistration
+    });
+  }
+
   logout = () => {
-      this.setState({email:'Guest'})
+
+      axios.post('users/logout', {
+
+      })
+      .then((response) => {
+        console.log('logging out...');
+        this.setState({email:'Guest'});
+
+      })
+      .catch((error) => {
+        console.log('error is ',error);
+      })
+
   }
 
 
   render() {
     const isLoggedIn = this.state.email;
     let page = null;
-    if(isLoggedIn === "Guest"){
-      page = <Login updateSignIn = {this.updateSignIn} />
-    } else{
+    if(isLoggedIn === "Guest" && this.state.toggleRegistration === false){
+      page = <Login updateSignIn = {this.updateSignIn} showRegistration = {this.showRegistration} />
+    } else if(this.state.toggleRegistration === true) {
+      page = <Register updateSignIn = {this.updateSignIn} showRegistration = {this.showRegistration} />
+    } else {
       page = <div className = 'container'><Menu /></div>
     }
 

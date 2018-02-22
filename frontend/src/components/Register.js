@@ -3,16 +3,18 @@ import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
 import axios from 'axios'
 
 
-class Login extends Component {
+class Register extends Component {
   constructor(props) {
     super(props);
     this.handleEmailInput = this.handleEmailInput.bind(this);
     this.handlePasswordInput = this.handlePasswordInput.bind(this);
-    this.handleLogin = this.handleLogin.bind(this);
+    this.handleRegister = this.handleRegister.bind(this);
+    this.handlePhoneInput = this.handlePhoneInput.bind(this);
 
     this.state = {
       email:'',
       password:'',
+      phoneNumber: '',
       showRegistration: false
     };
   }
@@ -25,20 +27,25 @@ class Login extends Component {
     this.setState({email: event.target.value});
   }
 
+  handlePhoneInput(event){
+    this.setState({phoneNumber: event.target.value});
+  }
+
   handlePasswordInput(event){
     this.setState({password: event.target.value});
   }
 
 
-  handleLogin = (event) => {
-    axios.post('users/login', {
+  handleRegister = (event) => {
+    axios.post('users/register', {
       email: this.state.email,
       password: this.state.password,
       phoneNumber: this.state.phoneNumber
     })
     .then((response) => {
       console.log(response.data);
-      this.props.updateSignIn(response.data)
+      this.props.updateSignIn(response.data);
+      this.props.showRegistration();
     })
     .catch((error) => {
       console.log('ERror! ', error);
@@ -50,19 +57,24 @@ class Login extends Component {
   render() {
     return (
       <Form>
-        <h1>Login</h1>
+        <h1>Register</h1>
         <FormGroup>
           <Label for="exampleEmail">Email</Label>
           <Input type="email" name="email" value={this.state.value} onChange={this.handleEmailInput}  id="exampleEmail" placeholder="Your email" />
         </FormGroup>
         <FormGroup>
+          <Label for="phoneNumber">Phone #</Label>
+          <Input type="phoneNumber" name="phoneNumber" value={this.state.value}  onChange={this.handlePhoneInput} id="phoneNumber" placeholder="Your phone #" />
+        </FormGroup>
+        <FormGroup>
           <Label for="examplePassword">Password</Label>
           <Input type="password" name="password" value={this.state.value}  onChange={this.handlePasswordInput} id="examplePassword" placeholder="Your password" />
         </FormGroup>
-        <Button onClick={this.handleLogin}>Login</Button>
-        <Button onClick={this.props.showRegistration}>Go to registration page</Button>
+        <Button onClick={this.handleRegister}>Register</Button>
+        <Button onClick={this.props.showRegistration}>Go back to login page</Button>
+
       </Form>
     );
   }
 }
-export default Login;
+export default Register;
