@@ -73,7 +73,7 @@ class App extends Component {
     if(isLoggedIn === "Guest" && this.state.toggleRegistration === false){
       page = <Login updateSignIn = {this.updateSignIn} showRegistration = {this.showRegistration} />
     } else if(this.state.toggleRegistration === true) {
-      page = <Register showRegistration = {this.showRegistration} />
+      page = <Register updateSignIn = {this.updateSignIn} showRegistration = {this.showRegistration} />
     } else {
       page = <div className = 'container'><Menu /></div>
     }

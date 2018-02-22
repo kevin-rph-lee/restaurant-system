@@ -8,7 +8,7 @@ class Login extends Component {
     super(props);
     this.handleEmailInput = this.handleEmailInput.bind(this);
     this.handlePasswordInput = this.handlePasswordInput.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleLogin = this.handleLogin.bind(this);
 
     this.state = {
       email:'',
@@ -30,10 +30,11 @@ class Login extends Component {
   }
 
 
-  handleSubmit = (event) => {
+  handleLogin = (event) => {
     axios.post('users/login', {
       email: this.state.email,
-      password: this.state.password
+      password: this.state.password,
+      phoneNumber: this.state.phoneNumber
     })
     .then((response) => {
       console.log(response.data);
@@ -58,8 +59,8 @@ class Login extends Component {
           <Label for="examplePassword">Password</Label>
           <Input type="password" name="password" value={this.state.value}  onChange={this.handlePasswordInput} id="examplePassword" placeholder="Your password" />
         </FormGroup>
-        <Button onClick={this.handleSubmit}>Submit</Button>
-        <Button onClick={this.props.showRegistration}>Register</Button>
+        <Button onClick={this.handleLogin}>Login</Button>
+        <Button onClick={this.props.showRegistration}>Go to registration page</Button>
       </Form>
     );
   }

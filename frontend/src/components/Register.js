@@ -8,11 +8,13 @@ class Register extends Component {
     super(props);
     this.handleEmailInput = this.handleEmailInput.bind(this);
     this.handlePasswordInput = this.handlePasswordInput.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleRegister = this.handleRegister.bind(this);
+    this.handlePhoneInput = this.handlePhoneInput.bind(this);
 
     this.state = {
       email:'',
       password:'',
+      phoneNumber: '',
       showRegistration: false
     };
   }
@@ -25,21 +27,25 @@ class Register extends Component {
     this.setState({email: event.target.value});
   }
 
+  handlePhoneInput(event){
+    this.setState({phoneNumber: event.target.value});
+  }
+
   handlePasswordInput(event){
     this.setState({password: event.target.value});
   }
 
 
-  handleSubmit = (event) => {
-    console.log(this.props.updateSignIn);
-    alert('Email: ' + this.state.email + ' Password ' + this.state.password);
+  handleRegister = (event) => {
     axios.post('users/register', {
       email: this.state.email,
-      password: this.state.password
+      password: this.state.password,
+      phoneNumber: this.state.phoneNumber
     })
     .then((response) => {
       console.log(response.data);
-      this.props.updateSignIn(response.data)
+      this.props.updateSignIn(response.data);
+      this.props.showRegistration();
     })
     .catch((error) => {
       console.log('ERror! ', error);
@@ -57,11 +63,15 @@ class Register extends Component {
           <Input type="email" name="email" value={this.state.value} onChange={this.handleEmailInput}  id="exampleEmail" placeholder="Your email" />
         </FormGroup>
         <FormGroup>
+          <Label for="phoneNumber">Phone #</Label>
+          <Input type="phoneNumber" name="phoneNumber" value={this.state.value}  onChange={this.handlePhoneInput} id="phoneNumber" placeholder="Your phone #" />
+        </FormGroup>
+        <FormGroup>
           <Label for="examplePassword">Password</Label>
           <Input type="password" name="password" value={this.state.value}  onChange={this.handlePasswordInput} id="examplePassword" placeholder="Your password" />
         </FormGroup>
-        <Button onClick={this.handleSubmit}>Submit</Button>
-        <Button onClick={this.props.showRegistration}>Login</Button>
+        <Button onClick={this.handleRegister}>Register</Button>
+        <Button onClick={this.props.showRegistration}>Go back to login page</Button>
 
       </Form>
     );

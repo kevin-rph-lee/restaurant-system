@@ -33,7 +33,18 @@ module.exports = (knex) => {
           res.json(req.session.email);
         }
       });
+  });
 
+  router.post('/register', (req, res) => {
+    console.log(req.body);
+    knex
+      .insert({email: req.body.email, password: req.body.password, phone_number: req.body.phoneNumber})
+      .into('users')
+      .returning('id')
+      .then((results) => {
+        req.session.email = req.body.email;
+        res.json(req.body.email);
+      });
   });
 
   //Log user out
