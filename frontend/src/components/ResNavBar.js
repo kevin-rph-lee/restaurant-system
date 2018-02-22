@@ -40,16 +40,16 @@ class ResNavBar extends Component {
                 <NavLink>{this.props.email}</NavLink>
               </NavItem>
               <UncontrolledDropdown nav inNavbar>
-                <DropdownToggle nav caret>
-                  Options
-                </DropdownToggle>
-                <DropdownMenu >
-                  <DropdownItem divider />
-                  <DropdownItem onClick={this.props.logout}>
-                          <FontAwesome
+                <DropdownToggle nav caret >
+                  <FontAwesome
         className="super-crazy-colors"
         name="rocket"
       />
+                </DropdownToggle>
+                <DropdownMenu right>
+                  <DropdownItem divider />
+                  <DropdownItem onClick={this.props.logout}>
+                    Logoff
                   </DropdownItem>
                 </DropdownMenu>
               </UncontrolledDropdown>

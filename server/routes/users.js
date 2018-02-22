@@ -8,8 +8,10 @@ module.exports = (knex) => {
   //Checking if logging in. If logged in, sends the email of the user back. If not, sends "Guest"
   router.get('/', (req, res) => {
     if(!req.session.email){
+      console.log("user is guest");
       res.json('Guest');
     } else{
+      console.log("user is ", req.session.email)
       res.json(req.session.email);
     }
   });
@@ -36,7 +38,9 @@ module.exports = (knex) => {
 
   //Log user out
   router.post('/logout', (req, res) => {
-    req.session = null;
+    req.session.email = null;
+    console.log('logging off user');
+    console.log('req.session.email')
     res.sendStatus(200);
   });
 

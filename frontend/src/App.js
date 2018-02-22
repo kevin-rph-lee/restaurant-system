@@ -2,7 +2,10 @@ import React, { Component } from 'react';
 import ResNavBar from './components/ResNavBar.js';
 import Login from './components/Login.js';
 import Menu from './components/Menu.js';
-import axios from 'axios'
+import axios from 'axios';
+import Register from './components/Register.js';
+import { BrowserRouter } from 'react-router-dom';
+
 // import './App.css';
 
 
@@ -13,7 +16,8 @@ class App extends Component {
 
 
     this.state = {
-      email: ''
+      email: '',
+      toggleRegistration:false
     };
 
 
@@ -40,7 +44,19 @@ class App extends Component {
   }
 
   logout = () => {
-      this.setState({email:'Guest'})
+
+      axios.post('users/logout', {
+
+      })
+      .then((response) => {
+        console.log('logging out...');
+        this.setState({email:'Guest'});
+
+      })
+      .catch((error) => {
+        console.log('error is ',error);
+      })
+
   }
 
 

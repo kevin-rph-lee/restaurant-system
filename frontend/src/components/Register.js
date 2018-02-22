@@ -3,7 +3,7 @@ import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
 import axios from 'axios'
 
 
-class Login extends Component {
+class Register extends Component {
   constructor(props) {
     super(props);
     this.handleEmailInput = this.handleEmailInput.bind(this);
@@ -32,6 +32,7 @@ class Login extends Component {
 
   handleSubmit = (event) => {
     console.log(this.props.updateSignIn);
+    alert('Email: ' + this.state.email + ' Password ' + this.state.password);
     axios.post('users/login', {
       email: this.state.email,
       password: this.state.password
@@ -50,7 +51,7 @@ class Login extends Component {
   render() {
     return (
       <Form>
-        <h1>Login</h1>
+        <h1>Register</h1>
         <FormGroup>
           <Label for="exampleEmail">Email</Label>
           <Input type="email" name="email" value={this.state.value} onChange={this.handleEmailInput}  id="exampleEmail" placeholder="Your email" />
@@ -60,9 +61,8 @@ class Login extends Component {
           <Input type="password" name="password" value={this.state.value}  onChange={this.handlePasswordInput} id="examplePassword" placeholder="Your password" />
         </FormGroup>
         <Button onClick={this.handleSubmit}>Submit</Button>
-        <Button onClick={this.handleSubmit}>Register</Button>
       </Form>
     );
   }
 }
-export default Login;
+export default Register;
