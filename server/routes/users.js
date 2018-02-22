@@ -38,7 +38,7 @@ module.exports = (knex) => {
   router.post('/register', (req, res) => {
     console.log(req.body);
     knex
-      .insert({email: req.body.email, password: req.body.password, phone_number: req.body.phoneNumber})
+      .insert({email: req.body.email, password: req.body.password, phone_number: req.body.phoneNumber, owner: false})
       .into('users')
       .returning('id')
       .then((results) => {
