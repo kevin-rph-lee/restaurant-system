@@ -33,7 +33,7 @@ class Register extends Component {
   handleSubmit = (event) => {
     console.log(this.props.updateSignIn);
     alert('Email: ' + this.state.email + ' Password ' + this.state.password);
-    axios.post('users/login', {
+    axios.post('users/register', {
       email: this.state.email,
       password: this.state.password
     })
