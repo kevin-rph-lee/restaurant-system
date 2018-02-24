@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import { Container, Card, CardText, CardBody,
-  CardTitle, CardSubtitle, Row, Col} from 'reactstrap';
+  CardTitle, CardSubtitle, Row, Col, Button} from 'reactstrap';
 import axios from 'axios'
+import * as NumericInput from "react-numeric-input";
+
 
 
 class Menu extends Component {
@@ -10,10 +12,15 @@ class Menu extends Component {
     this.state = {
       mains: [],
       drinks: [],
-      sides: []
+      sides: [],
+      orderAmount: {}
     };
 
     this.componentDidMount = this.componentDidMount.bind(this);
+  }
+
+  handleSubmitClick = () => {
+    console.log(this.state.orderAmount);
   }
 
   componentDidMount = () => {
@@ -50,6 +57,13 @@ class Menu extends Component {
       })
   }
 
+  handleQuantityChange = (evt) => {
+      let newOrderAmount = this.state.orderAmount;
+      newOrderAmount[evt.target.name] = evt.target.value;
+
+  }
+
+
   render() {
     let mainsCards = this.state.mains.map(item => {
       return (
@@ -63,6 +77,9 @@ class Menu extends Component {
               <CardBody>
                 <CardText>{item.description}</CardText>
               </CardBody>
+              <form>
+                <input type="text" name={item.id} onChange={this.handleQuantityChange} className="form-control"/>
+              </form>
             </Card>
           </Col>
       )
@@ -80,6 +97,9 @@ class Menu extends Component {
               <CardBody>
                 <CardText>{item.description}</CardText>
               </CardBody>
+              <div className="increment">
+                <input type="text" name={item.id} onChange={this.handleQuantityChange} className="form-control"/>
+              </div>
             </Card>
           </Col>
       )
@@ -97,6 +117,9 @@ class Menu extends Component {
               <CardBody>
                 <CardText>{item.description}</CardText>
               </CardBody>
+              <div className="increment">
+                <input type="text" name={item.id} onChange={this.handleQuantityChange} className="form-control"/>
+              </div>
             </Card>
           </Col>
       )
@@ -123,6 +146,7 @@ class Menu extends Component {
             {drinksCards}
           </Row>
         </Container>
+         <Button color="primary" className="submit-button" onClick={this.handleSubmitClick}>Submit Order</Button>
       </div>
     )
   }
