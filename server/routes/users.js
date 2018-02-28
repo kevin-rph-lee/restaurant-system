@@ -19,7 +19,7 @@ module.exports = (knex) => {
 
   router.post('/login', (req, res) => {
     knex
-      .select('email', 'password')
+      .select('id', 'email', 'password')
       .from('users')
       .where({email:req.body.email})
       .then((results) => {

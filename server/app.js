@@ -13,6 +13,7 @@ const app = express();
 const knexConfig = require("./../knexfile.js");
 const knex = require("knex")(knexConfig[ENV]);
 const cookieSession = require('cookie-session');
+const moment = require('moment');
 
 
 // console.log(ENV);
@@ -39,28 +40,14 @@ app.use('/static', express.static(path.join(__dirname, 'public', 'static')));
 
 /*=====  End of Middleware  ======*/
 
-/*===========================================
-=            Baic Authentication            =
-===========================================*/
-
-// app.use(require('node-basicauth')({'haochuan': 'password'}));
-
-/*=====  End of Baic Authentication  ======*/
-
-/*===========================
-=            COR            =
-===========================*/
-
-// app.use(require('cors')());
-
-/*=====  End of COR  ======*/
 
 // Routes
 const usersRoutes = require("./routes/users");
 const menuItemsRoutes = require("./routes/menu_items");
+const ordersRoutes = require("./routes/orders");
 app.use("/users", usersRoutes(knex, cookieSession));
 app.use("/menu_items", menuItemsRoutes(knex));
-
+app.use("/orders", ordersRoutes(knex, moment));
 
 // Load React App
 // Serve HTML file for production
