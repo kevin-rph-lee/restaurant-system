@@ -28,32 +28,29 @@ module.exports = (knex, moment) => {
       .where({email: req.session.email})
       .then((results) => {
         if(results.length !== 0){
+          //Grabbing the menu info
           getMenuItemPrice()
           .then((menuInfoArray)=> {
 
+            //Converting the array result into an easier to read obj
             const menuInfoObj = {};
             for(let i = 0; i < menuInfoArray.length; i++){
               menuInfoObj[menuInfoArray[i].id] =  {price:menuInfoArray[i].price};
             }
-            console.log('Menu Info Obj: ', menuInfoObj);
-
 
             const orderQuantities = req.body.orderQuantities;
             const userID = results[0].id;
             let orderTotalPrice = 0;
-
-
-            console.log('Userid: ',userID);
+            //Inserting the new order
             knex
               .insert({user_id:userID, finish_time: moment()})
               .into('orders')
               .returning('id')
               .then((results) => {
+                //Inserts each individual ordered item
                 const orderID = results[0];
                 const arr = [];
                 Object.keys(orderQuantities).forEach(function(key) {
-                      console.log('Item: ', key, orderQuantities[key]);
-
                       const orderedItemPrice = menuInfoObj[key].price * orderQuantities[key];
                       orderTotalPrice += orderedItemPrice;
 
@@ -63,6 +60,7 @@ module.exports = (knex, moment) => {
                       )
                 })
                 Promise.all(arr).then(() => {
+                  //Updating new total order price in order table
                   knex('orders')
                     .where({ id:orderID })
                     .update({ total_order_price:orderTotalPrice })
