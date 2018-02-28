@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { Container, Card, CardText, CardBody,
   CardTitle, CardSubtitle, Row, Col, Button} from 'reactstrap';
 import axios from 'axios'
-import * as NumericInput from "react-numeric-input";
+import Countdown from 'react-countdown-moment'
+
 
 
 
@@ -13,15 +14,12 @@ class Menu extends Component {
       mains: [],
       drinks: [],
       sides: [],
-      orderAmount: {}
+      orderQuantities: {}
     };
 
     this.componentDidMount = this.componentDidMount.bind(this);
   }
 
-  handleSubmitClick = () => {
-    console.log(this.state.orderAmount);
-  }
 
   componentDidMount = () => {
       axios.get('menu_items/mains', {
@@ -57,9 +55,22 @@ class Menu extends Component {
       })
   }
 
+
+  handleSubmitClick = () => {
+      axios.post('orders/new', {
+        orderQuantities: this.state.orderQuantities
+      })
+      .then((response) => {
+        console.log('order successful');
+      })
+      .catch((error) => {
+        console.log('error is ',error);
+      })
+  }
+
   handleQuantityChange = (evt) => {
-      let newOrderAmount = this.state.orderAmount;
-      newOrderAmount[evt.target.name] = evt.target.value;
+      let newOrderQuantities = this.state.orderQuantities;
+      newOrderQuantities[evt.target.name] = evt.target.value;
 
   }
 
