@@ -11,15 +11,26 @@ module.exports = (knex) => {
       console.log("user is guest");
       res.json('Guest');
     } else{
-      console.log("user is ", req.session.email)
-      res.json(req.session.email);
+      knex
+        .select('owner')
+        .from('users')
+        .where({email:req.session.email})
+        .then((results) => {
+          if(results.length === 0){
+            res.json('Guest');
+          } else if (results[0].owner === true) {
+            res.json({email:req.session.email, owner:true});
+          } else {
+            res.json({email:req.session.email, owner:false});
+          }
+        })
     }
   });
 
 
   router.post('/login', (req, res) => {
     knex
-      .select('id', 'email', 'password')
+      .select('id', 'email', 'password', 'owner')
       .from('users')
       .where({email:req.body.email})
       .then((results) => {
@@ -29,8 +40,14 @@ module.exports = (knex) => {
         }else if(results[0].password !== req.body.password){
           res.status(400).send('Invalid email format!')
         } else {
-          req.session.email = req.body.email;
-          res.json(req.session.email);
+          if(results[0].owner === true){
+            req.session.email = req.body.email;
+            res.json({email:req.session.email, owner:true});
+          } else {
+            req.session.email = req.body.email;
+            res.json({email:req.session.email, owner:false});
+
+          }
         }
       });
   });

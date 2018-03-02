@@ -38,7 +38,7 @@ class Login extends Component {
     })
     .then((response) => {
       console.log(response.data);
-      this.props.updateSignIn(response.data)
+      this.props.updateSignIn({email:response.data.email, owner:response.data.owner})
     })
     .catch((error) => {
       console.log('ERror! ', error);
