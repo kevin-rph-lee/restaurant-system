@@ -17,7 +17,11 @@ class OwnerView extends Component {
       orderQuantities: {}
     };
   }
-
+  render() {
+    return (
+      <h1>Owner View</h1>
+    );
+  }
 
 }
 export default OwnerView;

@@ -14,6 +14,20 @@ module.exports = (knex, moment) => {
       .from('menu_items')
   }
 
+  router.get('/', (req, res) => {
+    if(!req.session.email){
+      res.sendStatus(400);
+    } else{
+      knex
+        .select('*')
+        .from('orders')
+        .then((results) => {
+          res.json(results);
+      })
+    }
+  });
+
+
   //Creating a new order
   router.post('/new', (req, res) => {
     //Checking if user is online
