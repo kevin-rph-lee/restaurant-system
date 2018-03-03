@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Container, Card, CardText, CardBody,
-  CardTitle, CardSubtitle, Row, Col, Button, Table, CardHeader } from 'reactstrap';
+  CardTitle, CardSubtitle, Row, Col, Button, Table, CardHeader, CardFooter } from 'reactstrap';
 import axios from 'axios'
 import Countdown from 'react-countdown-moment'
 
@@ -37,10 +37,9 @@ class OwnerView extends Component {
       return (
           <Col md="12">
             <Card>
-              <CardHeader>Order # {order.id}</CardHeader>
+              <CardHeader tag="h3">Order # {order.id}</CardHeader>
               <CardBody>
                 <CardText>Finish time: {order.finishTime}</CardText>
-                <CardText>Total order price: ${order.totalOrderPrice}</CardText>
                 <Table>
                   <thead>
                     <tr>
@@ -60,6 +59,7 @@ class OwnerView extends Component {
                   </tbody>
                 </Table>
               </CardBody>
+              <CardFooter>Total order price: ${order.totalOrderPrice}</CardFooter>
             </Card>
           </Col>
       )
