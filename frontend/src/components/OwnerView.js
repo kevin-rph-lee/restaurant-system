@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Container, Card, CardText, CardBody,
-  CardTitle, CardSubtitle, Row, Col, Button, Table } from 'reactstrap';
+  CardTitle, CardSubtitle, Row, Col, Button, Table, CardHeader } from 'reactstrap';
 import axios from 'axios'
 import Countdown from 'react-countdown-moment'
 
@@ -37,34 +37,30 @@ class OwnerView extends Component {
       return (
           <Col md="12">
             <Card>
+              <CardHeader>Order # {order.id}</CardHeader>
               <CardBody>
-                <CardTitle>Order # {order.id}</CardTitle>
                 <CardText>Finish time: {order.finishTime}</CardText>
                 <CardText>Total order price: ${order.totalOrderPrice}</CardText>
+                <Table>
+                  <thead>
+                    <tr>
+                      <th>Item</th>
+                      <th>Quantity</th>
+                      <th>Item total price</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                      {order['orderedItems'].map((item) => (
+                        <tr>
+                            <td>{item.name}</td>
+                            <td>{item.quantity}</td>
+                            <td>{item.totalItemPrice}</td>
+                        </tr>
+                      ))}
+                  </tbody>
+                </Table>
               </CardBody>
-              <Table>
-                <thead>
-                  <tr>
-                    <th>Item</th>
-                    <th>Quantity</th>
-                    <th>Item total price</th>
-                  </tr>
-                </thead>
-                <tbody>
-                    {order['orderedItems'].map((item) => (
-                      <tr>
-                          <td>{item.name}</td>
-                          <td>{item.quantity}</td>
-                          <td>{item.totalItemPrice}</td>
-                      </tr>
-                    ))}
-                </tbody>
-              </Table>
-
-
-
             </Card>
-
           </Col>
       )
     })
