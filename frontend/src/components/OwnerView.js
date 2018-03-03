@@ -39,11 +39,9 @@ class OwnerView extends Component {
             <Card>
               <CardBody>
                 <CardTitle>Order # {order.id}</CardTitle>
+                <CardText>Finish time: {order.finishTime}</CardText>
+                <CardText>Total order price: ${order.totalOrderPrice}</CardText>
               </CardBody>
-              <CardBody>
-                <CardText>test</CardText>
-              </CardBody>
-
               <Table>
                 <thead>
                   <tr>
@@ -53,14 +51,16 @@ class OwnerView extends Component {
                   </tr>
                 </thead>
                 <tbody>
-
-                </tbody>
-              </Table>
-                    {order['orderedItems'].map((r) => (
+                    {order['orderedItems'].map((item) => (
                       <tr>
-                          <td>test</td>
+                          <td>{item.name}</td>
+                          <td>{item.quantity}</td>
+                          <td>{item.totalItemPrice}</td>
                       </tr>
                     ))}
+                </tbody>
+              </Table>
+
 
 
             </Card>

@@ -34,10 +34,6 @@ module.exports = (knex, moment) => {
         for(let y = 0 ; y < results.length; y ++){
           console.log('Results ',results[y]);
           console.log('Orders ', orders[results[y].id].ordered_items);
-          // orders[results[y].id].ordered_items[results[y].name] = {
-          //   quantity:results[y].quantity,
-          //   total_item_price:results[y].total_item_price
-          // }
           orders[results[y].id].orderedItems.push({
             name:results[y].name,
             quantity: results[y].quantity,
