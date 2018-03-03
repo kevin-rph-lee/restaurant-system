@@ -11,17 +11,52 @@ class OwnerView extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      mains: [],
-      drinks: [],
-      sides: [],
-      orderQuantities: {}
+      orders: []
     };
   }
-  render() {
-    return (
-      <h1>Owner View</h1>
-    );
+
+
+
+  componentDidMount = () => {
+      axios.get('orders/', {
+      })
+      .then((response) => {
+        this.setState({orders: response.data})
+      })
+      .catch((error) => {
+
+      })
   }
 
+
+
+
+  render() {
+    let orderCards = this.state.orders.map(order => {
+      return (
+          <Col md="12">
+            <Card>
+              <CardBody>
+                <CardTitle>test</CardTitle>
+              </CardBody>
+              <CardBody>
+                <CardText>test</CardText>
+              </CardBody>
+            </Card>
+          </Col>
+      )
+    })
+
+    return (
+      <div>
+        <h2>Orders</h2>
+        <Container fluid>
+          <Row>
+            {orderCards}
+          </Row>
+        </Container>
+      </div>
+    )
+  }
 }
 export default OwnerView;

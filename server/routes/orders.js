@@ -15,16 +15,16 @@ module.exports = (knex, moment) => {
   }
 
   router.get('/', (req, res) => {
-    if(!req.session.email){
-      res.sendStatus(400);
-    } else{
-      knex
-        .select('*')
-        .from('orders')
-        .then((results) => {
-          res.json(results);
-      })
-    }
+
+    knex.select('orders.id', 'menu_items.name', 'ordered_items.quantity', 'ordered_items.total_item_price', 'orders.finish_time', 'ordered_items.total_item_price', 'orders.total_order_price')
+      .from('orders')
+      .innerJoin('ordered_items', 'orders.id', 'ordered_items.order_id')
+      .innerJoin('menu_items', 'menu_item_id', 'menu_items.id')
+      .then((results) => {
+
+        return res.json(results);
+      });
+
   });
 
 
