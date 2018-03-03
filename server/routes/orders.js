@@ -97,7 +97,7 @@ module.exports = (knex, moment) => {
                 Object.keys(orderQuantities).forEach(function(key) {
                       const orderedItemPrice = menuInfoObj[key].price * orderQuantities[key];
                       orderTotalPrice += orderedItemPrice;
-
+                      console.log('Testing: ', orderID + ' ' + key + ' ' + orderQuantities[key] + orderedItemPrice)
                       arr.push(knex
                         .insert({order_id:orderID, menu_item_id:key, quantity:orderQuantities[key], total_item_price: orderedItemPrice})
                         .into('ordered_items')

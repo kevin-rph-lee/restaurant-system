@@ -57,8 +57,16 @@ class Menu extends Component {
 
 
   handleSubmitClick = () => {
+      const quantities =  this.state.orderQuantities;
+      //preventing sending quantity items that are invalid such as 0 or nothing
+      for(let i in quantities){
+        if( (quantities[i] === '') || (quantities[i] === '0')){
+          delete quantities[i];
+        }
+      }
       axios.post('orders/new', {
-        orderQuantities: this.state.orderQuantities
+
+        orderQuantities: quantities
       })
       .then((response) => {
         console.log('order successful');
