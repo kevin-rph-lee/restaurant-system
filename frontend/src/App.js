@@ -44,6 +44,16 @@ class App extends Component {
       .catch(function (error) {
         console.log('error is ',error);
       })
+
+
+      this.socket.addEventListener('message', (event) => {
+        const newOrder = JSON.parse(event.data);
+        console.log('New Order: ', newOrder);
+        //Checking what kind of message should be sent to the clients
+
+      });
+
+
   }
 
   updateSignIn = info => {
