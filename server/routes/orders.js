@@ -21,8 +21,27 @@ module.exports = (knex, moment) => {
       .innerJoin('ordered_items', 'orders.id', 'ordered_items.order_id')
       .innerJoin('menu_items', 'menu_item_id', 'menu_items.id')
       .then((results) => {
+        let orders = {};
+        //Making keys in order object along with inserting order info
+        for(let i = 0 ; i < results.length; i ++){
+          orders[results[i].id] = {
+            finish_time:results[i].finish_time,
+            total_order_price:results[i].total_order_price,
+            ordered_items:{}
+          };
+        }
+        //Inserting info for each individual ordered item
+        for(let y = 0 ; y < results.length; y ++){
+          console.log('Results ',results[y]);
+          console.log('Orders ', orders[results[y].id].ordered_items);
+          orders[results[y].id].ordered_items[results[y].name] = {
+            quantity:results[y].quantity,
+            total_item_price:results[y].total_item_price
+          }
+        }
 
-        return res.json(results);
+
+        return res.json(orders);
       });
 
   });
