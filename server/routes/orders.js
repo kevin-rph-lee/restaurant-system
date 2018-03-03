@@ -57,7 +57,6 @@ module.exports = (knex, moment) => {
 
   });
 
-
   //Creating a new order
   router.post('/new', (req, res) => {
     //Checking if user is online
@@ -109,7 +108,30 @@ module.exports = (knex, moment) => {
                     .where({ id:orderID })
                     .update({ total_order_price:orderTotalPrice })
                     .then(()=>{
-                      res.sendStatus(200);
+                      knex.select('orders.id', 'users.email', 'menu_items.name', 'ordered_items.quantity', 'ordered_items.total_item_price', 'orders.finish_time', 'ordered_items.total_item_price', 'orders.total_order_price')
+                        .from('orders')
+                        .innerJoin('users', 'users.id', 'orders.user_id')
+                        .innerJoin('ordered_items', 'orders.id', 'ordered_items.order_id')
+                        .innerJoin('menu_items', 'menu_item_id', 'menu_items.id')
+                        .where({'orders.id':orderID})
+                        .then((results) => {
+                          const orderInfo = {
+                            id:results[0].id,
+                            finishTime: results[0].finish_time,
+                            totalOrderPrice: results[0].total_order_price,
+                            email: results[0].email,
+                            orderedItems: []
+                          }
+                          for(let y = 0 ; y < results.length; y ++){
+                            orderInfo.orderedItems.push({
+                              name:results[y].name,
+                              quantity: results[y].quantity,
+                              totalItemPrice: results[y].total_item_price
+                            });
+                          }
+
+                          return res.json(orderInfo);
+                        });
                     });
                 });
               });

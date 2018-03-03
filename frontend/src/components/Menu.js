@@ -69,7 +69,7 @@ class Menu extends Component {
         orderQuantities: quantities
       })
       .then((response) => {
-        console.log('order successful');
+        console.log('Order Info: ', response.data);
       })
       .catch((error) => {
         console.log('error is ',error);
