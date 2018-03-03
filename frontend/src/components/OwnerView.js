@@ -11,7 +11,7 @@ class OwnerView extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      orders: []
+      orders: {}
     };
   }
 
