@@ -11,7 +11,7 @@ class OwnerView extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      orders: {}
+      orders: []
     };
   }
 
@@ -21,6 +21,7 @@ class OwnerView extends Component {
       axios.get('orders/', {
       })
       .then((response) => {
+        let ordersData = response.data.reverse();
         this.setState({orders: response.data})
       })
       .catch((error) => {
@@ -37,7 +38,7 @@ class OwnerView extends Component {
           <Col md="12">
             <Card>
               <CardBody>
-                <CardTitle>test</CardTitle>
+                <CardTitle>Order # {order.id}</CardTitle>
               </CardBody>
               <CardBody>
                 <CardText>test</CardText>

@@ -33,8 +33,12 @@ class App extends Component {
 
       })
       .then(function (response) {
+
+
+
         console.log('Response from server: ',response.data.email);
         self.setState({email:response.data.email});
+        self.setState({owner:response.data.owner})
       })
       .catch(function (error) {
         console.log('error is ',error);
