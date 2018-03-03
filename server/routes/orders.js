@@ -25,19 +25,24 @@ module.exports = (knex, moment) => {
         // Making keys in order object along with inserting order info
         for(let i = 0 ; i < results.length; i ++){
           orders[results[i].id] = {
-            finish_time:results[i].finish_time,
-            total_order_price:results[i].total_order_price,
-            ordered_items:{}
+            finishTime:results[i].finish_time,
+            totalOrderPrice:results[i].total_order_price,
+            orderedItems:[]
           };
         }
         //Inserting info for each individual ordered item
         for(let y = 0 ; y < results.length; y ++){
           console.log('Results ',results[y]);
           console.log('Orders ', orders[results[y].id].ordered_items);
-          orders[results[y].id].ordered_items[results[y].name] = {
-            quantity:results[y].quantity,
-            total_item_price:results[y].total_item_price
-          }
+          // orders[results[y].id].ordered_items[results[y].name] = {
+          //   quantity:results[y].quantity,
+          //   total_item_price:results[y].total_item_price
+          // }
+          orders[results[y].id].orderedItems.push({
+            name:results[y].name,
+            quantity: results[y].quantity,
+            totalItemPrice: results[y].total_item_price
+          });
         }
         let ordersArray = [];
         for(let x in orders){

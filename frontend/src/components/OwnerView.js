@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Container, Card, CardText, CardBody,
-  CardTitle, CardSubtitle, Row, Col, Button} from 'reactstrap';
+  CardTitle, CardSubtitle, Row, Col, Button, Table } from 'reactstrap';
 import axios from 'axios'
 import Countdown from 'react-countdown-moment'
 
@@ -43,7 +43,28 @@ class OwnerView extends Component {
               <CardBody>
                 <CardText>test</CardText>
               </CardBody>
+
+              <Table>
+                <thead>
+                  <tr>
+                    <th>Item</th>
+                    <th>Quantity</th>
+                    <th>Item total price</th>
+                  </tr>
+                </thead>
+                <tbody>
+
+                </tbody>
+              </Table>
+                    {order['orderedItems'].map((r) => (
+                      <tr>
+                          <td>test</td>
+                      </tr>
+                    ))}
+
+
             </Card>
+
           </Col>
       )
     })
