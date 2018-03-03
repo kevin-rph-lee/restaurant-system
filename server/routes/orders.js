@@ -23,10 +23,14 @@ module.exports = (knex, moment) => {
       .innerJoin('menu_items', 'menu_item_id', 'menu_items.id')
       .then((results) => {
         let orders = {};
+
+
+
+
         // Making keys in order object along with inserting order info
         for(let i = 0 ; i < results.length; i ++){
           orders[results[i].id] = {
-            finishTime:results[i].finish_time,
+            finishTime:moment(results[i].finish_time).format('h:mm:ss a, MMMM Do YYYY'),
             totalOrderPrice:results[i].total_order_price,
             orderedItems:[],
             email:results[i].email
@@ -34,8 +38,6 @@ module.exports = (knex, moment) => {
         }
         //Inserting info for each individual ordered item
         for(let y = 0 ; y < results.length; y ++){
-          console.log('Results ',results[y]);
-          console.log('Orders ', orders[results[y].id].ordered_items);
           orders[results[y].id].orderedItems.push({
             name:results[y].name,
             quantity: results[y].quantity,
