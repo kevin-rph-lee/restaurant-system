@@ -16,8 +16,9 @@ module.exports = (knex, moment) => {
 
   router.get('/', (req, res) => {
 
-    knex.select('orders.id', 'menu_items.name', 'ordered_items.quantity', 'ordered_items.total_item_price', 'orders.finish_time', 'ordered_items.total_item_price', 'orders.total_order_price')
+    knex.select('orders.id', 'users.email', 'menu_items.name', 'ordered_items.quantity', 'ordered_items.total_item_price', 'orders.finish_time', 'ordered_items.total_item_price', 'orders.total_order_price')
       .from('orders')
+      .innerJoin('users', 'users.id', 'orders.user_id')
       .innerJoin('ordered_items', 'orders.id', 'ordered_items.order_id')
       .innerJoin('menu_items', 'menu_item_id', 'menu_items.id')
       .then((results) => {
@@ -27,7 +28,8 @@ module.exports = (knex, moment) => {
           orders[results[i].id] = {
             finishTime:results[i].finish_time,
             totalOrderPrice:results[i].total_order_price,
-            orderedItems:[]
+            orderedItems:[],
+            email:results[i].email
           };
         }
         //Inserting info for each individual ordered item

@@ -40,6 +40,7 @@ class OwnerView extends Component {
               <CardHeader tag="h3">Order # {order.id}</CardHeader>
               <CardBody>
                 <CardText>Finish time: {order.finishTime}</CardText>
+                <CardText>Account: {order.email}</CardText>
                 <Table>
                   <thead>
                     <tr>
