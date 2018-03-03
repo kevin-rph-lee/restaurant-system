@@ -70,6 +70,7 @@ class Menu extends Component {
       })
       .then((response) => {
         console.log('Order Info: ', response.data);
+        this.props.sendWSMessage(response.data);
       })
       .catch((error) => {
         console.log('error is ',error);

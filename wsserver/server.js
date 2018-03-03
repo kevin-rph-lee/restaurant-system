@@ -41,7 +41,7 @@ wss.on('connection', (ws) => {
     //Adding ID number
     console.log(message);
     //Sending message back to the other clients
-    sendMessageToOpenClients(message);
+
   });
 
   // Set up a callback for when a client closes the socket. This usually means they closed their browser.

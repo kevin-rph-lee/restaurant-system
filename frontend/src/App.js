@@ -15,8 +15,10 @@ class App extends Component {
 
     super(props);
 
+    this.socket = null;
 
     this.state = {
+
       email: '',
       toggleRegistration:false,
       owner: false
@@ -28,6 +30,8 @@ class App extends Component {
   componentDidMount = () => {
       //binding this
       const self = this;
+      this.socket = new WebSocket('ws://localhost:3001');
+
 
       axios.get('users/', {
 
@@ -45,6 +49,10 @@ class App extends Component {
   updateSignIn = info => {
       this.setState({email:info['email']})
       this.setState({owner:info['owner']})
+  }
+
+  sendWSMessage = message => {
+      this.socket.send(JSON.stringify(message));
   }
 
   showRegistration = () => {
@@ -82,7 +90,7 @@ class App extends Component {
     } else if(this.state.toggleRegistration === true) {
       page = <Register updateSignIn = {this.updateSignIn} showRegistration = {this.showRegistration} />
     } else {
-      page = <div className = 'container'><Menu /></div>
+      page = <div className = 'container'><Menu sendWSMessage= {this.sendWSMessage}/></div>
     }
 
 
