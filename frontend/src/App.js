@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import ResNavBar from './components/ResNavBar.js';
 import Login from './components/Login.js';
 import Menu from './components/Menu.js';
+import OwnerView from './components/OwnerView.js';
 import axios from 'axios';
 import Register from './components/Register.js';
 import { BrowserRouter } from 'react-router-dom';
@@ -17,7 +18,8 @@ class App extends Component {
 
     this.state = {
       email: '',
-      toggleRegistration:false
+      toggleRegistration:false,
+      owner: false
     };
 
 
@@ -31,16 +33,18 @@ class App extends Component {
 
       })
       .then(function (response) {
-        console.log('Response from server: ',response.data);
-        self.setState({email:response.data})
+        console.log('Response from server: ',response.data.email);
+        self.setState({email:response.data.email});
+        self.setState({owner:response.data.owner})
       })
       .catch(function (error) {
         console.log('error is ',error);
       })
   }
 
-  updateSignIn = email => {
-      this.setState({email:email})
+  updateSignIn = info => {
+      this.setState({email:info['email']})
+      this.setState({owner:info['owner']})
   }
 
   showRegistration = () => {
@@ -58,6 +62,7 @@ class App extends Component {
       .then((response) => {
         console.log('logging out...');
         this.setState({email:'Guest'});
+        this.setState({owner:false});
 
       })
       .catch((error) => {
@@ -70,7 +75,9 @@ class App extends Component {
   render() {
     const isLoggedIn = this.state.email;
     let page = null;
-    if(isLoggedIn === "Guest" && this.state.toggleRegistration === false){
+    if(this.state.owner === true){
+      page = <OwnerView />
+    } else if(isLoggedIn === "Guest" && this.state.toggleRegistration === false){
       page = <Login updateSignIn = {this.updateSignIn} showRegistration = {this.showRegistration} />
     } else if(this.state.toggleRegistration === true) {
       page = <Register updateSignIn = {this.updateSignIn} showRegistration = {this.showRegistration} />

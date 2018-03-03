@@ -43,8 +43,7 @@ class Register extends Component {
       phoneNumber: this.state.phoneNumber
     })
     .then((response) => {
-      console.log(response.data);
-      this.props.updateSignIn(response.data);
+      this.props.updateSignIn({email:response.data.email, owner:response.data.owner})
       this.props.showRegistration();
     })
     .catch((error) => {
