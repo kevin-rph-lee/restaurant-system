@@ -14,6 +14,39 @@ module.exports = (knex, moment) => {
       .from('menu_items')
   }
 
+
+
+
+  //Get information for all orders in the system
+  router.get('/time', (req, res) => {
+
+    knex.select('id','finish_time')
+      .from('orders')
+      .then((results) => {
+        const now = moment();
+        const timeDiffArray = [];
+        for(let i = 0; i < results.length; i++){
+          if(moment(results[i].finish_time).diff(now, 'minutes') >= 0){
+            timeDiffArray.push({id:results[i].id,timeDiff:moment(results[i].finish_time).diff(now, 'minutes')});
+          } else {
+            timeDiffArray.push({id:results[i].id,timeDiff:0});
+          }
+          // console.log('moment: ', moment(results[i].finish_time).diff(now, 'minutes'));
+        }
+        res.json(timeDiffArray);
+      });
+  });
+
+
+
+
+
+
+
+
+
+
+  //Get information for all orders in the system
   router.get('/', (req, res) => {
 
     knex.select('orders.id', 'users.email', 'menu_items.name', 'ordered_items.quantity', 'ordered_items.total_item_price', 'orders.finish_time', 'ordered_items.total_item_price', 'orders.total_order_price')
@@ -23,9 +56,6 @@ module.exports = (knex, moment) => {
       .innerJoin('menu_items', 'menu_item_id', 'menu_items.id')
       .then((results) => {
         let orders = {};
-
-
-
 
         // Making keys in order object along with inserting order info
         for(let i = 0 ; i < results.length; i ++){

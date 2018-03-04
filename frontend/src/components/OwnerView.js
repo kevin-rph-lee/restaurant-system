@@ -3,6 +3,7 @@ import { Container, Card, CardText, CardBody,
   CardTitle, CardSubtitle, Row, Col, Button, Table, CardHeader, CardFooter } from 'reactstrap';
 import axios from 'axios'
 import Countdown from 'react-countdown-moment'
+import ReactCountdownClock from 'react-countdown-clock'
 
 
 
@@ -51,6 +52,11 @@ class OwnerView extends Component {
               <CardBody>
                 <CardText>Finish time: {order.finishTime}</CardText>
                 <CardText>Account: {order.email}</CardText>
+                <ReactCountdownClock seconds={60}
+                     color="#000"
+                     alpha={0.9}
+                     size={200}
+                     />
                 <Table>
                   <thead>
                     <tr>
