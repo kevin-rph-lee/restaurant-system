@@ -111,10 +111,16 @@ module.exports = (knex, moment) => {
                 })
                 Promise.all(arr).then(() => {
                   //Updating new total order price in order table
+
+                  //Finding the maximum prep time allowed based off item ordered with the longest prep time
+                  const maxPrepTime = Math.max.apply(Math, prepTimes)
+
+
                   knex('orders')
                     .where({ id:orderID })
-                    .update({ total_order_price:orderTotalPrice })
+                    .update({ total_order_price:orderTotalPrice, finish_time: moment().add(maxPrepTime, 'minutes') })
                     .then(()=>{
+                      //Getting the recently inserted order back from the DB to send to the frontend
                       knex.select('orders.id', 'users.email', 'menu_items.name', 'ordered_items.quantity', 'ordered_items.total_item_price', 'orders.finish_time', 'ordered_items.total_item_price', 'orders.total_order_price')
                         .from('orders')
                         .innerJoin('users', 'users.id', 'orders.user_id')
@@ -122,6 +128,7 @@ module.exports = (knex, moment) => {
                         .innerJoin('menu_items', 'menu_item_id', 'menu_items.id')
                         .where({'orders.id':orderID})
                         .then((results) => {
+
                           const orderInfo = {
                             id:results[0].id,
                             finishTime: results[0].finish_time,
@@ -130,7 +137,7 @@ module.exports = (knex, moment) => {
                             orderedItems: []
                           }
                           for(let y = 0 ; y < results.length; y ++){
-                            console.log('Prep Times ', prepTimes);
+
                             orderInfo.orderedItems.push({
                               name:results[y].name,
                               quantity: results[y].quantity,
