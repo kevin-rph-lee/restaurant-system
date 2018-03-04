@@ -89,7 +89,7 @@ class App extends Component {
     let page = null;
     if(this.state.owner === true){
       page = <OwnerView socket={this.socket}/>
-    } else if(isLoggedIn === "Guest" && this.state.toggleRegistration === false){
+    } else if((isLoggedIn === "Guest" || isLoggedIn === undefined) && this.state.toggleRegistration === false){
       page = <Login updateSignIn = {this.updateSignIn} showRegistration = {this.showRegistration} />
     } else if(this.state.toggleRegistration === true) {
       page = <Register updateSignIn = {this.updateSignIn} showRegistration = {this.showRegistration} />
