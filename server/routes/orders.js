@@ -9,8 +9,8 @@ module.exports = (knex, moment) => {
    * Gets menu item price from DB
    * @return {Promise} array of menu item info
    */
-  function getMenuItemPrice(){
-    return knex.select('id', 'price')
+  function getMenuItemInfo(){
+    return knex.select('id', 'price', 'prep_time')
       .from('menu_items')
   }
 
@@ -72,21 +72,25 @@ module.exports = (knex, moment) => {
       .then((results) => {
         if(results.length !== 0){
           //Grabbing the menu info
-          getMenuItemPrice()
+          getMenuItemInfo()
           .then((menuInfoArray)=> {
+
+            //Creating an array to hold prep times of each item being ordered
+            const prepTimes = [];
 
             //Converting the array result into an easier to read obj
             const menuInfoObj = {};
             for(let i = 0; i < menuInfoArray.length; i++){
-              menuInfoObj[menuInfoArray[i].id] =  {price:menuInfoArray[i].price};
+              menuInfoObj[menuInfoArray[i].id] =  {price:menuInfoArray[i].price, prepTime:menuInfoArray[i].prep_time};
             }
 
             const orderQuantities = req.body.orderQuantities;
             const userID = results[0].id;
             let orderTotalPrice = 0;
+
             //Inserting the new order
             knex
-              .insert({user_id:userID, finish_time: moment()})
+              .insert({user_id:userID})
               .into('orders')
               .returning('id')
               .then((results) => {
@@ -97,10 +101,13 @@ module.exports = (knex, moment) => {
                       const orderedItemPrice = menuInfoObj[key].price * orderQuantities[key];
                       orderTotalPrice += orderedItemPrice;
                       console.log('Testing: ', orderID + ' ' + key + ' ' + orderQuantities[key] + orderedItemPrice)
-                      arr.push(knex
+                      arr.push(
+                        knex
                         .insert({order_id:orderID, menu_item_id:key, quantity:orderQuantities[key], total_item_price: orderedItemPrice})
                         .into('ordered_items')
                       )
+                      prepTimes.push(menuInfoObj[key].prepTime);
+
                 })
                 Promise.all(arr).then(() => {
                   //Updating new total order price in order table
@@ -123,6 +130,7 @@ module.exports = (knex, moment) => {
                             orderedItems: []
                           }
                           for(let y = 0 ; y < results.length; y ++){
+                            console.log('Prep Times ', prepTimes);
                             orderInfo.orderedItems.push({
                               name:results[y].name,
                               quantity: results[y].quantity,
