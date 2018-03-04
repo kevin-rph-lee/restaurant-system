@@ -33,8 +33,6 @@ wss.on('connection', (ws) => {
       }
     });
   }
-  //Updating how many users are online
-  sendMessageToOpenClients({type: "userCountUpdate", count: wss.clients.size});
 
   ws.on('message', function incoming(data) {
     const message = JSON.parse(data);
@@ -46,7 +44,6 @@ wss.on('connection', (ws) => {
   // Set up a callback for when a client closes the socket. This usually means they closed their browser.
   ws.on('close', function(){
     console.log('Client disconnected, now have', wss.clients.size);
-    //Sending message to update the user count when user disconnects
-    sendMessageToOpenClients({type: "userCountUpdate", count: wss.clients.size});
+
   });
 });
