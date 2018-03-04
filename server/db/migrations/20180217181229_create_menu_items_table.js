@@ -6,6 +6,7 @@ exports.up = function(knex, Promise) {
     table.string('image');
     table.string('description');
     table.string('type');
+    table.integer('prep_time');
   });
 };
 
