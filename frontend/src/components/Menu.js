@@ -10,6 +10,7 @@ import Countdown from 'react-countdown-moment'
 class Menu extends Component {
   constructor(props) {
     super(props);
+
     this.state = {
       mains: [],
       drinks: [],
@@ -22,6 +23,7 @@ class Menu extends Component {
 
 
   componentDidMount = () => {
+
       axios.get('menu_items/mains', {
 
       })
@@ -53,6 +55,9 @@ class Menu extends Component {
       .catch((error) => {
         console.log('error is ',error);
       })
+
+
+
   }
 
 

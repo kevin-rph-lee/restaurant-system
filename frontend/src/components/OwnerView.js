@@ -27,6 +27,15 @@ class OwnerView extends Component {
       .catch((error) => {
 
       })
+
+     this.props.socket.addEventListener('message', (event) => {
+        const newOrder = JSON.parse(event.data);
+        console.log('New Order: ', newOrder);
+        //Checking what kind of message should be sent to the clients
+
+      });
+
+
   }
 
 

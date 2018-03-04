@@ -46,12 +46,6 @@ class App extends Component {
       })
 
 
-      this.socket.addEventListener('message', (event) => {
-        const newOrder = JSON.parse(event.data);
-        console.log('New Order: ', newOrder);
-        //Checking what kind of message should be sent to the clients
-
-      });
 
 
   }
@@ -94,13 +88,13 @@ class App extends Component {
     const isLoggedIn = this.state.email;
     let page = null;
     if(this.state.owner === true){
-      page = <OwnerView />
+      page = <OwnerView socket={this.socket}/>
     } else if(isLoggedIn === "Guest" && this.state.toggleRegistration === false){
       page = <Login updateSignIn = {this.updateSignIn} showRegistration = {this.showRegistration} />
     } else if(this.state.toggleRegistration === true) {
       page = <Register updateSignIn = {this.updateSignIn} showRegistration = {this.showRegistration} />
     } else {
-      page = <div className = 'container'><Menu sendWSMessage= {this.sendWSMessage}/></div>
+      page = <div className = 'container'><Menu sendWSMessage= {this.sendWSMessage} /></div>
     }
 
 
