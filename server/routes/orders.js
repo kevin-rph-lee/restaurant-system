@@ -131,11 +131,12 @@ module.exports = (knex, moment) => {
 
                           const orderInfo = {
                             id:results[0].id,
-                            finishTime: results[0].finish_time,
+                            finishTime: moment(results[0].finish_time).format('h:mm:ss a, MMMM Do YYYY'),
                             totalOrderPrice: results[0].total_order_price,
                             email: results[0].email,
                             orderedItems: []
                           }
+
                           for(let y = 0 ; y < results.length; y ++){
 
                             orderInfo.orderedItems.push({
