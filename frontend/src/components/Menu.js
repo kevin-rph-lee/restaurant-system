@@ -10,6 +10,7 @@ import Countdown from 'react-countdown-moment'
 class Menu extends Component {
   constructor(props) {
     super(props);
+
     this.state = {
       mains: [],
       drinks: [],
@@ -22,6 +23,7 @@ class Menu extends Component {
 
 
   componentDidMount = () => {
+
       axios.get('menu_items/mains', {
 
       })
@@ -53,15 +55,27 @@ class Menu extends Component {
       .catch((error) => {
         console.log('error is ',error);
       })
+
+
+
   }
 
 
   handleSubmitClick = () => {
+      const quantities =  this.state.orderQuantities;
+      //preventing sending quantity items that are invalid such as 0 or nothing
+      for(let i in quantities){
+        if( (quantities[i] === '') || (quantities[i] === '0')){
+          delete quantities[i];
+        }
+      }
       axios.post('orders/new', {
-        orderQuantities: this.state.orderQuantities
+
+        orderQuantities: quantities
       })
       .then((response) => {
-        console.log('order successful');
+        console.log('Order Info: ', response.data);
+        this.props.sendWSMessage(response.data);
       })
       .catch((error) => {
         console.log('error is ',error);

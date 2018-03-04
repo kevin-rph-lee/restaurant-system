@@ -15,8 +15,10 @@ class App extends Component {
 
     super(props);
 
+    this.socket = null;
 
     this.state = {
+
       email: '',
       toggleRegistration:false,
       owner: false
@@ -28,6 +30,8 @@ class App extends Component {
   componentDidMount = () => {
       //binding this
       const self = this;
+      this.socket = new WebSocket('ws://localhost:3001');
+
 
       axios.get('users/', {
 
@@ -40,11 +44,19 @@ class App extends Component {
       .catch(function (error) {
         console.log('error is ',error);
       })
+
+
+
+
   }
 
   updateSignIn = info => {
       this.setState({email:info['email']})
       this.setState({owner:info['owner']})
+  }
+
+  sendWSMessage = message => {
+      this.socket.send(JSON.stringify(message));
   }
 
   showRegistration = () => {
@@ -76,13 +88,13 @@ class App extends Component {
     const isLoggedIn = this.state.email;
     let page = null;
     if(this.state.owner === true){
-      page = <OwnerView />
+      page = <OwnerView socket={this.socket}/>
     } else if(isLoggedIn === "Guest" && this.state.toggleRegistration === false){
       page = <Login updateSignIn = {this.updateSignIn} showRegistration = {this.showRegistration} />
     } else if(this.state.toggleRegistration === true) {
       page = <Register updateSignIn = {this.updateSignIn} showRegistration = {this.showRegistration} />
     } else {
-      page = <div className = 'container'><Menu /></div>
+      page = <div className = 'container'><Menu sendWSMessage= {this.sendWSMessage} /></div>
     }
 
 

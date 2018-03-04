@@ -27,6 +27,16 @@ class OwnerView extends Component {
       .catch((error) => {
 
       })
+
+     this.props.socket.addEventListener('message', (event) => {
+        const newOrder = JSON.parse(event.data);
+        const newOrdersArray = this.state.orders;
+        newOrdersArray.unshift(newOrder);
+        console.log('new state ',newOrdersArray);
+        this.setState({orders: newOrdersArray});
+      });
+
+
   }
 
 
