@@ -16,6 +16,23 @@ module.exports = (knex, moment) => {
 
 
 
+  //Returns a number which is the time difference between now and when the order should be ready
+  router.get('/time/:id', (req, res) => {
+
+    knex.select('finish_time')
+      .from('orders')
+      .where({id:req.params.id})
+      .then((results) => {
+        const now = moment();
+        if(moment(results[0].finish_time).diff(now, 'minutes') >= 0){
+          return res.json(moment(results[0].finish_time).diff(now, 'minutes'));
+        } else {
+          return res.json(0);
+        }
+
+      });
+  });
+
 
   //Get information for all orders in the system
   router.get('/time', (req, res) => {
