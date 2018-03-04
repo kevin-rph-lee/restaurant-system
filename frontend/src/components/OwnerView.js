@@ -30,9 +30,10 @@ class OwnerView extends Component {
 
      this.props.socket.addEventListener('message', (event) => {
         const newOrder = JSON.parse(event.data);
-        console.log('New Order: ', newOrder);
-        //Checking what kind of message should be sent to the clients
-
+        const newOrdersArray = this.state.orders;
+        newOrdersArray.unshift(newOrder);
+        console.log('new state ',newOrdersArray);
+        this.setState({orders: newOrdersArray});
       });
 
 
