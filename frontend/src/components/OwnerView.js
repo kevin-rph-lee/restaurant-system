@@ -2,9 +2,10 @@ import React, { Component } from 'react';
 import { Container, Card, CardText, CardBody,
   CardTitle, CardSubtitle, Row, Col, Button, Table, CardHeader, CardFooter } from 'reactstrap';
 import axios from 'axios'
-import Countdown from 'react-countdown-moment'
 import ReactCountdownClock from 'react-countdown-clock'
-
+import Countdown from 'react-countdown-now';
+import CountdownMoment from 'react-countdown-moment'
+import moment from 'moment'
 
 
 
@@ -24,6 +25,25 @@ class OwnerView extends Component {
       .then((response) => {
         let ordersData = response.data.reverse();
         this.setState({orders: response.data})
+
+          axios.get('orders/time', {
+          })
+          .then((response) => {
+            const orderInfo = this.state.orders;
+            for(let i = 0; i < response.data.length; i++){
+              for(let y = 0; y < orderInfo.length; y ++){
+                if(parseInt(response.data[i].id) === parseInt(orderInfo[y].id)){
+                  orderInfo[y].timeDiff = response.data[i].timeDiff;
+                }
+              }
+            }
+            console.log('ORder info ', orderInfo)
+            this.setState({orders:orderInfo});
+
+          })
+          .catch((error) => {
+
+          })
       })
       .catch((error) => {
 
@@ -40,11 +60,22 @@ class OwnerView extends Component {
 
   }
 
-
+  tick = () => {
+    const orders = this.state.orders;
+    for(let i = 0; i < orders.length; i ++){
+      console.log('order id: ', orders[i].id);
+      if(orders[i].timeDiff !== 0){
+        orders[i].timeDiff --;
+      }
+    }
+    this.setState({orders:orders});
+  }
 
 
   render() {
     let orderCards = this.state.orders.map(order => {
+      console.log('Finish time: ', order.finishTime)
+      const finishTime = order.finishTime;
       return (
           <Col md="12" className="order-card">
             <Card >
@@ -52,11 +83,7 @@ class OwnerView extends Component {
               <CardBody>
                 <CardText>Finish time: {order.finishTime}</CardText>
                 <CardText>Account: {order.email}</CardText>
-                <ReactCountdownClock seconds={60}
-                     color="#000"
-                     alpha={0.9}
-                     size={200}
-                     />
+                <CardText>Time left: {order.timeDiff}</CardText>
                 <Table>
                   <thead>
                     <tr>
@@ -90,6 +117,7 @@ class OwnerView extends Component {
             {orderCards}
           </Row>
         </Container>
+        <Button onClick={this.tick}>test</Button>
       </div>
     )
   }
