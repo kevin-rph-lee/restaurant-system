@@ -2,8 +2,10 @@ import React, { Component } from 'react';
 import { Container, Card, CardText, CardBody,
   CardTitle, CardSubtitle, Row, Col, Button, Table, CardHeader, CardFooter } from 'reactstrap';
 import axios from 'axios'
-import Countdown from 'react-countdown-moment'
-
+import ReactCountdownClock from 'react-countdown-clock'
+import Countdown from 'react-countdown-now';
+import CountdownMoment from 'react-countdown-moment'
+import moment from 'moment'
 
 
 
@@ -23,27 +25,70 @@ class OwnerView extends Component {
       .then((response) => {
         let ordersData = response.data.reverse();
         this.setState({orders: response.data})
+          //Getting the time differences for all of the orders
+          axios.get('orders/time', {
+          })
+          .then((response) => {
+            const orderInfo = this.state.orders;
+            for(let i = 0; i < response.data.length; i++){
+              for(let y = 0; y < orderInfo.length; y ++){
+                if(parseInt(response.data[i].id) === parseInt(orderInfo[y].id)){
+                  orderInfo[y].timeDiff = response.data[i].timeDiff;
+                }
+              }
+            }
+            console.log('ORder info ', orderInfo)
+            this.setState({orders:orderInfo});
+
+          })
+          .catch((error) => {
+
+          })
       })
       .catch((error) => {
 
       })
+      //Listening for newly created orders
+      this.props.socket.addEventListener('message', (event) => {
+         const newOrder = JSON.parse(event.data);
+         const newOrdersArray = this.state.orders;
+         //Grabbing the time difference for the newest order
+         axios.get('orders/time/' + newOrder.id, {
+           })
+           .then((response) => {
+             newOrder['timeDiff'] = response.data;
+             newOrdersArray.unshift(newOrder);
+             this.setState({orders: newOrdersArray});
+           })
+           .catch((error) => {
 
-     this.props.socket.addEventListener('message', (event) => {
-        const newOrder = JSON.parse(event.data);
-        const newOrdersArray = this.state.orders;
-        newOrdersArray.unshift(newOrder);
-        console.log('new state ',newOrdersArray);
-        this.setState({orders: newOrdersArray});
+           })
+
       });
 
-
+      setInterval(
+          () => this.tick(),
+          60000
+        );
   }
 
-
+  //De-incrementing all of the orders
+  tick = () => {
+    const orders = this.state.orders;
+    for(let i = 0; i < orders.length; i ++){
+      console.log('order id: ', orders[i].id);
+      if(orders[i].timeDiff !== 0){
+        orders[i].timeDiff --;
+      }
+    }
+    this.setState({orders:orders});
+  }
 
 
   render() {
     let orderCards = this.state.orders.map(order => {
+      console.log('Finish time: ', order.finishTime)
+      const finishTime = order.finishTime;
       return (
           <Col md="12" className="order-card">
             <Card >
@@ -51,6 +96,7 @@ class OwnerView extends Component {
               <CardBody>
                 <CardText>Finish time: {order.finishTime}</CardText>
                 <CardText>Account: {order.email}</CardText>
+                <CardText>Time left: {order.timeDiff}</CardText>
                 <Table>
                   <thead>
                     <tr>
@@ -84,6 +130,7 @@ class OwnerView extends Component {
             {orderCards}
           </Row>
         </Container>
+        <Button onClick={this.tick}>test</Button>
       </div>
     )
   }
