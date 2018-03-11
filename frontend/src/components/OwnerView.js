@@ -25,7 +25,7 @@ class OwnerView extends Component {
       .then((response) => {
         let ordersData = response.data.reverse();
         this.setState({orders: response.data})
-
+          //Getting the time differences for all of the orders
           axios.get('orders/time', {
           })
           .then((response) => {
@@ -48,25 +48,31 @@ class OwnerView extends Component {
       .catch((error) => {
 
       })
+      //Listening for newly created orders
+      this.props.socket.addEventListener('message', (event) => {
+         const newOrder = JSON.parse(event.data);
+         const newOrdersArray = this.state.orders;
+         //Grabbing the time difference for the newest order
+         axios.get('orders/time/' + newOrder.id, {
+           })
+           .then((response) => {
+             newOrder['timeDiff'] = response.data;
+             newOrdersArray.unshift(newOrder);
+             this.setState({orders: newOrdersArray});
+           })
+           .catch((error) => {
 
-     this.props.socket.addEventListener('message', (event) => {
-        const newOrder = JSON.parse(event.data);
-        const newOrdersArray = this.state.orders;
-        axios.get('orders/time/' + newOrder.id, {
-          })
-          .then((response) => {
-            newOrder['timeDiff'] = response.data;
-            newOrdersArray.unshift(newOrder);
-            this.setState({orders: newOrdersArray});
-          })
-          .catch((error) => {
+           })
 
-          })
       });
 
-
+      setInterval(
+          () => this.tick(),
+          60000
+        );
   }
 
+  //De-incrementing all of the orders
   tick = () => {
     const orders = this.state.orders;
     for(let i = 0; i < orders.length; i ++){
