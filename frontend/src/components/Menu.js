@@ -88,6 +88,24 @@ class Menu extends Component {
 
   }
 
+  //Clears all of the inputs
+  clearInputs = () => {
+    const mains = this.state.mains;
+    const drinks = this.state.drinks;
+    const sides =  this.state.sides;
+    for(let i = 0; i < mains.length; i ++){
+      console.log(mains[i].id);
+      document.getElementById(mains[i].id.toString()).reset();
+
+    }
+    for(let y = 0; y < drinks.length; y ++){
+      document.getElementById(drinks[y].id.toString()).reset();
+    }
+    for(let x = 0; x < sides.length; x ++){
+      document.getElementById(sides[x].id.toString()).reset();
+    }
+
+  }
 
   render() {
     let mainsCards = this.state.mains.map(item => {
@@ -102,7 +120,7 @@ class Menu extends Component {
               <CardBody>
                 <CardText>{item.description}</CardText>
               </CardBody>
-              <form>
+              <form id = {item.id}>
                 <input type="text" name={item.id} onChange={this.handleQuantityChange} className="form-control"/>
               </form>
             </Card>
@@ -122,9 +140,9 @@ class Menu extends Component {
               <CardBody>
                 <CardText>{item.description}</CardText>
               </CardBody>
-              <div className="increment">
+              <form id = {item.id}>
                 <input type="text" name={item.id} onChange={this.handleQuantityChange} className="form-control"/>
-              </div>
+              </form>
             </Card>
           </Col>
       )
@@ -142,9 +160,9 @@ class Menu extends Component {
               <CardBody>
                 <CardText>{item.description}</CardText>
               </CardBody>
-              <div className="increment">
+              <form id = {item.id}>
                 <input type="text" name={item.id} onChange={this.handleQuantityChange} className="form-control"/>
-              </div>
+              </form>
             </Card>
           </Col>
       )
