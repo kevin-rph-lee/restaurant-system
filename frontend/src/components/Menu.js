@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { Container, Card, CardText, CardBody,
-  CardTitle, CardSubtitle, Row, Col, Button} from 'reactstrap';
+  CardTitle, CardSubtitle, Row, Col, Button, Table} from 'reactstrap';
 import axios from 'axios'
 import Countdown from 'react-countdown-moment'
+import ReactModal from 'react-modal';
 
 
 
@@ -15,7 +16,9 @@ class Menu extends Component {
       mains: [],
       drinks: [],
       sides: [],
-      orderQuantities: {}
+      orderQuantities: {},
+      orderQuantitiesArray: [],
+      showModal: false
     };
 
     this.componentDidMount = this.componentDidMount.bind(this);
@@ -60,6 +63,16 @@ class Menu extends Component {
 
   }
 
+  handleOpenModal = () => {
+    this.updateOrderQuantitiesArray();
+
+    this.setState({ showModal: true });
+  }
+
+  handleCloseModal = () => {
+    this.clearInputs();
+    this.setState({ showModal: false });
+  }
 
   handleSubmitClick = () => {
       const quantities =  this.state.orderQuantities;
@@ -88,15 +101,24 @@ class Menu extends Component {
 
   }
 
+  updateOrderQuantitiesArray  = () => {
+    const array = [];
+    const quantityObj = this.state.orderQuantities;
+    Object.keys(quantityObj).forEach(function(key) {
+      console.log('test ', key + ' ' + quantityObj[key]);
+
+    })
+
+
+  }
+
   //Clears all of the inputs
   clearInputs = () => {
     const mains = this.state.mains;
     const drinks = this.state.drinks;
     const sides =  this.state.sides;
     for(let i = 0; i < mains.length; i ++){
-      console.log(mains[i].id);
       document.getElementById(mains[i].id.toString()).reset();
-
     }
     for(let y = 0; y < drinks.length; y ++){
       document.getElementById(drinks[y].id.toString()).reset();
@@ -108,6 +130,9 @@ class Menu extends Component {
   }
 
   render() {
+
+
+
     let mainsCards = this.state.mains.map(item => {
       return (
           <Col md="4">
@@ -189,7 +214,22 @@ class Menu extends Component {
             {drinksCards}
           </Row>
         </Container>
-         <Button color="primary" className="submit-button" onClick={this.handleSubmitClick}>Submit Order</Button>
+
+        <ReactModal isOpen={this.state.showModal} contentLabel="Minimal Modal Example">
+          <button onClick={this.handleCloseModal}>Close Modal</button>
+                <Table>
+                  <thead>
+                    <tr>
+                      <th>Item</th>
+                      <th>Quantity</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                  </tbody>
+                </Table>
+        </ReactModal>
+
+         <Button color="primary" className="submit-button" onClick={this.handleOpenModal}>Submit Order</Button>
       </div>
     )
   }
