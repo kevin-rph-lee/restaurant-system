@@ -5,6 +5,8 @@ const router  = express.Router();
 
 module.exports = (knex) => {
 
+
+
   router.get('/mains', (req, res) => {
     knex
       .select("*")
@@ -30,6 +32,15 @@ module.exports = (knex) => {
       .select("*")
       .from("menu_items")
       .where({type:'drink'})
+      .then((results) => {
+        res.json(results);
+      });
+  });
+
+  router.get('/', (req, res) => {
+    knex
+      .select("*")
+      .from("menu_items")
       .then((results) => {
         res.json(results);
       });

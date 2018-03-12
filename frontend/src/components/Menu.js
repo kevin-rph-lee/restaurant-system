@@ -102,13 +102,21 @@ class Menu extends Component {
   }
 
   updateOrderQuantitiesArray  = () => {
-    const array = [];
-    const quantityObj = this.state.orderQuantities;
-    Object.keys(quantityObj).forEach(function(key) {
-      console.log('test ', key + ' ' + quantityObj[key]);
+
+    axios.get('menu_items/', {
 
     })
-
+    .then((response) => {
+      const quantityArray = [];
+      const quantityObj = this.state.orderQuantities;
+      Object.keys(quantityObj).forEach(function(key) {
+        console.log('test ', key + ' ' + quantityObj[key]);
+        quantityArray.push({id:key, quantity:quantityObj[key]})
+      })
+      this.setState({orderQuantitiesArray:quantityArray})
+    })
+    .catch((error) => {
+    })
 
   }
 
@@ -225,6 +233,12 @@ class Menu extends Component {
                     </tr>
                   </thead>
                   <tbody>
+                      {this.state.orderQuantitiesArray.map((item) => (
+                        <tr>
+                            <td>{item.id}</td>
+                            <td>{item.quantity}</td>
+                        </tr>
+                      ))}
                   </tbody>
                 </Table>
         </ReactModal>
