@@ -18,7 +18,8 @@ class Menu extends Component {
       sides: [],
       orderQuantities: {},
       orderQuantitiesArray: [],
-      showModal: false
+      showModal: false,
+      subTotal: 0
     };
 
     this.componentDidMount = this.componentDidMount.bind(this);
@@ -71,6 +72,9 @@ class Menu extends Component {
 
   handleCloseModal = () => {
     this.clearInputs();
+    this.setState({orderQuantitiesArray:[]})
+    this.setState({orderQuantities:{}})
+    this.setState({subTotal:0})
     this.setState({ showModal: false });
   }
 
@@ -102,6 +106,7 @@ class Menu extends Component {
   }
 
   updateOrderQuantitiesArray  = () => {
+    this.setState({quantityArray:[]})
 
     axios.get('menu_items/', {
 
@@ -110,8 +115,16 @@ class Menu extends Component {
       const quantityArray = [];
       const quantityObj = this.state.orderQuantities;
       Object.keys(quantityObj).forEach(function(key) {
+
         console.log('test ', key + ' ' + quantityObj[key]);
-        quantityArray.push({id:key, quantity:quantityObj[key]})
+        for(let i = 0; i < response.data.length; i++){
+          console.log('Comparing: ', key + ' ' + response.data[i].id);
+          if(key.toString() ===response.data[i].id.toString()){
+            // let newSubTotal = this.state.subTotal;
+            // newSubTotal = parseInt(quantityObj[key]) * parseInt(response.data[i].price);
+            quantityArray.push({id:key, quantity:quantityObj[key], name:response.data[i].name})
+          }
+        }
       })
       this.setState({orderQuantitiesArray:quantityArray})
     })
@@ -235,7 +248,7 @@ class Menu extends Component {
                   <tbody>
                       {this.state.orderQuantitiesArray.map((item) => (
                         <tr>
-                            <td>{item.id}</td>
+                            <td>{item.name}</td>
                             <td>{item.quantity}</td>
                         </tr>
                       ))}
