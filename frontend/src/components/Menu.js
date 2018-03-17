@@ -103,8 +103,9 @@ class Menu extends Component {
 
   handleQuantityChange = (evt) => {
       let newOrderQuantities = this.state.orderQuantities;
+      console.log('Evt target value: ',evt.target.value);
       newOrderQuantities[evt.target.name] = evt.target.value;
-
+      console.log('State when input: ',this.state.orderQuantities);
   }
 
   updateOrderQuantitiesArray  = () => {
@@ -116,6 +117,8 @@ class Menu extends Component {
     .then((response) => {
       const quantityArray = [];
       const quantityObj = this.state.orderQuantities;
+      console.log('Order quanitity obj: ', quantityObj);
+
       Object.keys(quantityObj).forEach(function(key) {
 
         for(let i = 0; i < response.data.length; i++){
@@ -266,6 +269,8 @@ class Menu extends Component {
 
          <Button color="primary" className="submit-button" onClick={this.handleOpenModal}>Submit Order</Button>
 
+
+      </div>
     )
   }
 }
