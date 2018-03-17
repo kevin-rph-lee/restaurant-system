@@ -93,7 +93,7 @@ class Menu extends Component {
 
   }
 
-  handleSubmitClick = () => {
+  handleSubmit = () => {
       const quantities =  this.state.orderQuantities;
       //preventing sending quantity items that are invalid such as 0 or nothing
       for(let i in quantities){
@@ -108,6 +108,10 @@ class Menu extends Component {
       .then((response) => {
         console.log('Order Info: ', response.data);
         this.props.sendWSMessage(response.data);
+        this.clearInputs();
+        this.handleCloseModal();
+        this.props.alert.show('Your order is submitted! Order #: ', response.data.id);
+
       })
       .catch((error) => {
         console.log('error is ',error);
@@ -141,7 +145,6 @@ class Menu extends Component {
     .then((response) => {
       const quantityArray = [];
       const quantityObj = this.state.orderQuantities;
-      console.log('Order quanitity obj: ', quantityObj);
 
       Object.keys(quantityObj).forEach(function(key) {
 
@@ -281,6 +284,7 @@ class Menu extends Component {
             </tbody>
           </Table>
           <Button onClick={this.handleCloseModal}>Cancel</Button>
+          <Button onClick={this.handleSubmit}>Submit!</Button>
         </ReactModal>
 
         <Button color="primary" className="submit-button" onClick={this.handleOpenModal}>Submit Order</Button>
