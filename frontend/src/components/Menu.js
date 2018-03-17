@@ -115,7 +115,8 @@ class Menu extends Component {
         this.props.sendWSMessage(response.data);
         this.clearInputs();
         this.handleCloseModal();
-        this.props.alert.show('Your order is submitted! Order #: ', response.data.id);
+        const alertString = 'Your order is submitted! Order #: ' + response.data['id'];
+        this.props.alert.show(alertString);
 
       })
       .catch((error) => {
@@ -269,6 +270,7 @@ class Menu extends Component {
 
 
         <ReactModal isOpen={this.state.showModal}>
+          <h1>Confirm your order</h1>
           <Table>
             <thead>
               <tr>
