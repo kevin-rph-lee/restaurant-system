@@ -128,7 +128,7 @@ class Menu extends Component {
         subTotal += Number.parseFloat(quantityArray[x].itemSubTotal);
       }
       subTotal.toFixed(2);
-      console.log(subTotal)
+      this.setState({subTotal: subTotal});
       this.setState({orderQuantitiesArray:quantityArray})
     })
     .catch((error) => {
@@ -257,7 +257,7 @@ class Menu extends Component {
                             <td>${item.itemSubTotal}</td>
                         </tr>
                       ))}
-                      <tr>SubTotal: </tr>
+                      <tr>SubTotal: ${this.state.subTotal.toFixed(2)}</tr>
                   </tbody>
                 </Table>
         </ReactModal>
