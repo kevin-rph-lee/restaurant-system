@@ -4,6 +4,7 @@ import { Container, Card, CardText, CardBody,
 import axios from 'axios'
 import Countdown from 'react-countdown-moment'
 import ReactModal from 'react-modal';
+import { withAlert } from 'react-alert'
 
 
 
@@ -76,6 +77,7 @@ class Menu extends Component {
     this.setState({orderQuantities:{}})
     this.setState({subTotal:0})
     this.setState({ showModal: false });
+
   }
 
   handleSubmitClick = () => {
@@ -133,7 +135,6 @@ class Menu extends Component {
     })
     .catch((error) => {
     })
-
   }
 
   //Clears all of the inputs
@@ -239,8 +240,9 @@ class Menu extends Component {
           </Row>
         </Container>
 
-        <ReactModal isOpen={this.state.showModal} contentLabel="Minimal Modal Example">
-          <button onClick={this.handleCloseModal}>Close Modal</button>
+
+        <ReactModal isOpen={this.state.showModal}>
+          <Button onClick={this.handleCloseModal}>Close Modal</Button>
                 <Table>
                   <thead>
                     <tr>
@@ -263,8 +265,8 @@ class Menu extends Component {
         </ReactModal>
 
          <Button color="primary" className="submit-button" onClick={this.handleOpenModal}>Submit Order</Button>
-      </div>
+
     )
   }
 }
-export default Menu;
+export default withAlert(Menu);
