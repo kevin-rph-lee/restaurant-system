@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import { Container, Card, CardText, CardBody,
-  CardTitle, CardSubtitle, Row, Col, Button} from 'reactstrap';
+  CardTitle, CardSubtitle, Row, Col, Button, Table} from 'reactstrap';
 import axios from 'axios'
 import Countdown from 'react-countdown-moment'
+import ReactModal from 'react-modal';
+import { withAlert } from 'react-alert'
 
 
 
@@ -15,7 +17,10 @@ class Menu extends Component {
       mains: [],
       drinks: [],
       sides: [],
-      orderQuantities: {}
+      orderQuantities: {},
+      orderQuantitiesArray: [],
+      showModal: false,
+      subTotal: 0
     };
 
     this.componentDidMount = this.componentDidMount.bind(this);
@@ -56,12 +61,41 @@ class Menu extends Component {
         console.log('error is ',error);
       })
 
-
-
   }
 
+  handleOpenModal = () => {
+    const orderQuantities = this.state.orderQuantities;
+    //Checking to see if there is any invalid input
+    for(let i in orderQuantities){
+      if(isNaN(orderQuantities[i])){
+        this.clearInputs();
+        this.handleCloseModal();
+        this.props.alert.show('Invalid input! Quantity must be a NUMBER');
+        return;
+      }
+    }
+    //Checking to see if any input is submitted, if none, throws an error alert
+    for(let y in orderQuantities){
+      if(orderQuantities[y].length !== 0){
+        //Updates the orderQuantitiesArray with the values in the inputs
+        //the orderQuantitiesArray controls what is shown within the modal
+        this.updateOrderQuantitiesArray();
+        this.setState({ showModal: true });
+        return;
+      }
+    }
+    this.props.alert.show('Invalid input! You must order something to submit');
+  }
 
-  handleSubmitClick = () => {
+  handleCloseModal = () => {
+    this.clearInputs();
+    this.setState({orderQuantitiesArray:[]})
+    this.setState({orderQuantities:{}})
+    this.setState({subTotal:0})
+    this.setState({ showModal: false });
+  }
+
+  handleSubmit = () => {
       const quantities =  this.state.orderQuantities;
       //preventing sending quantity items that are invalid such as 0 or nothing
       for(let i in quantities){
@@ -74,20 +108,83 @@ class Menu extends Component {
         orderQuantities: quantities
       })
       .then((response) => {
-        console.log('Order Info: ', response.data);
+        //Sends the data to the websocket server
         this.props.sendWSMessage(response.data);
+        //Clearing inputs and the states
+        this.clearInputs();
+        this.handleCloseModal();
+
+        //Alerting the user of their order #
+        const alertString = 'Your order is submitted! Order #: ' + response.data['id'];
+        this.props.alert.show(alertString);
+
       })
       .catch((error) => {
         console.log('error is ',error);
+        this.props.alert.show('Error!');
       })
   }
 
-  handleQuantityChange = (evt) => {
+  handleQuantityChange = () => {
       let newOrderQuantities = this.state.orderQuantities;
-      newOrderQuantities[evt.target.name] = evt.target.value;
+      const references = this.refs;
+      //Grabbing all of the values in the different text inputs for each menu item
+      for(let i in references){
+        newOrderQuantities[i] = references[i]['value'];
+      }
+      //Deleting any which are blank
+      for(let y in newOrderQuantities){
+        if(newOrderQuantities[y].length === 0){
+          delete newOrderQuantities[y];
+        }
+      }
+      this.setState({orderQuantities:newOrderQuantities});
+
 
   }
 
+  updateOrderQuantitiesArray  = () => {
+    this.setState({quantityArray:[]})
+
+    axios.get('menu_items/', {
+
+    })
+    .then((response) => {
+      const quantityArray = [];
+      const quantityObj = this.state.orderQuantities;
+
+      Object.keys(quantityObj).forEach(function(key) {
+
+        for(let i = 0; i < response.data.length; i++){
+          if(key.toString() ===response.data[i].id.toString()){
+            const itemSubTotal = parseFloat(response.data[i].price  * quantityObj[key]).toFixed(2);
+            const ref = 'item' + key;
+            quantityArray.push({id:key, quantity:quantityObj[key], name:response.data[i].name, itemSubTotal:itemSubTotal})
+          }
+        }
+      })
+      let subTotal = 0;
+      for(let x = 0; x < quantityArray.length; x++){
+        subTotal += Number.parseFloat(quantityArray[x].itemSubTotal);
+      }
+      subTotal.toFixed(2);
+      this.setState({subTotal: subTotal});
+      this.setState({orderQuantitiesArray:quantityArray})
+    })
+    .catch((error) => {
+    })
+  }
+
+  //Clears all of the inputs
+  clearInputs = () => {
+    const mains = this.state.mains;
+    const drinks = this.state.drinks;
+    const sides =  this.state.sides;
+    //Clearing out all of the text boxes
+    for(let i in this.refs){
+      this.refs[i]['value'] = '';
+    }
+  }
 
   render() {
     let mainsCards = this.state.mains.map(item => {
@@ -102,8 +199,8 @@ class Menu extends Component {
               <CardBody>
                 <CardText>{item.description}</CardText>
               </CardBody>
-              <form>
-                <input type="text" name={item.id} onChange={this.handleQuantityChange} className="form-control"/>
+              <form id = {item.id}>
+                <input type="text" name={item.id} ref={item.id} onChange={this.handleQuantityChange} className="form-control"/>
               </form>
             </Card>
           </Col>
@@ -122,9 +219,9 @@ class Menu extends Component {
               <CardBody>
                 <CardText>{item.description}</CardText>
               </CardBody>
-              <div className="increment">
-                <input type="text" name={item.id} onChange={this.handleQuantityChange} className="form-control"/>
-              </div>
+              <form id = {item.id}>
+                <input type="text" name={item.id} ref={item.id} onChange={this.handleQuantityChange} className="form-control"/>
+              </form>
             </Card>
           </Col>
       )
@@ -142,9 +239,9 @@ class Menu extends Component {
               <CardBody>
                 <CardText>{item.description}</CardText>
               </CardBody>
-              <div className="increment">
-                <input type="text" name={item.id} onChange={this.handleQuantityChange} className="form-control"/>
-              </div>
+              <form id = {item.id}>
+                <input type="text" name={item.id} ref={item.id} onChange={this.handleQuantityChange} className="form-control"/>
+              </form>
             </Card>
           </Col>
       )
@@ -171,9 +268,37 @@ class Menu extends Component {
             {drinksCards}
           </Row>
         </Container>
-         <Button color="primary" className="submit-button" onClick={this.handleSubmitClick}>Submit Order</Button>
+
+
+        <ReactModal isOpen={this.state.showModal}>
+          <h1>Confirm your order</h1>
+          <Table>
+            <thead>
+              <tr>
+                <th>Item</th>
+                <th>Quantity</th>
+                <th>Item Subtotal</th>
+              </tr>
+            </thead>
+            <tbody>
+                {this.state.orderQuantitiesArray.map((item) => (
+                  <tr>
+                      <td>{item.name}</td>
+                      <td>{item.quantity}</td>
+                      <td>${item.itemSubTotal}</td>
+                  </tr>
+                ))}
+                <th>SubTotal: ${this.state.subTotal.toFixed(2)}</th>
+            </tbody>
+          </Table>
+          <Button onClick={this.handleCloseModal}>Cancel</Button>
+          <Button onClick={this.handleSubmit}>Submit!</Button>
+        </ReactModal>
+
+        <Button color="primary" className="submit-button" onClick={this.handleOpenModal}>Submit Order</Button>
+
       </div>
     )
   }
 }
-export default Menu;
+export default withAlert(Menu);

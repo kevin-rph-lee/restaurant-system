@@ -2,10 +2,6 @@ import React, { Component } from 'react';
 import { Container, Card, CardText, CardBody,
   CardTitle, CardSubtitle, Row, Col, Button, Table, CardHeader, CardFooter } from 'reactstrap';
 import axios from 'axios'
-import ReactCountdownClock from 'react-countdown-clock'
-import Countdown from 'react-countdown-now';
-import CountdownMoment from 'react-countdown-moment'
-import moment from 'moment'
 
 
 
