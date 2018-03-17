@@ -61,8 +61,6 @@ class Menu extends Component {
         console.log('error is ',error);
       })
 
-
-
   }
 
   handleOpenModal = () => {
@@ -95,7 +93,6 @@ class Menu extends Component {
     this.setState({orderQuantities:{}})
     this.setState({subTotal:0})
     this.setState({ showModal: false });
-
   }
 
   handleSubmit = () => {
@@ -111,16 +108,20 @@ class Menu extends Component {
         orderQuantities: quantities
       })
       .then((response) => {
-        console.log('Order Info: ', response.data);
+        //Sends the data to the websocket server
         this.props.sendWSMessage(response.data);
+        //Clearing inputs and the states
         this.clearInputs();
         this.handleCloseModal();
+
+        //Alerting the user of their order #
         const alertString = 'Your order is submitted! Order #: ' + response.data['id'];
         this.props.alert.show(alertString);
 
       })
       .catch((error) => {
         console.log('error is ',error);
+        this.props.alert.show('Error!');
       })
   }
 
