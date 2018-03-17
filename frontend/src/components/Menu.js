@@ -76,12 +76,17 @@ class Menu extends Component {
         return;
       }
     }
-
-    //Updates the orderQuantitiesArray with the values in the inputs
-    //the orderQuantitiesArray controls what is shown within the modal
-    this.updateOrderQuantitiesArray();
-
-    this.setState({ showModal: true });
+    //Checking to see if any input is submitted, if none, throws an error alert
+    for(let y in orderQuantities){
+      if(orderQuantities[y].length !== 0){
+        //Updates the orderQuantitiesArray with the values in the inputs
+        //the orderQuantitiesArray controls what is shown within the modal
+        this.updateOrderQuantitiesArray();
+        this.setState({ showModal: true });
+        return;
+      }
+    }
+    this.props.alert.show('Invalid input! You must order something to submit');
   }
 
   handleCloseModal = () => {
