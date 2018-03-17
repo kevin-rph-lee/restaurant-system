@@ -118,14 +118,13 @@ class Menu extends Component {
 
         console.log('test ', key + ' ' + quantityObj[key]);
         for(let i = 0; i < response.data.length; i++){
-          console.log('Comparing: ', key + ' ' + response.data[i].id);
           if(key.toString() ===response.data[i].id.toString()){
-            // let newSubTotal = this.state.subTotal;
-            // newSubTotal = parseInt(quantityObj[key]) * parseInt(response.data[i].price);
-            quantityArray.push({id:key, quantity:quantityObj[key], name:response.data[i].name})
+            const itemSubTotal = parseFloat(response.data[i].price  * quantityObj[key]).toFixed(2);
+            quantityArray.push({id:key, quantity:quantityObj[key], name:response.data[i].name, itemSubTotal:itemSubTotal})
           }
         }
       })
+
       this.setState({orderQuantitiesArray:quantityArray})
     })
     .catch((error) => {
@@ -243,6 +242,7 @@ class Menu extends Component {
                     <tr>
                       <th>Item</th>
                       <th>Quantity</th>
+                      <th>Item Subtotal</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -250,8 +250,10 @@ class Menu extends Component {
                         <tr>
                             <td>{item.name}</td>
                             <td>{item.quantity}</td>
+                            <td>${item.itemSubTotal}</td>
                         </tr>
                       ))}
+                      <tr>SubTotal: </tr>
                   </tbody>
                 </Table>
         </ReactModal>
