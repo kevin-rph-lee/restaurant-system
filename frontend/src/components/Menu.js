@@ -280,7 +280,7 @@ class Menu extends Component {
                       <td>${item.itemSubTotal}</td>
                   </tr>
                 ))}
-                <tr>SubTotal: ${this.state.subTotal.toFixed(2)}</tr>
+                <th>SubTotal: ${this.state.subTotal.toFixed(2)}</th>
             </tbody>
           </Table>
           <Button onClick={this.handleCloseModal}>Cancel</Button>
