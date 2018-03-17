@@ -116,7 +116,6 @@ class Menu extends Component {
       const quantityObj = this.state.orderQuantities;
       Object.keys(quantityObj).forEach(function(key) {
 
-        console.log('test ', key + ' ' + quantityObj[key]);
         for(let i = 0; i < response.data.length; i++){
           if(key.toString() ===response.data[i].id.toString()){
             const itemSubTotal = parseFloat(response.data[i].price  * quantityObj[key]).toFixed(2);
@@ -124,7 +123,12 @@ class Menu extends Component {
           }
         }
       })
-
+      let subTotal = 0;
+      for(let x = 0; x < quantityArray.length; x++){
+        subTotal += Number.parseFloat(quantityArray[x].itemSubTotal);
+      }
+      subTotal.toFixed(2);
+      console.log(subTotal)
       this.setState({orderQuantitiesArray:quantityArray})
     })
     .catch((error) => {
