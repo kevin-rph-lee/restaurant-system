@@ -101,11 +101,24 @@ class Menu extends Component {
       })
   }
 
-  handleQuantityChange = (evt) => {
+  handleQuantityChange = (e) => {
+      console.log('I am attempting to change');
       let newOrderQuantities = this.state.orderQuantities;
-      console.log('Evt target value: ',evt.target.value);
-      newOrderQuantities[evt.target.name] = evt.target.value;
-      console.log('State when input: ',this.state.orderQuantities);
+      console.log('Event: ', e.target.name)
+      const references = this.refs;
+      for(let i in references){
+        console.log('Key: ', i + ' Value: ' + references[i]['value']);
+        console.log('Length: ', references[i]['value'].length)
+        newOrderQuantities[i] = references[i]['value'];
+      }
+      for(let y in newOrderQuantities){
+        if(newOrderQuantities[y].length === 0){
+          delete newOrderQuantities[y];
+        }
+      }
+      this.setState({orderQuantities:newOrderQuantities});
+
+
   }
 
   updateOrderQuantitiesArray  = () => {
@@ -124,6 +137,7 @@ class Menu extends Component {
         for(let i = 0; i < response.data.length; i++){
           if(key.toString() ===response.data[i].id.toString()){
             const itemSubTotal = parseFloat(response.data[i].price  * quantityObj[key]).toFixed(2);
+            const ref = 'item' + key;
             quantityArray.push({id:key, quantity:quantityObj[key], name:response.data[i].name, itemSubTotal:itemSubTotal})
           }
         }
@@ -145,17 +159,26 @@ class Menu extends Component {
     const mains = this.state.mains;
     const drinks = this.state.drinks;
     const sides =  this.state.sides;
-    for(let i = 0; i < mains.length; i ++){
-      document.getElementById(mains[i].id.toString()).reset();
-    }
-    for(let y = 0; y < drinks.length; y ++){
-      document.getElementById(drinks[y].id.toString()).reset();
-    }
-    for(let x = 0; x < sides.length; x ++){
-      document.getElementById(sides[x].id.toString()).reset();
-    }
+    // for(let i = 0; i < mains.length; i ++){
+    //   document.getElementById(mains[i].id.toString()).reset();
+    // }
+    // for(let y = 0; y < drinks.length; y ++){
+    //   document.getElementById(drinks[y].id.toString()).reset();
+    // }
+    // for(let x = 0; x < sides.length; x ++){
+    //   document.getElementById(sides[x].id.toString()).reset();
+    // }
 
   }
+
+  // testUpdate = (e) => {
+  //   console.log("test: ", this.refs.test.value);
+  // }
+
+  // testClear = () => {
+  //   this.refs.test.value = "";
+  // }
+
 
   render() {
 
@@ -174,7 +197,7 @@ class Menu extends Component {
                 <CardText>{item.description}</CardText>
               </CardBody>
               <form id = {item.id}>
-                <input type="text" name={item.id} onChange={this.handleQuantityChange} className="form-control"/>
+                <input type="text" name={item.id} ref={item.id} onChange={this.handleQuantityChange} className="form-control"/>
               </form>
             </Card>
           </Col>
@@ -194,7 +217,7 @@ class Menu extends Component {
                 <CardText>{item.description}</CardText>
               </CardBody>
               <form id = {item.id}>
-                <input type="text" name={item.id} onChange={this.handleQuantityChange} className="form-control"/>
+                <input type="text" name={item.id} ref={item.id} onChange={this.handleQuantityChange} className="form-control"/>
               </form>
             </Card>
           </Col>
@@ -214,7 +237,7 @@ class Menu extends Component {
                 <CardText>{item.description}</CardText>
               </CardBody>
               <form id = {item.id}>
-                <input type="text" name={item.id} onChange={this.handleQuantityChange} className="form-control"/>
+                <input type="text" name={item.id} ref={item.id} onChange={this.handleQuantityChange} className="form-control"/>
               </form>
             </Card>
           </Col>
@@ -268,7 +291,6 @@ class Menu extends Component {
         </ReactModal>
 
          <Button color="primary" className="submit-button" onClick={this.handleOpenModal}>Submit Order</Button>
-
 
       </div>
     )
