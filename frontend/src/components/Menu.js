@@ -66,6 +66,19 @@ class Menu extends Component {
   }
 
   handleOpenModal = () => {
+    const orderQuantities = this.state.orderQuantities;
+    //Checking to see if there is any invalid input
+    for(let i in orderQuantities){
+      if(isNaN(orderQuantities[i])){
+        this.clearInputs();
+        this.handleCloseModal();
+        this.props.alert.show('Invalid input! Quantity must be a NUMBER');
+        return;
+      }
+    }
+
+    //Updates the orderQuantitiesArray with the values in the inputs
+    //the orderQuantitiesArray controls what is shown within the modal
     this.updateOrderQuantitiesArray();
 
     this.setState({ showModal: true });
@@ -163,19 +176,7 @@ class Menu extends Component {
     }
   }
 
-  // testUpdate = (e) => {
-  //   console.log("test: ", this.refs.test.value);
-  // }
-
-  // testClear = () => {
-  //   this.refs.test.value = "";
-  // }
-
-
   render() {
-
-
-
     let mainsCards = this.state.mains.map(item => {
       return (
           <Col md="4">
@@ -260,29 +261,29 @@ class Menu extends Component {
 
 
         <ReactModal isOpen={this.state.showModal}>
-          <Button onClick={this.handleCloseModal}>Close Modal</Button>
-                <Table>
-                  <thead>
-                    <tr>
-                      <th>Item</th>
-                      <th>Quantity</th>
-                      <th>Item Subtotal</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                      {this.state.orderQuantitiesArray.map((item) => (
-                        <tr>
-                            <td>{item.name}</td>
-                            <td>{item.quantity}</td>
-                            <td>${item.itemSubTotal}</td>
-                        </tr>
-                      ))}
-                      <tr>SubTotal: ${this.state.subTotal.toFixed(2)}</tr>
-                  </tbody>
-                </Table>
+          <Table>
+            <thead>
+              <tr>
+                <th>Item</th>
+                <th>Quantity</th>
+                <th>Item Subtotal</th>
+              </tr>
+            </thead>
+            <tbody>
+                {this.state.orderQuantitiesArray.map((item) => (
+                  <tr>
+                      <td>{item.name}</td>
+                      <td>{item.quantity}</td>
+                      <td>${item.itemSubTotal}</td>
+                  </tr>
+                ))}
+                <tr>SubTotal: ${this.state.subTotal.toFixed(2)}</tr>
+            </tbody>
+          </Table>
+          <Button onClick={this.handleCloseModal}>Cancel</Button>
         </ReactModal>
 
-         <Button color="primary" className="submit-button" onClick={this.handleOpenModal}>Submit Order</Button>
+        <Button color="primary" className="submit-button" onClick={this.handleOpenModal}>Submit Order</Button>
 
       </div>
     )
