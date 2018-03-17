@@ -101,16 +101,14 @@ class Menu extends Component {
       })
   }
 
-  handleQuantityChange = (e) => {
-      console.log('I am attempting to change');
+  handleQuantityChange = () => {
       let newOrderQuantities = this.state.orderQuantities;
-      console.log('Event: ', e.target.name)
       const references = this.refs;
+      //Grabbing all of the values in the different text inputs for each menu item
       for(let i in references){
-        console.log('Key: ', i + ' Value: ' + references[i]['value']);
-        console.log('Length: ', references[i]['value'].length)
         newOrderQuantities[i] = references[i]['value'];
       }
+      //Deleting any which are blank
       for(let y in newOrderQuantities){
         if(newOrderQuantities[y].length === 0){
           delete newOrderQuantities[y];
@@ -159,16 +157,10 @@ class Menu extends Component {
     const mains = this.state.mains;
     const drinks = this.state.drinks;
     const sides =  this.state.sides;
-    // for(let i = 0; i < mains.length; i ++){
-    //   document.getElementById(mains[i].id.toString()).reset();
-    // }
-    // for(let y = 0; y < drinks.length; y ++){
-    //   document.getElementById(drinks[y].id.toString()).reset();
-    // }
-    // for(let x = 0; x < sides.length; x ++){
-    //   document.getElementById(sides[x].id.toString()).reset();
-    // }
-
+    //Clearing out all of the text boxes
+    for(let i in this.refs){
+      this.refs[i]['value'] = '';
+    }
   }
 
   // testUpdate = (e) => {
