@@ -201,7 +201,7 @@ class Menu extends Component {
             this.refs[i]['value'] = '1'
             quantities[i] = '1'
             this.setState({orderQuantities:quantities});
-          } else if (this.refs[i]['value'] >= 1) {
+          } else if (this.refs[i]['value'] >= 0) {
             let quantity = parseInt(this.refs[i]['value'])
             quantity ++;
             this.refs[i]['value'] = quantity.toString();
