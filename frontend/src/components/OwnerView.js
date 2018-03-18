@@ -30,6 +30,9 @@ class OwnerView extends Component {
               for(let y = 0; y < orderInfo.length; y ++){
                 if(parseInt(response.data[i].id) === parseInt(orderInfo[y].id)){
                   orderInfo[y].timeDiff = response.data[i].timeDiff;
+                  if(response.data[i].timeDiff === 0){
+                    orderInfo[y].timeStatus = 'time-up';
+                  }
                 }
               }
             }
@@ -88,11 +91,11 @@ class OwnerView extends Component {
       return (
           <Col md="12" className="order-card">
             <Card >
-              <CardHeader tag="h3">Order # {order.id}</CardHeader>
+              <CardHeader tag="h3" >Order # {order.id}</CardHeader>
               <CardBody>
                 <CardText>Finish time: {order.finishTime}</CardText>
                 <CardText>Account: {order.email}</CardText>
-                <CardText>Time left: {order.timeDiff}</CardText>
+                <CardText ><span className={order.timeStatus}>Time left: {order.timeDiff}</span></CardText>
                 <Table>
                   <thead>
                     <tr>

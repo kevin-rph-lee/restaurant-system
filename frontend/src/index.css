@@ -16,3 +16,7 @@ body {
 .increment {
   padding: 5px 20px 5px 20px;
 }
+
+.time-up {
+  background-color: red;
+}
