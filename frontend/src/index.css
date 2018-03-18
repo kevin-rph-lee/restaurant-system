@@ -33,3 +33,9 @@ body {
 .finish-button {
   margin-bottom: 50px;
 }
+
+.arrow-buttons {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}

@@ -140,8 +140,6 @@ class Menu extends Component {
         }
       }
       this.setState({orderQuantities:newOrderQuantities});
-
-
   }
 
   updateOrderQuantitiesArray  = () => {
@@ -187,6 +185,27 @@ class Menu extends Component {
     }
   }
 
+  handleUpArrow = (e) => {
+      console.log(e.target.name)
+      const id = parseInt(e.target.name)
+      for(let i in this.refs){
+        if(parseInt(i) === id){
+          console.log(i);
+          console.log('found!');
+        }
+      }
+  }
+  handleDownArrow = (e) => {
+      console.log(e.target.name)
+      const id = parseInt(e.target.name)
+      for(let i in this.refs){
+        if(parseInt(i) === id){
+          console.log(i);
+          console.log('found!');
+        }
+      }
+  }
+
   render() {
     let mainsCards = this.state.mains.map(item => {
       return (
@@ -203,11 +222,11 @@ class Menu extends Component {
               <form id = {item.id}>
                 <input type="text" name={item.id} ref={item.id} onChange={this.handleQuantityChange} className="form-control"/>
                 <div className="arrow-buttons">
-                  <Button>
-                    <FontAwesome className="super-crazy-colors" name="arrow-up"/>
+                  <Button onClick={this.handleUpArrow} name={item.id}>
+                    +
                   </Button>
-                  <Button>
-                    <FontAwesome className="super-crazy-colors" name="arrow-down"/>
+                  <Button onClick={this.handleDownArrow} name={item.id}>
+                    -
                   </Button>
                 </div>
               </form>
