@@ -3,6 +3,7 @@ import ResNavBar from './components/ResNavBar.js';
 import Login from './components/Login.js';
 import Menu from './components/Menu.js';
 import OwnerView from './components/OwnerView.js';
+import UserOrderView from './components/UserOrderView.js';
 import axios from 'axios';
 import Register from './components/Register.js';
 import { BrowserRouter } from 'react-router-dom';
@@ -21,7 +22,8 @@ class App extends Component {
 
       email: '',
       toggleRegistration:false,
-      owner: false
+      owner: false,
+      toggleUserOrderView: false
     };
 
 
@@ -66,6 +68,13 @@ class App extends Component {
     });
   }
 
+  showUserOrderView = () => {
+    console.log('toggle')
+    this.setState({
+      toggleUserOrderView: !this.state.toggleUserOrderView
+    });
+  }
+
   logout = () => {
 
       axios.post('users/logout', {
@@ -75,6 +84,7 @@ class App extends Component {
         console.log('logging out...');
         this.setState({email:'Guest'});
         this.setState({owner:false});
+        this.setState({toggleUserOrderView:false});
 
       })
       .catch((error) => {
@@ -88,19 +98,21 @@ class App extends Component {
     const isLoggedIn = this.state.email;
     let page = null;
     if(this.state.owner === true){
-      page = <OwnerView socket={this.socket}/>
+      page = <OwnerView socket={this.socket}  sendWSMessage= {this.sendWSMessage}/>
     } else if((isLoggedIn === "Guest" || isLoggedIn === undefined) && this.state.toggleRegistration === false){
       page = <Login updateSignIn = {this.updateSignIn} showRegistration = {this.showRegistration} />
     } else if(this.state.toggleRegistration === true) {
       page = <Register updateSignIn = {this.updateSignIn} showRegistration = {this.showRegistration} />
-    } else {
-      page = <div className = 'container'><Menu sendWSMessage= {this.sendWSMessage} /></div>
+    } else if(this.state.toggleUserOrderView === false){
+      page = <div className = 'container'><Menu sendWSMessage= {this.sendWSMessage} showUserOrderView = {this.showUserOrderView} /></div>
+    } else if(this.state.toggleUserOrderView === true) {
+      page = <div className = 'container'><UserOrderView socket={this.socket}/></div>
     }
 
 
     return (
       <div className="App">
-        <ResNavBar email = {this.state.email} logout = {this.logout}  />
+        <ResNavBar email = {this.state.email} logout = {this.logout} owner = {this.state.owner} showUserOrderView = {this.showUserOrderView}  />
         <div className="main">
           {page}
         </div>
