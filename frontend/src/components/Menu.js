@@ -187,15 +187,20 @@ class Menu extends Component {
 
   handleUpArrow = (e) => {
       const id = parseInt(e.target.name)
+      const quantities = this.state.orderQuantities;
       for(let i in this.refs){
         if(parseInt(i) === id){
           if(this.refs[i]['value'].length === 0  || isNaN(this.refs[i]['value'])) {
             this.refs[i]['value'] = '1'
-          } else {
+            quantities[i] = '1'
+            this.setState({orderQuantities:quantities});
+            console.log(this.state.orderQuantities);
+          } else if (this.refs[i]['value'] >= 1) {
             let quantity = parseInt(this.refs[i]['value'])
             quantity ++;
             this.refs[i]['value'] = quantity.toString();
-            this.handleQuantityChange();
+            quantities[i] = quantity.toString();
+            this.setState({orderQuantities:quantities});
           }
         }
       }
