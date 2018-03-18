@@ -56,7 +56,13 @@ class UserOrderView extends Component {
         const newOrder = JSON.parse(event.data);
         if(newOrder.type === 'finish message'){
           console.log("recieved finish message for ID:", newOrder.id)
-
+          const orders = this.state.orders;
+          for(let i = 0; i < orders.length; i++){
+            if(newOrder.id === orders[i].id){
+              orders[i].finished = true;
+              this.setState({orders:orders});
+            }
+          }
         }
       });
 
