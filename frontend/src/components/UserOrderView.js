@@ -59,8 +59,17 @@ class UserOrderView extends Component {
           const orders = this.state.orders;
           for(let i = 0; i < orders.length; i++){
             if(newOrder.id === orders[i].id){
-              orders[i].finished = true;
-              this.setState({orders:orders});
+              axios.get('orders/finish_time/' + newOrder.id , {
+
+              })
+              .then((response) => {
+                orders[i].finished = true;
+                orders[i].finishTime = response.data
+                this.setState({orders:orders});
+              })
+              .catch((error) => {
+              })
+
             }
           }
         }
@@ -88,26 +97,6 @@ class UserOrderView extends Component {
       }
     }
     this.setState({orders:orders});
-  }
-
-  finishOrder = (e) => {
-    const id = e.target.name;
-    const orders = this.state.orders;
-     axios.post('orders/' + e.target.name + '/finish', {
-       })
-       .then((response) => {
-        //Finds the order within the array and changes it's status and sets the new finish time
-        for(let i = 0; i < orders.length; i ++){
-          if(parseInt(orders[i].id) === parseInt(id)){
-            orders[i].finished = true;
-            orders[i].finishTime = response.data;
-            this.setState({orders:orders});
-          }
-        }
-       })
-       .catch((error) => {
-
-       })
   }
 
   render() {

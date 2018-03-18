@@ -33,6 +33,17 @@ module.exports = (knex, moment) => {
       });
   });
 
+  //returns the finish time of a particular order
+  router.get('/finish_time/:id', (req, res) => {
+    knex.select('finish_time')
+      .from('orders')
+      .where({id:req.params.id})
+      .then((results) => {
+        const time = moment(results.finish_time).format('h:mm:ss a, MMMM Do YYYY')
+        res.json(time);
+
+      });
+  });
 
   //Get information for all orders in the system
   router.get('/time', (req, res) => {
