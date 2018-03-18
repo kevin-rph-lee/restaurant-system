@@ -54,19 +54,21 @@ class OwnerView extends Component {
       })
       //Listening for newly created orders
       this.props.socket.addEventListener('message', (event) => {
-         const newOrder = JSON.parse(event.data);
-         const newOrdersArray = this.state.orders;
-         //Grabbing the time difference for the newest order
-         axios.get('orders/time/' + newOrder.id, {
-           })
-           .then((response) => {
-             newOrder['timeDiff'] = response.data;
-             newOrdersArray.unshift(newOrder);
-             this.setState({orders: newOrdersArray});
-           })
-           .catch((error) => {
+        const newOrder = JSON.parse(event.data);
+        if(!newOrder.type){
+          const newOrdersArray = this.state.orders;
+          //Grabbing the time difference for the newest order
+          axios.get('orders/time/' + newOrder.id, {
+            })
+            .then((response) => {
+              newOrder['timeDiff'] = response.data;
+              newOrdersArray.unshift(newOrder);
+              this.setState({orders: newOrdersArray});
+            })
+            .catch((error) => {
+            })
+        }
 
-           })
       });
 
       setInterval(
@@ -105,6 +107,7 @@ class OwnerView extends Component {
             orders[i].finished = true;
             orders[i].finishTime = response.data;
             this.setState({orders:orders});
+            this.props.sendWSMessage({id:id, type:'finish message'});
           }
         }
        })

@@ -98,7 +98,7 @@ class App extends Component {
     const isLoggedIn = this.state.email;
     let page = null;
     if(this.state.owner === true){
-      page = <OwnerView socket={this.socket}/>
+      page = <OwnerView socket={this.socket}  sendWSMessage= {this.sendWSMessage}/>
     } else if((isLoggedIn === "Guest" || isLoggedIn === undefined) && this.state.toggleRegistration === false){
       page = <Login updateSignIn = {this.updateSignIn} showRegistration = {this.showRegistration} />
     } else if(this.state.toggleRegistration === true) {
