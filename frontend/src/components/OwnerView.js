@@ -96,10 +96,24 @@ class OwnerView extends Component {
 
   finishOrder = (e) => {
     console.log(e.target.name);
+    const id = e.target.name;
+    const orders = this.state.orders;
      axios.post('orders/' + e.target.name + '/finish', {
        })
        .then((response) => {
-        console.log('success');
+
+        console.log('Order successful');
+
+        console.log('length: ', orders.length)
+        for(let i = 0; i < orders.length; i ++){
+          console.log('loopping');
+          if(orders[i].id === id){
+            console.log("found")
+            orders[i].finished = true;
+            orders[i].finishTime = response.data;
+            this.setState({orders:orders});
+          }
+        }
        })
        .catch((error) => {
 
@@ -123,7 +137,7 @@ class OwnerView extends Component {
                   <CardText>Finish time: {order.finishTime}</CardText>
                   <CardText>Account: {order.email}</CardText>
                   <CardText ><span className={order.timeStatus}>Time left: {order.timeDiff}</span></CardText>
-                  <Button className="finish-button" name={order.id} onClick={this.finishOrder}>Finish Order</Button>
+                  <Button className="finish-button" name={order.id} onClick={(e) => this.finishOrder(e)}>Finish Order</Button>
                   <Table>
                     <thead>
                       <tr>

@@ -117,7 +117,8 @@ module.exports = (knex, moment) => {
             .where({ id:req.params.id })
             .update({ finished:true, finish_time:moment()})
             .then(()=>{
-              res.sendStatus(200);
+              const time = moment().format('h:mm:ss a, MMMM Do YYYY');
+              return res.json(time);
             });
         }
       })
