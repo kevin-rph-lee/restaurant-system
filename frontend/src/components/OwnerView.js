@@ -28,12 +28,20 @@ class OwnerView extends Component {
             const orderInfo = this.state.orders;
             for(let i = 0; i < response.data.length; i++){
               for(let y = 0; y < orderInfo.length; y ++){
+                //Assiging the time diff to the order
                 if(parseInt(response.data[i].id) === parseInt(orderInfo[y].id)){
                   orderInfo[y].timeDiff = response.data[i].timeDiff;
+                  //Assigning a class to the time left span depending on how much time is left on the order
+                  if(response.data[i].timeDiff === 0){
+                    orderInfo[y].timeStatus = 'time-up';
+                  } else if(response.data[i].timeDiff === 2 || response.data[i].timeDiff === 1){
+                    orderInfo[y].timeStatus = 'two-minute-warning';
+                  } else {
+                    orderInfo[y].timeStatus = 'pending';
+                  }
                 }
               }
             }
-            console.log('ORder info ', orderInfo)
             this.setState({orders:orderInfo});
 
           })
@@ -68,13 +76,19 @@ class OwnerView extends Component {
         );
   }
 
-  //De-incrementing all of the orders
+  //De-incrementing all of the orders, this is run every minute
   tick = () => {
     const orders = this.state.orders;
     for(let i = 0; i < orders.length; i ++){
-      console.log('order id: ', orders[i].id);
+      //If the time is not up yet, tick down one minute
       if(orders[i].timeDiff !== 0){
         orders[i].timeDiff --;
+        //Setting appropriate time status
+        if(orders[i].timeDiff === 0){
+          orders[i].timeStatus = 'time-up';
+        } else if (orders[i].timeDiff === 2){
+          orders[i].timeStatus = 'two-minute-warning';
+        }
       }
     }
     this.setState({orders:orders});
@@ -88,11 +102,11 @@ class OwnerView extends Component {
       return (
           <Col md="12" className="order-card">
             <Card >
-              <CardHeader tag="h3">Order # {order.id}</CardHeader>
+              <CardHeader tag="h3" >Order # {order.id}</CardHeader>
               <CardBody>
                 <CardText>Finish time: {order.finishTime}</CardText>
                 <CardText>Account: {order.email}</CardText>
-                <CardText>Time left: {order.timeDiff}</CardText>
+                <CardText ><span className={order.timeStatus}>Time left: {order.timeDiff}</span></CardText>
                 <Table>
                   <thead>
                     <tr>
