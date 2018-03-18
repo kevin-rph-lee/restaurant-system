@@ -21,7 +21,8 @@ class App extends Component {
 
       email: '',
       toggleRegistration:false,
-      owner: false
+      owner: false,
+      orderView: false
     };
 
 
@@ -66,6 +67,8 @@ class App extends Component {
     });
   }
 
+
+
   logout = () => {
 
       axios.post('users/logout', {
@@ -75,6 +78,7 @@ class App extends Component {
         console.log('logging out...');
         this.setState({email:'Guest'});
         this.setState({owner:false});
+        this.setState({orderView:false});
 
       })
       .catch((error) => {
