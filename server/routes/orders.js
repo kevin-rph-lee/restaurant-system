@@ -55,18 +55,10 @@ module.exports = (knex, moment) => {
   });
 
 
-
-
-
-
-
-
-
-
   //Get information for all orders in the system
   router.get('/', (req, res) => {
 
-    knex.select('orders.id', 'users.email', 'menu_items.name', 'ordered_items.quantity', 'ordered_items.total_item_price', 'orders.finish_time', 'ordered_items.total_item_price', 'orders.total_order_price')
+    knex.select('orders.id', 'users.email', 'menu_items.name', 'ordered_items.quantity', 'ordered_items.total_item_price', 'orders.finish_time', 'ordered_items.total_item_price', 'orders.total_order_price', 'orders.finished')
       .from('orders')
       .innerJoin('users', 'users.id', 'orders.user_id')
       .innerJoin('ordered_items', 'orders.id', 'ordered_items.order_id')
@@ -80,7 +72,8 @@ module.exports = (knex, moment) => {
             finishTime:moment(results[i].finish_time).format('h:mm:ss a, MMMM Do YYYY'),
             totalOrderPrice:results[i].total_order_price,
             orderedItems:[],
-            email:results[i].email
+            email:results[i].email,
+            finished: results[i].finished
           };
         }
         //Inserting info for each individual ordered item
@@ -96,8 +89,6 @@ module.exports = (knex, moment) => {
           orders[x].id = x;
           ordersArray.push(orders[x]);
         }
-
-
 
         return res.json(ordersArray);
       });
@@ -121,7 +112,13 @@ module.exports = (knex, moment) => {
         if(results.length === 0 || results.owner === false ){
           return res.sendStatus(400);
         } else {
-          return res.sendStatus(200);
+          //Turning finished status to true and updating the finish time
+          knex('orders')
+            .where({ id:req.params.id })
+            .update({ finished:true, finish_time:moment()})
+            .then(()=>{
+              res.sendStatus(200);
+            });
         }
       })
   });

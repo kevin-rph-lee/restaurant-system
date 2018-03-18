@@ -110,6 +110,7 @@ class OwnerView extends Component {
   render() {
     let orderCards = this.state.orders.map(order => {
       console.log('Finish time: ', order.finishTime)
+      console.log('Order: ', order);
       const finishTime = order.finishTime;
       return (
           <Col md="12" className="order-card">
