@@ -195,6 +195,7 @@ class Menu extends Component {
             let quantity = parseInt(this.refs[i]['value'])
             quantity ++;
             this.refs[i]['value'] = quantity.toString();
+            this.handleQuantityChange();
           }
         }
       }
@@ -203,8 +204,14 @@ class Menu extends Component {
       const id = parseInt(e.target.name)
       for(let i in this.refs){
         if(parseInt(i) === id){
-          console.log(i);
-          console.log('found!');
+          if(this.refs[i]['value'].length === 0 || this.refs[i]['value'] === '0'  || isNaN(this.refs[i]['value'])) {
+            this.refs[i]['value'] = '0'
+          } else {
+            let quantity = parseInt(this.refs[i]['value'])
+            quantity --;
+            this.refs[i]['value'] = quantity.toString();
+            this.handleQuantityChange();
+          }
         }
       }
   }
