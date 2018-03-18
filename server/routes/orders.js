@@ -137,7 +137,7 @@ module.exports = (knex, moment) => {
 
             //Inserting the new order
             knex
-              .insert({user_id:userID})
+              .insert({user_id:userID, finished:false})
               .into('orders')
               .returning('id')
               .then((results) => {
