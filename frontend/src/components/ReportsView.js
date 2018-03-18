@@ -22,6 +22,29 @@ class ReportsView extends Component {
     .catch((error) => {
       console.log('error is ',error);
     })
+
+    axios.get('orders/report/drinks', {
+
+    })
+    .then((response) => {
+      console.log(response.data);
+    })
+    .catch((error) => {
+      console.log('error is ',error);
+    })
+
+
+    axios.get('orders/report/sides', {
+
+    })
+    .then((response) => {
+      console.log(response.data);
+    })
+    .catch((error) => {
+      console.log('error is ',error);
+    })
+
+
   }
 
   render() {
