@@ -18,7 +18,7 @@ class ReportsView extends Component {
 
   render() {
     return (
-      <h1>Profit Reports</h1>
+      <h2>Profit Reports</h2>
     );
   }
 }
