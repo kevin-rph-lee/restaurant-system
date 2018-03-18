@@ -54,15 +54,15 @@ module.exports = (knex, moment) => {
       });
   });
 
-  //Get information for all orders for a particular user
-  router.get('/user/:id', (req, res) => {
+  //Get information for all orders for the currently logged in user
+  router.get('/user/', (req, res) => {
 
     knex.select('orders.id', 'users.email', 'menu_items.name', 'ordered_items.quantity', 'ordered_items.total_item_price', 'orders.finish_time', 'ordered_items.total_item_price', 'orders.total_order_price', 'orders.finished')
       .from('orders')
       .innerJoin('users', 'users.id', 'orders.user_id')
       .innerJoin('ordered_items', 'orders.id', 'ordered_items.order_id')
       .innerJoin('menu_items', 'menu_item_id', 'menu_items.id')
-      .where({ 'users.id': req.params.id })
+      .where({ 'users.email': req.params.email })
       .then((results) => {
         let orders = {};
 
