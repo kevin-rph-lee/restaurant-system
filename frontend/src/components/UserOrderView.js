@@ -5,7 +5,7 @@ import axios from 'axios'
 
 
 
-class OwnerView extends Component {
+class UserOrderView extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -16,7 +16,7 @@ class OwnerView extends Component {
 
 
   componentDidMount = () => {
-      axios.get('orders/', {
+      axios.get('orders/user', {
       })
       .then((response) => {
         let ordersData = response.data.reverse();
@@ -52,23 +52,27 @@ class OwnerView extends Component {
       .catch((error) => {
 
       })
-      //Listening for newly created orders
       this.props.socket.addEventListener('message', (event) => {
         const newOrder = JSON.parse(event.data);
-        if(!newOrder.type){
-          const newOrdersArray = this.state.orders;
-          //Grabbing the time difference for the newest order
-          axios.get('orders/time/' + newOrder.id, {
-            })
-            .then((response) => {
-              newOrder['timeDiff'] = response.data;
-              newOrdersArray.unshift(newOrder);
-              this.setState({orders: newOrdersArray});
-            })
-            .catch((error) => {
-            })
-        }
+        if(newOrder.type === 'finish message'){
+          console.log("recieved finish message for ID:", newOrder.id)
+          const orders = this.state.orders;
+          for(let i = 0; i < orders.length; i++){
+            if(newOrder.id === orders[i].id){
+              axios.get('orders/finish_time/' + newOrder.id , {
 
+              })
+              .then((response) => {
+                orders[i].finished = true;
+                orders[i].finishTime = response.data
+                this.setState({orders:orders});
+              })
+              .catch((error) => {
+              })
+
+            }
+          }
+        }
       });
 
       setInterval(
@@ -95,27 +99,6 @@ class OwnerView extends Component {
     this.setState({orders:orders});
   }
 
-  finishOrder = (e) => {
-    const id = e.target.name;
-    const orders = this.state.orders;
-     axios.post('orders/' + e.target.name + '/finish', {
-       })
-       .then((response) => {
-        //Finds the order within the array and changes it's status and sets the new finish time
-        for(let i = 0; i < orders.length; i ++){
-          if(parseInt(orders[i].id) === parseInt(id)){
-            orders[i].finished = true;
-            orders[i].finishTime = response.data;
-            this.setState({orders:orders});
-            this.props.sendWSMessage({id:id, type:'finish message'});
-          }
-        }
-       })
-       .catch((error) => {
-
-       })
-  }
-
   render() {
     let orderCards = this.state.orders.map(order => {
       const finishTime = order.finishTime;
@@ -125,10 +108,8 @@ class OwnerView extends Component {
               <Card >
                 <CardHeader tag="h3" >Order # {order.id}</CardHeader>
                 <CardBody>
-                  <CardText>Finish time: {order.finishTime}</CardText>
-                  <CardText>Account: {order.email}</CardText>
+                  <CardText>Expected Finish Time: {order.finishTime}</CardText>
                   <CardText ><span className={order.timeStatus}>Time left: {order.timeDiff}</span></CardText>
-                  <Button className="finish-button" name={order.id} onClick={(e) => this.finishOrder(e)}>Finish Order</Button>
                   <Table>
                     <thead>
                       <tr>
@@ -159,7 +140,6 @@ class OwnerView extends Component {
                 <CardHeader tag="h3" >Order # {order.id}</CardHeader>
                 <CardBody>
                   <CardText>Finish time: {order.finishTime}</CardText>
-                  <CardText>Account: {order.email}</CardText>
                   <CardText ><span className="finished">Order finished</span></CardText>
                   <Table>
                     <thead>
@@ -190,7 +170,7 @@ class OwnerView extends Component {
 
     return (
       <div>
-        <h2>Orders</h2>
+        <h2>Your Orders!</h2>
         <Container fluid>
           <Row>
             {orderCards}
@@ -201,4 +181,4 @@ class OwnerView extends Component {
     )
   }
 }
-export default OwnerView;
+export default UserOrderView;

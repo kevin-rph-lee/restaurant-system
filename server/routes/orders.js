@@ -33,6 +33,17 @@ module.exports = (knex, moment) => {
       });
   });
 
+  //returns the finish time of a particular order
+  router.get('/finish_time/:id', (req, res) => {
+    knex.select('finish_time')
+      .from('orders')
+      .where({id:req.params.id})
+      .then((results) => {
+        const time = moment(results.finish_time).format('h:mm:ss a, MMMM Do YYYY')
+        res.json(time);
+
+      });
+  });
 
   //Get information for all orders in the system
   router.get('/time', (req, res) => {
@@ -52,6 +63,51 @@ module.exports = (knex, moment) => {
         }
         res.json(timeDiffArray);
       });
+  });
+
+  //Get information for all orders for the currently logged in user
+  router.get('/user/', (req, res) => {
+    if(!req.session.email){
+      res.sendStatus(400);
+    }
+
+
+    knex.select('orders.id', 'users.email', 'menu_items.name', 'ordered_items.quantity', 'ordered_items.total_item_price', 'orders.finish_time', 'ordered_items.total_item_price', 'orders.total_order_price', 'orders.finished')
+      .from('orders')
+      .innerJoin('users', 'users.id', 'orders.user_id')
+      .innerJoin('ordered_items', 'orders.id', 'ordered_items.order_id')
+      .innerJoin('menu_items', 'menu_item_id', 'menu_items.id')
+      .where({ 'users.email': req.session.email })
+      .then((results) => {
+        let orders = {};
+
+        // Making keys in order object along with inserting order info
+        for(let i = 0 ; i < results.length; i ++){
+          orders[results[i].id] = {
+            finishTime:moment(results[i].finish_time).format('h:mm:ss a, MMMM Do YYYY'),
+            totalOrderPrice:results[i].total_order_price,
+            orderedItems:[],
+            email:results[i].email,
+            finished: results[i].finished
+          };
+        }
+        //Inserting info for each individual ordered item
+        for(let y = 0 ; y < results.length; y ++){
+          orders[results[y].id].orderedItems.push({
+            name:results[y].name,
+            quantity: results[y].quantity,
+            totalItemPrice: results[y].total_item_price
+          });
+        }
+        let ordersArray = [];
+        for(let x in orders){
+          orders[x].id = x;
+          ordersArray.push(orders[x]);
+        }
+
+        return res.json(ordersArray);
+      });
+
   });
 
 
