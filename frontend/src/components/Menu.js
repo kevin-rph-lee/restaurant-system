@@ -5,6 +5,7 @@ import axios from 'axios'
 import Countdown from 'react-countdown-moment'
 import ReactModal from 'react-modal';
 import { withAlert } from 'react-alert'
+import FontAwesome from 'react-fontawesome'
 
 
 
@@ -64,7 +65,14 @@ class Menu extends Component {
   }
 
   handleOpenModal = () => {
+    //Deleting any inputs that are 0 from the quantities state
     const orderQuantities = this.state.orderQuantities;
+     for(let x in orderQuantities){
+      if(orderQuantities[x] === '0'){
+        delete orderQuantities[x]
+      }
+    }
+
     //Checking to see if there is any invalid input
     for(let i in orderQuantities){
       if(isNaN(orderQuantities[i])){
@@ -139,8 +147,6 @@ class Menu extends Component {
         }
       }
       this.setState({orderQuantities:newOrderQuantities});
-
-
   }
 
   updateOrderQuantitiesArray  = () => {
@@ -186,6 +192,45 @@ class Menu extends Component {
     }
   }
 
+  handleUpArrow = (e) => {
+      const id = parseInt(e.target.name)
+      const quantities = this.state.orderQuantities;
+      for(let i in this.refs){
+        if(parseInt(i) === id){
+          if(this.refs[i]['value'].length === 0  || isNaN(this.refs[i]['value'])) {
+            this.refs[i]['value'] = '1'
+            quantities[i] = '1'
+            this.setState({orderQuantities:quantities});
+          } else if (this.refs[i]['value'] >= 0) {
+            let quantity = parseInt(this.refs[i]['value'])
+            quantity ++;
+            this.refs[i]['value'] = quantity.toString();
+            quantities[i] = quantity.toString();
+            this.setState({orderQuantities:quantities});
+          }
+        }
+      }
+  }
+  handleDownArrow = (e) => {
+      const id = parseInt(e.target.name)
+      const quantities = this.state.orderQuantities;
+      for(let i in this.refs){
+        if(parseInt(i) === id){
+          if(this.refs[i]['value'].length === 0 || this.refs[i]['value'] === '0'  || isNaN(this.refs[i]['value'])) {
+            this.refs[i]['value'] = '0'
+            quantities[i] = '0'
+            this.setState({orderQuantities:quantities});
+          } else {
+            let quantity = parseInt(this.refs[i]['value'])
+            quantity --;
+            this.refs[i]['value'] = quantity.toString();
+            quantities[i] = quantity.toString();
+            this.setState({orderQuantities:quantities});
+          }
+        }
+      }
+  }
+
   render() {
     let mainsCards = this.state.mains.map(item => {
       return (
@@ -201,6 +246,14 @@ class Menu extends Component {
               </CardBody>
               <form id = {item.id}>
                 <input type="text" name={item.id} ref={item.id} onChange={this.handleQuantityChange} className="form-control"/>
+                <div className="arrow-buttons">
+                  <Button onClick={this.handleUpArrow} name={item.id}>
+                    +
+                  </Button>
+                  <Button onClick={this.handleDownArrow} name={item.id}>
+                    -
+                  </Button>
+                </div>
               </form>
             </Card>
           </Col>
@@ -221,6 +274,14 @@ class Menu extends Component {
               </CardBody>
               <form id = {item.id}>
                 <input type="text" name={item.id} ref={item.id} onChange={this.handleQuantityChange} className="form-control"/>
+                <div className="arrow-buttons">
+                  <Button onClick={this.handleUpArrow} name={item.id}>
+                    +
+                  </Button>
+                  <Button onClick={this.handleDownArrow} name={item.id}>
+                    -
+                  </Button>
+                </div>
               </form>
             </Card>
           </Col>
@@ -241,6 +302,14 @@ class Menu extends Component {
               </CardBody>
               <form id = {item.id}>
                 <input type="text" name={item.id} ref={item.id} onChange={this.handleQuantityChange} className="form-control"/>
+                <div className="arrow-buttons">
+                  <Button onClick={this.handleUpArrow} name={item.id}>
+                    +
+                  </Button>
+                  <Button onClick={this.handleDownArrow} name={item.id}>
+                    -
+                  </Button>
+                </div>
               </form>
             </Card>
           </Col>
