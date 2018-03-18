@@ -16,42 +16,42 @@ class UserOrderView extends Component {
 
 
   componentDidMount = () => {
-      axios.get('orders/', {
-      })
-      .then((response) => {
-        let ordersData = response.data.reverse();
-        this.setState({orders: response.data})
-          //Getting the time differences for all of the orders
-          axios.get('orders/time', {
-          })
-          .then((response) => {
-            const orderInfo = this.state.orders;
-            for(let i = 0; i < response.data.length; i++){
-              for(let y = 0; y < orderInfo.length; y ++){
-                //Assiging the time diff to the order
-                if(parseInt(response.data[i].id) === parseInt(orderInfo[y].id)){
-                  orderInfo[y].timeDiff = response.data[i].timeDiff;
-                  //Assigning a class to the time left span depending on how much time is left on the order
-                  if(response.data[i].timeDiff === 0){
-                    orderInfo[y].timeStatus = 'time-up';
-                  } else if(response.data[i].timeDiff === 2 || response.data[i].timeDiff === 1){
-                    orderInfo[y].timeStatus = 'two-minute-warning';
-                  } else {
-                    orderInfo[y].timeStatus = 'pending';
-                  }
-                }
-              }
-            }
-            this.setState({orders:orderInfo});
+      // axios.get('orders/', {
+      // })
+      // .then((response) => {
+      //   let ordersData = response.data.reverse();
+      //   this.setState({orders: response.data})
+      //     //Getting the time differences for all of the orders
+      //     axios.get('orders/time', {
+      //     })
+      //     .then((response) => {
+      //       const orderInfo = this.state.orders;
+      //       for(let i = 0; i < response.data.length; i++){
+      //         for(let y = 0; y < orderInfo.length; y ++){
+      //           //Assiging the time diff to the order
+      //           if(parseInt(response.data[i].id) === parseInt(orderInfo[y].id)){
+      //             orderInfo[y].timeDiff = response.data[i].timeDiff;
+      //             //Assigning a class to the time left span depending on how much time is left on the order
+      //             if(response.data[i].timeDiff === 0){
+      //               orderInfo[y].timeStatus = 'time-up';
+      //             } else if(response.data[i].timeDiff === 2 || response.data[i].timeDiff === 1){
+      //               orderInfo[y].timeStatus = 'two-minute-warning';
+      //             } else {
+      //               orderInfo[y].timeStatus = 'pending';
+      //             }
+      //           }
+      //         }
+      //       }
+      //       this.setState({orders:orderInfo});
 
-          })
-          .catch((error) => {
+      //     })
+      //     .catch((error) => {
 
-          })
-      })
-      .catch((error) => {
+      //     })
+      // })
+      // .catch((error) => {
 
-      })
+      // })
       //Listening for newly created orders
       this.props.socket.addEventListener('message', (event) => {
          const newOrder = JSON.parse(event.data);
@@ -187,7 +187,7 @@ class UserOrderView extends Component {
 
     return (
       <div>
-        <h2>Orders</h2>
+        <h2>Your Orders!</h2>
         <Container fluid>
           <Row>
             {orderCards}

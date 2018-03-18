@@ -41,7 +41,7 @@ class ResNavBar extends Component {
                 />
               </DropdownToggle>
               <DropdownMenu right>
-                <DropdownItem>
+                <DropdownItem  onClick={this.props.showUserOrderView}>
                   See your orders
                 </DropdownItem>
                 <DropdownItem divider />
