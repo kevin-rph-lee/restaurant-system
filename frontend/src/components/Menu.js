@@ -65,7 +65,14 @@ class Menu extends Component {
   }
 
   handleOpenModal = () => {
+    //Deleting any inputs that are 0 from the quantities state
     const orderQuantities = this.state.orderQuantities;
+     for(let x in orderQuantities){
+      if(orderQuantities[x] === '0'){
+        delete orderQuantities[x]
+      }
+    }
+
     //Checking to see if there is any invalid input
     for(let i in orderQuantities){
       if(isNaN(orderQuantities[i])){
