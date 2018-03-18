@@ -5,6 +5,7 @@ exports.up = function(knex, Promise) {
     table.dateTime('finish_time');
     table.string('customer_notes');
     table.decimal('total_order_price');
+    table.boolean('finished');
   });
 };
 
