@@ -100,7 +100,7 @@ class App extends Component {
 
     return (
       <div className="App">
-        <ResNavBar email = {this.state.email} logout = {this.logout}  />
+        <ResNavBar email = {this.state.email} logout = {this.logout} owner = {this.state.owner}  />
         <div className="main">
           {page}
         </div>
