@@ -20,3 +20,7 @@ body {
 .time-up {
   background-color: red;
 }
+
+.two-minute-warning {
+  background-color: yellow;
+}
