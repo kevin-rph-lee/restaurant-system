@@ -186,17 +186,20 @@ class Menu extends Component {
   }
 
   handleUpArrow = (e) => {
-      console.log(e.target.name)
       const id = parseInt(e.target.name)
       for(let i in this.refs){
         if(parseInt(i) === id){
-          console.log(i);
-          console.log('found!');
+          if(this.refs[i]['value'].length === 0  || isNaN(this.refs[i]['value'])) {
+            this.refs[i]['value'] = '1'
+          } else {
+            let quantity = parseInt(this.refs[i]['value'])
+            quantity ++;
+            this.refs[i]['value'] = quantity.toString();
+          }
         }
       }
   }
   handleDownArrow = (e) => {
-      console.log(e.target.name)
       const id = parseInt(e.target.name)
       for(let i in this.refs){
         if(parseInt(i) === id){
