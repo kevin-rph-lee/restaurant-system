@@ -24,3 +24,12 @@ body {
 .two-minute-warning {
   background-color: yellow;
 }
+
+.finished {
+  background-color: green;
+}
+
+
+.finish-button {
+  margin-bottom: 50px;
+}

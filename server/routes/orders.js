@@ -55,18 +55,10 @@ module.exports = (knex, moment) => {
   });
 
 
-
-
-
-
-
-
-
-
   //Get information for all orders in the system
   router.get('/', (req, res) => {
 
-    knex.select('orders.id', 'users.email', 'menu_items.name', 'ordered_items.quantity', 'ordered_items.total_item_price', 'orders.finish_time', 'ordered_items.total_item_price', 'orders.total_order_price')
+    knex.select('orders.id', 'users.email', 'menu_items.name', 'ordered_items.quantity', 'ordered_items.total_item_price', 'orders.finish_time', 'ordered_items.total_item_price', 'orders.total_order_price', 'orders.finished')
       .from('orders')
       .innerJoin('users', 'users.id', 'orders.user_id')
       .innerJoin('ordered_items', 'orders.id', 'ordered_items.order_id')
@@ -80,7 +72,8 @@ module.exports = (knex, moment) => {
             finishTime:moment(results[i].finish_time).format('h:mm:ss a, MMMM Do YYYY'),
             totalOrderPrice:results[i].total_order_price,
             orderedItems:[],
-            email:results[i].email
+            email:results[i].email,
+            finished: results[i].finished
           };
         }
         //Inserting info for each individual ordered item
@@ -97,18 +90,46 @@ module.exports = (knex, moment) => {
           ordersArray.push(orders[x]);
         }
 
-
-
         return res.json(ordersArray);
       });
 
   });
 
+
+
+  //Get information for all orders in the system
+  router.post('/:id/finish', (req, res) => {
+
+    if(!req.session.email){
+      return res.sendStatus(403);
+    }
+
+    knex
+      .select('owner')
+      .from('users')
+      .where({email: req.session.email})
+      .then((results) => {
+        if(results.length === 0 || results.owner === false ){
+          return res.sendStatus(400);
+        } else {
+          //Turning finished status to true and updating the finish time
+          knex('orders')
+            .where({ id:req.params.id })
+            .update({ finished:true, finish_time:moment()})
+            .then(()=>{
+              const time = moment().format('h:mm:ss a, MMMM Do YYYY');
+              return res.json(time);
+            });
+        }
+      })
+  });
+
+
   //Creating a new order
   router.post('/new', (req, res) => {
     //Checking if user is online
     if(!req.session.email){
-      return sendStatus(401);
+      return res.sendStatus(401);
     }
 
     //Checking if user exists
@@ -137,7 +158,7 @@ module.exports = (knex, moment) => {
 
             //Inserting the new order
             knex
-              .insert({user_id:userID})
+              .insert({user_id:userID, finished:false})
               .into('orders')
               .returning('id')
               .then((results) => {
@@ -168,7 +189,7 @@ module.exports = (knex, moment) => {
                     .update({ total_order_price:orderTotalPrice, finish_time: moment().add(maxPrepTime, 'minutes') })
                     .then(()=>{
                       //Getting the recently inserted order back from the DB to send to the frontend
-                      knex.select('orders.id', 'users.email', 'menu_items.name', 'ordered_items.quantity', 'ordered_items.total_item_price', 'orders.finish_time', 'ordered_items.total_item_price', 'orders.total_order_price')
+                      knex.select('orders.id', 'users.email', 'menu_items.name', 'ordered_items.quantity', 'ordered_items.total_item_price', 'orders.finish_time', 'ordered_items.total_item_price', 'orders.total_order_price', 'orders.finished')
                         .from('orders')
                         .innerJoin('users', 'users.id', 'orders.user_id')
                         .innerJoin('ordered_items', 'orders.id', 'ordered_items.order_id')
@@ -181,7 +202,8 @@ module.exports = (knex, moment) => {
                             finishTime: moment(results[0].finish_time).format('h:mm:ss a, MMMM Do YYYY'),
                             totalOrderPrice: results[0].total_order_price,
                             email: results[0].email,
-                            orderedItems: []
+                            orderedItems: [],
+                            finished:false
                           }
 
                           for(let y = 0 ; y < results.length; y ++){
@@ -201,10 +223,13 @@ module.exports = (knex, moment) => {
           })
 
         } else {
-          return sendStatus(401);
+          return res.sendStatus(401);
         }
       });
   });
+
+
+
 
   return router;
 };

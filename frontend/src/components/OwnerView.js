@@ -67,7 +67,6 @@ class OwnerView extends Component {
            .catch((error) => {
 
            })
-
       });
 
       setInterval(
@@ -94,42 +93,96 @@ class OwnerView extends Component {
     this.setState({orders:orders});
   }
 
+  finishOrder = (e) => {
+    const id = e.target.name;
+    const orders = this.state.orders;
+     axios.post('orders/' + e.target.name + '/finish', {
+       })
+       .then((response) => {
+        //Finds the order within the array and changes it's status and sets the new finish time
+        for(let i = 0; i < orders.length; i ++){
+          if(parseInt(orders[i].id) === parseInt(id)){
+            orders[i].finished = true;
+            orders[i].finishTime = response.data;
+            this.setState({orders:orders});
+          }
+        }
+       })
+       .catch((error) => {
+
+       })
+  }
 
   render() {
     let orderCards = this.state.orders.map(order => {
-      console.log('Finish time: ', order.finishTime)
       const finishTime = order.finishTime;
-      return (
-          <Col md="12" className="order-card">
-            <Card >
-              <CardHeader tag="h3" >Order # {order.id}</CardHeader>
-              <CardBody>
-                <CardText>Finish time: {order.finishTime}</CardText>
-                <CardText>Account: {order.email}</CardText>
-                <CardText ><span className={order.timeStatus}>Time left: {order.timeDiff}</span></CardText>
-                <Table>
-                  <thead>
-                    <tr>
-                      <th>Item</th>
-                      <th>Quantity</th>
-                      <th>Item total price</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                      {order['orderedItems'].map((item) => (
-                        <tr>
-                            <td>{item.name}</td>
-                            <td>{item.quantity}</td>
-                            <td>{item.totalItemPrice}</td>
-                        </tr>
-                      ))}
-                  </tbody>
-                </Table>
-              </CardBody>
-              <CardFooter>Total order price: ${order.totalOrderPrice}</CardFooter>
-            </Card>
-          </Col>
-      )
+      if(order.finished === false){
+        return (
+            <Col md="12" className="order-card">
+              <Card >
+                <CardHeader tag="h3" >Order # {order.id}</CardHeader>
+                <CardBody>
+                  <CardText>Finish time: {order.finishTime}</CardText>
+                  <CardText>Account: {order.email}</CardText>
+                  <CardText ><span className={order.timeStatus}>Time left: {order.timeDiff}</span></CardText>
+                  <Button className="finish-button" name={order.id} onClick={(e) => this.finishOrder(e)}>Finish Order</Button>
+                  <Table>
+                    <thead>
+                      <tr>
+                        <th>Item</th>
+                        <th>Quantity</th>
+                        <th>Item total price</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                        {order['orderedItems'].map((item) => (
+                          <tr>
+                              <td>{item.name}</td>
+                              <td>{item.quantity}</td>
+                              <td>{item.totalItemPrice}</td>
+                          </tr>
+                        ))}
+                    </tbody>
+                  </Table>
+                </CardBody>
+                <CardFooter>Total order price: ${order.totalOrderPrice}</CardFooter>
+              </Card>
+            </Col>
+        )
+      } else {
+        return (
+            <Col md="12" className="order-card">
+              <Card >
+                <CardHeader tag="h3" >Order # {order.id}</CardHeader>
+                <CardBody>
+                  <CardText>Finish time: {order.finishTime}</CardText>
+                  <CardText>Account: {order.email}</CardText>
+                  <CardText ><span className="finished">Order finished</span></CardText>
+                  <Table>
+                    <thead>
+                      <tr>
+                        <th>Item</th>
+                        <th>Quantity</th>
+                        <th>Item total price</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                        {order['orderedItems'].map((item) => (
+                          <tr>
+                              <td>{item.name}</td>
+                              <td>{item.quantity}</td>
+                              <td>{item.totalItemPrice}</td>
+                          </tr>
+                        ))}
+                    </tbody>
+                  </Table>
+                </CardBody>
+                <CardFooter>Total order price: ${order.totalOrderPrice}</CardFooter>
+              </Card>
+            </Col>
+        )
+      }
+
     })
 
     return (
@@ -140,7 +193,7 @@ class OwnerView extends Component {
             {orderCards}
           </Row>
         </Container>
-        <Button onClick={this.tick}>test</Button>
+
       </div>
     )
   }
