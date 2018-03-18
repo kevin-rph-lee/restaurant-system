@@ -104,11 +104,34 @@ module.exports = (knex, moment) => {
 
   });
 
+
+
+  //Get information for all orders in the system
+  router.post('/:id/finish', (req, res) => {
+
+    if(!req.session.email){
+      return res.sendStatus(403);
+    }
+
+    knex
+      .select('owner')
+      .from('users')
+      .where({email: req.session.email})
+      .then((results) => {
+        if(results.length === 0 || results.owner === false ){
+          return res.sendStatus(400);
+        } else {
+          return res.sendStatus(200);
+        }
+      })
+  });
+
+
   //Creating a new order
   router.post('/new', (req, res) => {
     //Checking if user is online
     if(!req.session.email){
-      return sendStatus(401);
+      return res.sendStatus(401);
     }
 
     //Checking if user exists
@@ -201,10 +224,13 @@ module.exports = (knex, moment) => {
           })
 
         } else {
-          return sendStatus(401);
+          return res.sendStatus(401);
         }
       });
   });
+
+
+
 
   return router;
 };
