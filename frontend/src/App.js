@@ -104,7 +104,7 @@ class App extends Component {
     } else if(this.state.toggleRegistration === true) {
       page = <Register updateSignIn = {this.updateSignIn} showRegistration = {this.showRegistration} />
     } else if(this.state.toggleUserOrderView === false){
-      page = <div className = 'container'><Menu sendWSMessage= {this.sendWSMessage} /></div>
+      page = <div className = 'container'><Menu sendWSMessage= {this.sendWSMessage} showUserOrderView = {this.showUserOrderView} /></div>
     } else if(this.state.toggleUserOrderView === true) {
       page = <div className = 'container'><UserOrderView socket={this.socket}/></div>
     }

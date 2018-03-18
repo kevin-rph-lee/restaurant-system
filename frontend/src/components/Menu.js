@@ -123,8 +123,9 @@ class Menu extends Component {
         this.handleCloseModal();
 
         //Alerting the user of their order #
-        const alertString = 'Your order is submitted! Order #: ' + response.data['id'];
-        this.props.alert.show(alertString);
+        // const alertString = 'Your order is submitted! Order #: ' + response.data['id'];
+        // this.props.alert.show(alertString);
+        this.props.showUserOrderView()
 
       })
       .catch((error) => {
