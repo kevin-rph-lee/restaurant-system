@@ -5,6 +5,7 @@ import axios from 'axios'
 import Countdown from 'react-countdown-moment'
 import ReactModal from 'react-modal';
 import { withAlert } from 'react-alert'
+import FontAwesome from 'react-fontawesome'
 
 
 
@@ -201,6 +202,14 @@ class Menu extends Component {
               </CardBody>
               <form id = {item.id}>
                 <input type="text" name={item.id} ref={item.id} onChange={this.handleQuantityChange} className="form-control"/>
+                <div className="arrow-buttons">
+                  <Button>
+                    <FontAwesome className="super-crazy-colors" name="arrow-up"/>
+                  </Button>
+                  <Button>
+                    <FontAwesome className="super-crazy-colors" name="arrow-down"/>
+                  </Button>
+                </div>
               </form>
             </Card>
           </Col>
