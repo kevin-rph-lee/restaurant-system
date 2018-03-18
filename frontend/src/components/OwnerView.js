@@ -67,7 +67,6 @@ class OwnerView extends Component {
            .catch((error) => {
 
            })
-
       });
 
       setInterval(
@@ -95,19 +94,14 @@ class OwnerView extends Component {
   }
 
   finishOrder = (e) => {
-    console.log(e.target.name);
     const id = e.target.name;
     const orders = this.state.orders;
      axios.post('orders/' + e.target.name + '/finish', {
        })
        .then((response) => {
-
-        console.log('Order successful');
-
-        console.log('length: ', orders.length)
+        //Finds the order within the array and changes it's status and sets the new finish time
         for(let i = 0; i < orders.length; i ++){
           if(parseInt(orders[i].id) === parseInt(id)){
-            console.log("found")
             orders[i].finished = true;
             orders[i].finishTime = response.data;
             this.setState({orders:orders});
@@ -117,16 +111,11 @@ class OwnerView extends Component {
        .catch((error) => {
 
        })
-
   }
 
   render() {
     let orderCards = this.state.orders.map(order => {
-      console.log('Finish time: ', order.finishTime)
-      console.log('Order: ', order);
       const finishTime = order.finishTime;
-
-
       if(order.finished === false){
         return (
             <Col md="12" className="order-card">
