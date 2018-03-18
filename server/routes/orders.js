@@ -74,7 +74,7 @@ module.exports = (knex, moment) => {
 
     knex
       .select('owner')
-      .from('orders')
+      .from('users')
       .where({email:req.session.email})
       .then((results) => {
         if(results.length === 0){

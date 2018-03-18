@@ -13,7 +13,15 @@ class ReportsView extends Component {
   }
 
   componentDidMount(){
+    axios.get('orders/report/mains', {
 
+    })
+    .then((response) => {
+      console.log(response.data);
+    })
+    .catch((error) => {
+      console.log('error is ',error);
+    })
   }
 
   render() {
