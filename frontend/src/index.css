@@ -24,3 +24,8 @@ body {
 .two-minute-warning {
   background-color: yellow;
 }
+
+
+.finish-button {
+  margin-bottom: 50px;
+}

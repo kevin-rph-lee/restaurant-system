@@ -94,6 +94,9 @@ class OwnerView extends Component {
     this.setState({orders:orders});
   }
 
+  finishOrder = (e) => {
+    console.log(e.target.name);
+  }
 
   render() {
     let orderCards = this.state.orders.map(order => {
@@ -107,6 +110,7 @@ class OwnerView extends Component {
                 <CardText>Finish time: {order.finishTime}</CardText>
                 <CardText>Account: {order.email}</CardText>
                 <CardText ><span className={order.timeStatus}>Time left: {order.timeDiff}</span></CardText>
+                <Button className="finish-button" name={order.id} onClick={this.finishOrder}>Finish Order</Button>
                 <Table>
                   <thead>
                     <tr>
@@ -140,7 +144,7 @@ class OwnerView extends Component {
             {orderCards}
           </Row>
         </Container>
-        <Button onClick={this.tick}>test</Button>
+
       </div>
     )
   }
