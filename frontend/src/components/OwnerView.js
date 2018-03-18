@@ -96,6 +96,15 @@ class OwnerView extends Component {
 
   finishOrder = (e) => {
     console.log(e.target.name);
+     axios.post('orders/' + e.target.name + '/finish', {
+       })
+       .then((response) => {
+        console.log('success');
+       })
+       .catch((error) => {
+
+       })
+
   }
 
   render() {
