@@ -106,8 +106,7 @@ class OwnerView extends Component {
 
         console.log('length: ', orders.length)
         for(let i = 0; i < orders.length; i ++){
-          console.log('loopping');
-          if(orders[i].id === id){
+          if(parseInt(orders[i].id) === parseInt(id)){
             console.log("found")
             orders[i].finished = true;
             orders[i].finishTime = response.data;

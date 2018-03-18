@@ -189,7 +189,7 @@ module.exports = (knex, moment) => {
                     .update({ total_order_price:orderTotalPrice, finish_time: moment().add(maxPrepTime, 'minutes') })
                     .then(()=>{
                       //Getting the recently inserted order back from the DB to send to the frontend
-                      knex.select('orders.id', 'users.email', 'menu_items.name', 'ordered_items.quantity', 'ordered_items.total_item_price', 'orders.finish_time', 'ordered_items.total_item_price', 'orders.total_order_price')
+                      knex.select('orders.id', 'users.email', 'menu_items.name', 'ordered_items.quantity', 'ordered_items.total_item_price', 'orders.finish_time', 'ordered_items.total_item_price', 'orders.total_order_price', 'orders.finished')
                         .from('orders')
                         .innerJoin('users', 'users.id', 'orders.user_id')
                         .innerJoin('ordered_items', 'orders.id', 'ordered_items.order_id')
@@ -202,7 +202,8 @@ module.exports = (knex, moment) => {
                             finishTime: moment(results[0].finish_time).format('h:mm:ss a, MMMM Do YYYY'),
                             totalOrderPrice: results[0].total_order_price,
                             email: results[0].email,
-                            orderedItems: []
+                            orderedItems: [],
+                            finished:false
                           }
 
                           for(let y = 0 ; y < results.length; y ++){
