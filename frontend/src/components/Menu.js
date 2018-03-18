@@ -274,6 +274,14 @@ class Menu extends Component {
               </CardBody>
               <form id = {item.id}>
                 <input type="text" name={item.id} ref={item.id} onChange={this.handleQuantityChange} className="form-control"/>
+                <div className="arrow-buttons">
+                  <Button onClick={this.handleUpArrow} name={item.id}>
+                    +
+                  </Button>
+                  <Button onClick={this.handleDownArrow} name={item.id}>
+                    -
+                  </Button>
+                </div>
               </form>
             </Card>
           </Col>
@@ -294,6 +302,14 @@ class Menu extends Component {
               </CardBody>
               <form id = {item.id}>
                 <input type="text" name={item.id} ref={item.id} onChange={this.handleQuantityChange} className="form-control"/>
+                <div className="arrow-buttons">
+                  <Button onClick={this.handleUpArrow} name={item.id}>
+                    +
+                  </Button>
+                  <Button onClick={this.handleDownArrow} name={item.id}>
+                    -
+                  </Button>
+                </div>
               </form>
             </Card>
           </Col>
