@@ -112,38 +112,75 @@ class OwnerView extends Component {
       console.log('Finish time: ', order.finishTime)
       console.log('Order: ', order);
       const finishTime = order.finishTime;
-      return (
-          <Col md="12" className="order-card">
-            <Card >
-              <CardHeader tag="h3" >Order # {order.id}</CardHeader>
-              <CardBody>
-                <CardText>Finish time: {order.finishTime}</CardText>
-                <CardText>Account: {order.email}</CardText>
-                <CardText ><span className={order.timeStatus}>Time left: {order.timeDiff}</span></CardText>
-                <Button className="finish-button" name={order.id} onClick={this.finishOrder}>Finish Order</Button>
-                <Table>
-                  <thead>
-                    <tr>
-                      <th>Item</th>
-                      <th>Quantity</th>
-                      <th>Item total price</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                      {order['orderedItems'].map((item) => (
-                        <tr>
-                            <td>{item.name}</td>
-                            <td>{item.quantity}</td>
-                            <td>{item.totalItemPrice}</td>
-                        </tr>
-                      ))}
-                  </tbody>
-                </Table>
-              </CardBody>
-              <CardFooter>Total order price: ${order.totalOrderPrice}</CardFooter>
-            </Card>
-          </Col>
-      )
+
+
+      if(order.finished === false){
+        return (
+            <Col md="12" className="order-card">
+              <Card >
+                <CardHeader tag="h3" >Order # {order.id}</CardHeader>
+                <CardBody>
+                  <CardText>Finish time: {order.finishTime}</CardText>
+                  <CardText>Account: {order.email}</CardText>
+                  <CardText ><span className={order.timeStatus}>Time left: {order.timeDiff}</span></CardText>
+                  <Button className="finish-button" name={order.id} onClick={this.finishOrder}>Finish Order</Button>
+                  <Table>
+                    <thead>
+                      <tr>
+                        <th>Item</th>
+                        <th>Quantity</th>
+                        <th>Item total price</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                        {order['orderedItems'].map((item) => (
+                          <tr>
+                              <td>{item.name}</td>
+                              <td>{item.quantity}</td>
+                              <td>{item.totalItemPrice}</td>
+                          </tr>
+                        ))}
+                    </tbody>
+                  </Table>
+                </CardBody>
+                <CardFooter>Total order price: ${order.totalOrderPrice}</CardFooter>
+              </Card>
+            </Col>
+        )
+      } else {
+        return (
+            <Col md="12" className="order-card">
+              <Card >
+                <CardHeader tag="h3" >Order # {order.id}</CardHeader>
+                <CardBody>
+                  <CardText>Finish time: {order.finishTime}</CardText>
+                  <CardText>Account: {order.email}</CardText>
+                  <CardText ><span className="finished">Order finished</span></CardText>
+                  <Table>
+                    <thead>
+                      <tr>
+                        <th>Item</th>
+                        <th>Quantity</th>
+                        <th>Item total price</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                        {order['orderedItems'].map((item) => (
+                          <tr>
+                              <td>{item.name}</td>
+                              <td>{item.quantity}</td>
+                              <td>{item.totalItemPrice}</td>
+                          </tr>
+                        ))}
+                    </tbody>
+                  </Table>
+                </CardBody>
+                <CardFooter>Total order price: ${order.totalOrderPrice}</CardFooter>
+              </Card>
+            </Col>
+        )
+      }
+
     })
 
     return (
