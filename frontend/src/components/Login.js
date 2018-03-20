@@ -4,7 +4,7 @@ import axios from 'axios';
 import {HashRouter,
   Switch,
   Route,
-  Link, BrowserRouter} from 'react-router-dom';
+  Link, BrowserRouter, browserHistory, Redirect } from 'react-router-dom';
 
 class Login extends Component {
   constructor(props) {
@@ -16,12 +16,13 @@ class Login extends Component {
     this.state = {
       email:'',
       password:'',
-      showRegistration: false
+      showRegistration: false,
+      signedIn:false
     };
   }
 
   componentDidMount(){
-
+    console.log('Props: ', this.props);
   }
 
   handleEmailInput(event){
@@ -41,7 +42,8 @@ class Login extends Component {
     })
     .then((response) => {
       console.log(response.data);
-      this.props.updateSignIn({email:response.data.email, owner:response.data.owner})
+      this.props.updateSignIn({email:response.data.email, owner:response.data.owner});
+      this.setState({signedIn:true});
     })
     .catch((error) => {
       console.log('ERror! ', error);
@@ -51,6 +53,11 @@ class Login extends Component {
 
 
   render() {
+    if(this.state.signedIn === true){
+      console.log('attempting')
+      return(<Redirect to='/menu' />)
+    }
+
     return (
       <Form>
         <h1>Login</h1>

@@ -129,12 +129,12 @@ class App extends Component {
         <ResNavBar email = {this.state.email} logout = {this.logout} owner = {this.state.owner} showUserOrderView = {this.showUserOrderView} showReportsView = {this.showReportsView}  />
         <div className="main">
           <Switch>
-            <Route path='/' render={(props) => <Login updateSignIn = {this.updateSignIn} />}  />
             <Route path='/Register' render={(props) => <Register updateSignIn = {this.updateSignIn} />} />
             <Route path='/menu' render={(props) => <Menu sendWSMessage= {this.sendWSMessage} showUserOrderView = {this.showUserOrderView} email = {this.state.email} />} />
             <Route path='/OwnerView' render={(props) => <OwnerView socket={this.socket}  sendWSMessage= {this.sendWSMessage} />} />
             <Route path='/ReportsView' render={(props) => <ReportsView />} />
             <Route path='/UserOrderView' render={(props) => <UserOrderView socket={this.socket}/>} />
+            <Route path='/' render={(props) => <Login updateSignIn = {this.updateSignIn} />}  />
           </Switch>
         </div>
       </div>

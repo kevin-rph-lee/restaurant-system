@@ -239,7 +239,7 @@ class Menu extends Component {
 
 
     if(this.props.email === undefined || this.props.email === "Guest"){
-      return(<Redirect to='/login' />)
+      return(<Redirect to='/' />)
     }
 
     let mainsCards = this.state.mains.map(item => {
