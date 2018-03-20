@@ -4,6 +4,7 @@ import Login from './components/Login.js';
 import Menu from './components/Menu.js';
 import OwnerView from './components/OwnerView.js';
 import UserOrderView from './components/UserOrderView.js';
+import ReportsView from './components/ReportsView.js';
 import axios from 'axios';
 import Register from './components/Register.js';
 import { BrowserRouter } from 'react-router-dom';
@@ -19,11 +20,11 @@ class App extends Component {
     this.socket = null;
 
     this.state = {
-
       email: '',
       toggleRegistration:false,
       owner: false,
-      toggleUserOrderView: false
+      toggleUserOrderView: false,
+      toggleReportsView: false
     };
 
 
@@ -69,9 +70,15 @@ class App extends Component {
   }
 
   showUserOrderView = () => {
-    console.log('toggle')
     this.setState({
       toggleUserOrderView: !this.state.toggleUserOrderView
+    });
+  }
+
+  showReportsView = () => {
+    console.log('Toggle?');
+    this.setState({
+      toggleReportsView: !this.state.toggleReportsView
     });
   }
 
@@ -85,7 +92,7 @@ class App extends Component {
         this.setState({email:'Guest'});
         this.setState({owner:false});
         this.setState({toggleUserOrderView:false});
-
+        this.setState({toggleReportsView:false});
       })
       .catch((error) => {
         console.log('error is ',error);
@@ -97,7 +104,9 @@ class App extends Component {
   render() {
     const isLoggedIn = this.state.email;
     let page = null;
-    if(this.state.owner === true){
+    if(this.state.owner === true && this.state.toggleReportsView === true){
+      page = <ReportsView />
+    } else if(this.state.owner === true && this.state.toggleReportsView === false){
       page = <OwnerView socket={this.socket}  sendWSMessage= {this.sendWSMessage}/>
     } else if((isLoggedIn === "Guest" || isLoggedIn === undefined) && this.state.toggleRegistration === false){
       page = <Login updateSignIn = {this.updateSignIn} showRegistration = {this.showRegistration} />
@@ -112,7 +121,7 @@ class App extends Component {
 
     return (
       <div className="App">
-        <ResNavBar email = {this.state.email} logout = {this.logout} owner = {this.state.owner} showUserOrderView = {this.showUserOrderView}  />
+        <ResNavBar email = {this.state.email} logout = {this.logout} owner = {this.state.owner} showUserOrderView = {this.showUserOrderView} showReportsView = {this.showReportsView}  />
         <div className="main">
           {page}
         </div>

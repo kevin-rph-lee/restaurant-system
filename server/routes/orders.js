@@ -65,6 +65,290 @@ module.exports = (knex, moment) => {
       });
   });
 
+  //Get revenue information for the main dishes
+  router.get('/revenue_report/mains', (req, res) => {
+
+    if(!req.session.email){
+      res.sendStatus(400);
+    }
+
+    knex
+      .select('owner')
+      .from('users')
+      .where({email:req.session.email})
+      .then((results) => {
+        if(results.length === 0){
+          res.sendStatus(400);
+        } else if(results.owner === false) {
+          res.sendStatus(400);
+        } else {
+          knex.select('menu_items.name', 'ordered_items.quantity', 'ordered_items.total_item_price')
+            .from('orders')
+            .innerJoin('users', 'users.id', 'orders.user_id')
+            .innerJoin('ordered_items', 'orders.id', 'ordered_items.order_id')
+            .innerJoin('menu_items', 'menu_item_id', 'menu_items.id')
+            .where({ 'menu_items.type': 'main'})
+            .then((results) => {
+              const revenue = {};
+              const report = [];
+              //creating the keys
+              for(let i = 0; i < results.length; i++){
+                revenue[results[i].name] = 0
+              }
+              //Adding together all the amounts paid
+              for(let y = 0; y < results.length; y++){
+                revenue[results[y].name] += parseFloat(results[y].total_item_price);
+              }
+              for(let x in revenue){
+                report.push({x:x, y: revenue[x]})
+              }
+              res.json(report);
+            });
+        }
+      });
+  });
+
+
+  //Get revenue information for the side dishes
+  router.get('/revenue_report/sides', (req, res) => {
+
+    if(!req.session.email){
+      res.sendStatus(400);
+    }
+
+    knex
+      .select('owner')
+      .from('users')
+      .where({email:req.session.email})
+      .then((results) => {
+        if(results.length === 0){
+          res.sendStatus(400);
+        } else if(results.owner === false) {
+          res.sendStatus(400);
+        } else {
+          knex.select('menu_items.name', 'ordered_items.quantity', 'ordered_items.total_item_price')
+            .from('orders')
+            .innerJoin('users', 'users.id', 'orders.user_id')
+            .innerJoin('ordered_items', 'orders.id', 'ordered_items.order_id')
+            .innerJoin('menu_items', 'menu_item_id', 'menu_items.id')
+            .where({ 'menu_items.type': 'side'})
+            .then((results) => {
+              const revenue = {};
+              const report = [];
+              //creating the keys
+              for(let i = 0; i < results.length; i++){
+                revenue[results[i].name] = 0
+              }
+              //Adding together all the amounts paid
+              for(let y = 0; y < results.length; y++){
+                revenue[results[y].name] += parseFloat(results[y].total_item_price);
+              }
+              for(let x in revenue){
+                report.push({x:x, y: revenue[x]})
+              }
+              res.json(report);
+            });
+        }
+      });
+  });
+
+  //Get revenue information for drinks
+  router.get('/revenue_report/drinks', (req, res) => {
+
+    if(!req.session.email){
+      res.sendStatus(400);
+    }
+
+    knex
+      .select('owner')
+      .from('users')
+      .where({email:req.session.email})
+      .then((results) => {
+        if(results.length === 0){
+          res.sendStatus(400);
+        } else if(results.owner === false) {
+          res.sendStatus(400);
+        } else {
+          knex.select('menu_items.name', 'ordered_items.quantity', 'ordered_items.total_item_price')
+            .from('orders')
+            .innerJoin('users', 'users.id', 'orders.user_id')
+            .innerJoin('ordered_items', 'orders.id', 'ordered_items.order_id')
+            .innerJoin('menu_items', 'menu_item_id', 'menu_items.id')
+            .where({ 'menu_items.type': 'drink'})
+            .then((results) => {
+              const revenue = {};
+              const report = [];
+              //creating the keys
+              for(let i = 0; i < results.length; i++){
+                revenue[results[i].name] = 0
+              }
+              //Adding together all the amounts paid
+              for(let y = 0; y < results.length; y++){
+                revenue[results[y].name] += parseFloat(results[y].total_item_price);
+              }
+              for(let x in revenue){
+                report.push({x:x, y: revenue[x]})
+              }
+              res.json(report);
+            });
+        }
+      });
+  });
+
+
+
+
+
+
+
+
+
+
+
+  //Get revenue information for the main dishes
+  router.get('/sales_report/mains', (req, res) => {
+
+    if(!req.session.email){
+      res.sendStatus(400);
+    }
+
+    knex
+      .select('owner')
+      .from('users')
+      .where({email:req.session.email})
+      .then((results) => {
+        if(results.length === 0){
+          res.sendStatus(400);
+        } else if(results.owner === false) {
+          res.sendStatus(400);
+        } else {
+          knex.select('menu_items.name', 'ordered_items.quantity', 'ordered_items.total_item_price')
+            .from('orders')
+            .innerJoin('users', 'users.id', 'orders.user_id')
+            .innerJoin('ordered_items', 'orders.id', 'ordered_items.order_id')
+            .innerJoin('menu_items', 'menu_item_id', 'menu_items.id')
+            .where({ 'menu_items.type': 'main'})
+            .then((results) => {
+              const quantity = {};
+              const report = [];
+              //creating the keys
+              for(let i = 0; i < results.length; i++){
+                quantity[results[i].name] = 0
+              }
+              //Adding together all the amounts paid
+              for(let y = 0; y < results.length; y++){
+                quantity[results[y].name] += parseFloat(results[y].quantity);
+              }
+              for(let x in quantity){
+                report.push({x:x, y: quantity[x]})
+              }
+              res.json(report);
+            });
+        }
+      });
+  });
+
+
+
+  //Get revenue information for the main dishes
+  router.get('/sales_report/sides', (req, res) => {
+
+    if(!req.session.email){
+      res.sendStatus(400);
+    }
+
+    knex
+      .select('owner')
+      .from('users')
+      .where({email:req.session.email})
+      .then((results) => {
+        if(results.length === 0){
+          res.sendStatus(400);
+        } else if(results.owner === false) {
+          res.sendStatus(400);
+        } else {
+          knex.select('menu_items.name', 'ordered_items.quantity', 'ordered_items.total_item_price')
+            .from('orders')
+            .innerJoin('users', 'users.id', 'orders.user_id')
+            .innerJoin('ordered_items', 'orders.id', 'ordered_items.order_id')
+            .innerJoin('menu_items', 'menu_item_id', 'menu_items.id')
+            .where({ 'menu_items.type': 'side'})
+            .then((results) => {
+              const quantity = {};
+              const report = [];
+              //creating the keys
+              for(let i = 0; i < results.length; i++){
+                quantity[results[i].name] = 0
+              }
+              //Adding together all the amounts paid
+              for(let y = 0; y < results.length; y++){
+                quantity[results[y].name] += parseFloat(results[y].quantity);
+              }
+              for(let x in quantity){
+                report.push({x:x, y: quantity[x]})
+              }
+              res.json(report);
+            });
+        }
+      });
+  });
+
+  //Get revenue information for the main dishes
+  router.get('/sales_report/drinks', (req, res) => {
+
+    if(!req.session.email){
+      res.sendStatus(400);
+    }
+
+    knex
+      .select('owner')
+      .from('users')
+      .where({email:req.session.email})
+      .then((results) => {
+        if(results.length === 0){
+          res.sendStatus(400);
+        } else if(results.owner === false) {
+          res.sendStatus(400);
+        } else {
+          knex.select('menu_items.name', 'ordered_items.quantity', 'ordered_items.total_item_price')
+            .from('orders')
+            .innerJoin('users', 'users.id', 'orders.user_id')
+            .innerJoin('ordered_items', 'orders.id', 'ordered_items.order_id')
+            .innerJoin('menu_items', 'menu_item_id', 'menu_items.id')
+            .where({ 'menu_items.type': 'drink'})
+            .then((results) => {
+              const quantity = {};
+              const report = [];
+              //creating the keys
+              for(let i = 0; i < results.length; i++){
+                quantity[results[i].name] = 0
+              }
+              //Adding together all the amounts paid
+              for(let y = 0; y < results.length; y++){
+                quantity[results[y].name] += parseFloat(results[y].quantity);
+              }
+              for(let x in quantity){
+                report.push({x:x, y: quantity[x]})
+              }
+              res.json(report);
+            });
+        }
+      });
+  });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   //Get information for all orders for the currently logged in user
   router.get('/user/', (req, res) => {
     if(!req.session.email){
