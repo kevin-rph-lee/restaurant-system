@@ -25,7 +25,7 @@ class ReportsView extends Component {
 
   componentDidMount(){
 
-
+    //Grabbing all of the revenue reports
     axios.get('orders/revenue_report/mains', {
 
     })
@@ -62,7 +62,7 @@ class ReportsView extends Component {
     })
 
 
-
+    //Grabbing all of the sales reports
     axios.get('orders/sales_report/mains', {
 
     })
@@ -99,7 +99,6 @@ class ReportsView extends Component {
   }
 
   render() {
-
 
     return (
       <div>
