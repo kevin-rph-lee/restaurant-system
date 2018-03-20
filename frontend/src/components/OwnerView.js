@@ -117,6 +117,10 @@ class OwnerView extends Component {
   }
 
   render() {
+
+
+
+
     let orderCards = this.state.orders.map(order => {
       const finishTime = order.finishTime;
       if(order.finished === false){

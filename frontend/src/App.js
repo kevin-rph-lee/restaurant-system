@@ -7,7 +7,10 @@ import UserOrderView from './components/UserOrderView.js';
 import ReportsView from './components/ReportsView.js';
 import axios from 'axios';
 import Register from './components/Register.js';
-import { BrowserRouter } from 'react-router-dom';
+import {HashRouter,
+  Switch,
+  Route,
+  Link, BrowserRouter, Redirect} from 'react-router-dom';
 
 // import './App.css';
 
@@ -33,6 +36,7 @@ class App extends Component {
   componentDidMount = () => {
       //binding this
       const self = this;
+
       this.socket = new WebSocket('ws://localhost:3001');
 
 
@@ -63,10 +67,7 @@ class App extends Component {
   }
 
   showRegistration = () => {
-    console.log('toggle')
-    this.setState({
-      toggleRegistration: !this.state.toggleRegistration
-    });
+    console.log('test');
   }
 
   showUserOrderView = () => {
@@ -103,29 +104,41 @@ class App extends Component {
 
   render() {
     const isLoggedIn = this.state.email;
-    let page = null;
-    if(this.state.owner === true && this.state.toggleReportsView === true){
-      page = <ReportsView />
-    } else if(this.state.owner === true && this.state.toggleReportsView === false){
-      page = <OwnerView socket={this.socket}  sendWSMessage= {this.sendWSMessage}/>
-    } else if((isLoggedIn === "Guest" || isLoggedIn === undefined) && this.state.toggleRegistration === false){
-      page = <Login updateSignIn = {this.updateSignIn} showRegistration = {this.showRegistration} />
-    } else if(this.state.toggleRegistration === true) {
-      page = <Register updateSignIn = {this.updateSignIn} showRegistration = {this.showRegistration} />
-    } else if(this.state.toggleUserOrderView === false){
-      page = <div className = 'container'><Menu sendWSMessage= {this.sendWSMessage} showUserOrderView = {this.showUserOrderView} /></div>
-    } else if(this.state.toggleUserOrderView === true) {
-      page = <div className = 'container'><UserOrderView socket={this.socket}/></div>
-    }
-
+    // let page = null;
+    // if(this.state.owner === true && this.state.toggleReportsView === true){
+    //   page = <ReportsView />
+    // }
+    // else if(this.state.owner === true && this.state.toggleReportsView === false){
+    //   page = <OwnerView socket={this.socket}  sendWSMessage= {this.sendWSMessage}/>
+    // } else if((isLoggedIn === "Guest" || isLoggedIn === undefined) && this.state.toggleRegistration === false){
+    //   page = <Login updateSignIn = {this.updateSignIn} showRegistration = {this.showRegistration} />
+    // } else if(this.state.toggleRegistration === true) {
+    // const Register = <Register updateSignIn = {this.updateSignIn} showRegistration = {this.showRegistration} />
+    // } else if(this.state.toggleUserOrderView === false){
+    //   page = <div className = 'container'><Menu sendWSMessage= {this.sendWSMessage} showUserOrderView = {this.showUserOrderView} /></div>
+    // } else if(this.state.toggleUserOrderView === true) {
+    //   page = <div className = 'container'><UserOrderView socket={this.socket}/></div>
+    // }
+    // if(this.state.email === 'Guest' || this.state.email === undefined){
+    //   return (<Redirect to="/login"/>)
+    // }
 
     return (
+
       <div className="App">
         <ResNavBar email = {this.state.email} logout = {this.logout} owner = {this.state.owner} showUserOrderView = {this.showUserOrderView} showReportsView = {this.showReportsView}  />
         <div className="main">
-          {page}
+          <Switch>
+            <Route path='/' render={(props) => <Login updateSignIn = {this.updateSignIn} />}  />
+            <Route path='/Register' render={(props) => <Register updateSignIn = {this.updateSignIn} />} />
+            <Route path='/menu' render={(props) => <Menu sendWSMessage= {this.sendWSMessage} showUserOrderView = {this.showUserOrderView} email = {this.state.email} />} />
+            <Route path='/OwnerView' render={(props) => <OwnerView socket={this.socket}  sendWSMessage= {this.sendWSMessage} />} />
+            <Route path='/ReportsView' render={(props) => <ReportsView />} />
+            <Route path='/UserOrderView' render={(props) => <UserOrderView socket={this.socket}/>} />
+          </Switch>
         </div>
       </div>
+
     );
   }
 }

@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
 import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
-import axios from 'axios'
-
+import axios from 'axios';
+import {HashRouter,
+  Switch,
+  Route,
+  Link, BrowserRouter} from 'react-router-dom';
 
 class Login extends Component {
   constructor(props) {
@@ -60,7 +63,7 @@ class Login extends Component {
           <Input type="password" name="password" value={this.state.value}  onChange={this.handlePasswordInput} id="examplePassword" placeholder="Your password" />
         </FormGroup>
         <Button onClick={this.handleLogin}>Login</Button>
-        <Button onClick={this.props.showRegistration}>Go to registration page</Button>
+
       </Form>
     );
   }
