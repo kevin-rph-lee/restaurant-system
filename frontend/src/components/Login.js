@@ -70,7 +70,7 @@ class Login extends Component {
           <Input type="password" name="password" value={this.state.value}  onChange={this.handlePasswordInput} id="examplePassword" placeholder="Your password" />
         </FormGroup>
         <Button onClick={this.handleLogin}>Login</Button>
-
+        <Link to="/Register">Register</Link>
       </Form>
     );
   }
