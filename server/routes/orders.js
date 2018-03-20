@@ -66,7 +66,7 @@ module.exports = (knex, moment) => {
   });
 
   //Get revenue information for the main dishes
-  router.get('/report/mains', (req, res) => {
+  router.get('/revenue_report/mains', (req, res) => {
 
     if(!req.session.email){
       res.sendStatus(400);
@@ -89,14 +89,18 @@ module.exports = (knex, moment) => {
             .innerJoin('menu_items', 'menu_item_id', 'menu_items.id')
             .where({ 'menu_items.type': 'main'})
             .then((results) => {
-              const report = {};
+              const revenue = {};
+              const report = [];
               //creating the keys
               for(let i = 0; i < results.length; i++){
-                report[results[i].name] = 0
+                revenue[results[i].name] = 0
               }
               //Adding together all the amounts paid
               for(let y = 0; y < results.length; y++){
-                report[results[y].name] += parseFloat(results[y].total_item_price);
+                revenue[results[y].name] += parseFloat(results[y].total_item_price);
+              }
+              for(let x in revenue){
+                report.push({x:x, y: revenue[x]})
               }
               res.json(report);
             });
@@ -106,7 +110,7 @@ module.exports = (knex, moment) => {
 
 
   //Get revenue information for the side dishes
-  router.get('/report/sides', (req, res) => {
+  router.get('/revenue_report/sides', (req, res) => {
 
     if(!req.session.email){
       res.sendStatus(400);
@@ -129,14 +133,18 @@ module.exports = (knex, moment) => {
             .innerJoin('menu_items', 'menu_item_id', 'menu_items.id')
             .where({ 'menu_items.type': 'side'})
             .then((results) => {
-              const report = {};
+              const revenue = {};
+              const report = [];
               //creating the keys
               for(let i = 0; i < results.length; i++){
-                report[results[i].name] = 0
+                revenue[results[i].name] = 0
               }
               //Adding together all the amounts paid
               for(let y = 0; y < results.length; y++){
-                report[results[y].name] += parseFloat(results[y].total_item_price);
+                revenue[results[y].name] += parseFloat(results[y].total_item_price);
+              }
+              for(let x in revenue){
+                report.push({x:x, y: revenue[x]})
               }
               res.json(report);
             });
@@ -145,7 +153,7 @@ module.exports = (knex, moment) => {
   });
 
   //Get revenue information for drinks
-  router.get('/report/drinks', (req, res) => {
+  router.get('/revenue_report/drinks', (req, res) => {
 
     if(!req.session.email){
       res.sendStatus(400);
@@ -168,14 +176,18 @@ module.exports = (knex, moment) => {
             .innerJoin('menu_items', 'menu_item_id', 'menu_items.id')
             .where({ 'menu_items.type': 'drink'})
             .then((results) => {
-              const report = {};
+              const revenue = {};
+              const report = [];
               //creating the keys
               for(let i = 0; i < results.length; i++){
-                report[results[i].name] = 0
+                revenue[results[i].name] = 0
               }
               //Adding together all the amounts paid
               for(let y = 0; y < results.length; y++){
-                report[results[y].name] += parseFloat(results[y].total_item_price);
+                revenue[results[y].name] += parseFloat(results[y].total_item_price);
+              }
+              for(let x in revenue){
+                report.push({x:x, y: revenue[x]})
               }
               res.json(report);
             });

@@ -14,57 +14,45 @@ class ReportsView extends Component {
       mainsData:[],
       drinksData:[],
       sidesData: [],
-      mains:[],
-      drinks:[],
-      sides:[]
+      mainsRevenue:[],
+      drinksRevenue:[],
+      sidesRevenue:[]
     };
   }
 
   componentDidMount(){
 
 
-    axios.get('orders/report/mains', {
+    axios.get('orders/revenue_report/mains', {
 
     })
     .then((response) => {
       const mains = this.state.mains;
-      for(let i in response.data){
-        mains.push({text:i,value:response.data[i]})
-      }
-      console.log('Mains: ',mains);
-      this.setState({mains:mains});
+      this.setState({mainsRevenue:response.data});
 
     })
     .catch((error) => {
       console.log('error is ',error);
     })
 
-    axios.get('orders/report/drinks', {
+    axios.get('orders/revenue_report/drinks', {
 
     })
     .then((response) => {
       const drinks = this.state.drinks;
-      for(let i in response.data){
-        drinks.push({text:i,value:response.data[i]})
-      }
-      console.log(drinks);
-      this.setState({drinks:drinks});
+      this.setState({drinksRevenue:response.data});
     })
     .catch((error) => {
       console.log('error is ',error);
     })
 
 
-    axios.get('orders/report/sides', {
+    axios.get('orders/revenue_report/sides', {
 
     })
     .then((response) => {
       const sides = this.state.sides;
-      for(let i in response.data){
-        sides.push({text:i,value:response.data[i]})
-      }
-      console.log(sides);
-      this.setState({sides:sides});
+      this.setState({sidesRevenue:response.data});
     })
     .catch((error) => {
       console.log('error is ',error);
@@ -83,37 +71,15 @@ class ReportsView extends Component {
           <h3>Revenue</h3>
           <Row>
             <BarChart
-              axisLabels={{x: 'Revenue'}}
               axes
-              data={[
-                {
-                  x: 'A',
-                  y: 46
-                },
-                {
-                  x: 'B',
-                  y: 96
-                }
-              ]}
+              colorBars
+              data={this.state.mainsRevenue}
             />
           </Row>
 
           <h3>Sales</h3>
           <Row>
-            <BarChart
-              axisLabels={{x: 'Sales'}}
-              axes
-              data={[
-                {
-                  x: 'A',
-                  y: 79
-                },
-                {
-                  x: 'B',
-                  y: 26
-                }
-              ]}
-            />
+
           </Row>
         </Container>
         <h2>Sides</h2>
@@ -121,37 +87,15 @@ class ReportsView extends Component {
           <h3>Revenue</h3>
           <Row>
             <BarChart
-              axisLabels={{x: 'Revenue'}}
               axes
-              data={[
-                {
-                  x: 'A',
-                  y: 46
-                },
-                {
-                  x: 'B',
-                  y: 96
-                }
-              ]}
+              colorBars
+              data={this.state.sidesRevenue}
             />
           </Row>
 
           <h3>Sales</h3>
           <Row>
-            <BarChart
-              axisLabels={{x: 'Sales'}}
-              axes
-              data={[
-                {
-                  x: 'A',
-                  y: 79
-                },
-                {
-                  x: 'B',
-                  y: 26
-                }
-              ]}
-            />
+
           </Row>
         </Container>
         <h2>Drinks</h2>
@@ -159,37 +103,15 @@ class ReportsView extends Component {
           <h3>Revenue</h3>
           <Row>
             <BarChart
-              axisLabels={{x: 'Revenue'}}
               axes
-              data={[
-                {
-                  x: 'A',
-                  y: 46
-                },
-                {
-                  x: 'B',
-                  y: 96
-                }
-              ]}
+              colorBars
+              data={this.state.drinksRevenue}
             />
           </Row>
 
           <h3>Sales</h3>
           <Row>
-            <BarChart
-              axisLabels={{x: 'Sales'}}
-              axes
-              data={[
-                {
-                  x: 'A',
-                  y: 79
-                },
-                {
-                  x: 'B',
-                  y: 26
-                }
-              ]}
-            />
+
           </Row>
         </Container>
       </div>
