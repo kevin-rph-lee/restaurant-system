@@ -16,7 +16,10 @@ class ReportsView extends Component {
       sidesData: [],
       mainsRevenue:[],
       drinksRevenue:[],
-      sidesRevenue:[]
+      sidesRevenue:[],
+      mainsSales:[],
+      drinksSales:[],
+      sidesSales: []
     };
   }
 
@@ -59,6 +62,40 @@ class ReportsView extends Component {
     })
 
 
+
+    axios.get('orders/sales_report/mains', {
+
+    })
+    .then((response) => {
+      this.setState({mainsSales:response.data});
+
+    })
+    .catch((error) => {
+      console.log('error is ',error);
+    })
+
+    axios.get('orders/sales_report/drinks', {
+
+    })
+    .then((response) => {
+      this.setState({drinksSales:response.data});
+    })
+    .catch((error) => {
+      console.log('error is ',error);
+    })
+
+
+    axios.get('orders/sales_report/sides', {
+
+    })
+    .then((response) => {
+      this.setState({sidesSales:response.data});
+    })
+    .catch((error) => {
+      console.log('error is ',error);
+    })
+
+
   }
 
   render() {
@@ -79,7 +116,11 @@ class ReportsView extends Component {
 
           <h3>Sales</h3>
           <Row>
-
+           <BarChart
+              axes
+              colorBars
+              data={this.state.mainsSales}
+            />
           </Row>
         </Container>
         <h2>Sides</h2>
@@ -95,7 +136,11 @@ class ReportsView extends Component {
 
           <h3>Sales</h3>
           <Row>
-
+           <BarChart
+              axes
+              colorBars
+              data={this.state.sidesSales}
+            />
           </Row>
         </Container>
         <h2>Drinks</h2>
@@ -111,7 +156,11 @@ class ReportsView extends Component {
 
           <h3>Sales</h3>
           <Row>
-
+           <BarChart
+              axes
+              colorBars
+              data={this.state.drinksSales}
+            />
           </Row>
         </Container>
       </div>
