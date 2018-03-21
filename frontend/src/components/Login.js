@@ -4,7 +4,7 @@ import axios from 'axios';
 import {HashRouter,
   Switch,
   Route,
-  Link, BrowserRouter, browserHistory, Redirect } from 'react-router-dom';
+  Link, BrowserRouter, browserHistory, Redirect, withRouter  } from 'react-router-dom';
 
 class Login extends Component {
   constructor(props) {
@@ -22,6 +22,7 @@ class Login extends Component {
   }
 
   componentDidMount(){
+    console.log('Email: ',this.props.email);
     console.log('Props: ', this.props);
   }
 
@@ -43,7 +44,12 @@ class Login extends Component {
     .then((response) => {
       console.log(response.data);
       this.props.updateSignIn({email:response.data.email, owner:response.data.owner});
-      this.setState({signedIn:true});
+      if(response.data.owner === true){
+        this.props.history.push('/OwnerView');
+      } else {
+        this.props.history.push('/menu');
+      }
+
     })
     .catch((error) => {
       console.log('ERror! ', error);
@@ -53,7 +59,12 @@ class Login extends Component {
 
 
   render() {
-    if(this.state.signedIn === true){
+    if( (this.props.email !== 'Guest' || this.props.email !== undefined) || this.props.owner === false ){
+      console.log('attempting')
+      return(<Redirect to='/menu' />)
+    }
+
+    if( (this.props.email !== 'Guest' || this.props.email !== undefined) || this.props.owner === true ){
       console.log('attempting')
       return(<Redirect to='/menu' />)
     }
@@ -75,4 +86,4 @@ class Login extends Component {
     );
   }
 }
-export default Login;
+export default withRouter(Login);

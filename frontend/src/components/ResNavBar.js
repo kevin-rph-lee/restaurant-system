@@ -12,6 +12,7 @@ import {
   DropdownMenu,
   DropdownItem } from 'reactstrap';
 import FontAwesome from 'react-fontawesome'
+import {withRouter} from 'react-router-dom';
 
 class ResNavBar extends Component {
   constructor(props) {
@@ -19,7 +20,8 @@ class ResNavBar extends Component {
 
     this.toggle = this.toggle.bind(this);
     this.state = {
-      isOpen: false
+      isOpen: false,
+      location: ''
     };
   }
   toggle() {
@@ -90,4 +92,4 @@ class ResNavBar extends Component {
     );
   }
 }
-export default ResNavBar;
+export default withRouter(ResNavBar);
