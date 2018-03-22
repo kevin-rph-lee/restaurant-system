@@ -10,7 +10,7 @@ import Register from './components/Register.js';
 import {HashRouter,
   Switch,
   Route,
-  Link, BrowserRouter, Redirect} from 'react-router-dom';
+  Link, BrowserRouter, Redirect, withRouter} from 'react-router-dom';
 
 // import './App.css';
 
@@ -23,7 +23,7 @@ class App extends Component {
     this.socket = null;
 
     this.state = {
-      email: '',
+      email: 'Guest',
       toggleRegistration:false,
       owner: false,
       toggleUserOrderView: false,
@@ -31,29 +31,21 @@ class App extends Component {
     };
 
 
-  }
-
-  componentDidMount = () => {
-      //binding this
-      const self = this;
-
-      this.socket = new WebSocket('ws://localhost:3001');
-
-
       axios.get('users/', {
 
       })
-      .then(function (response) {
-        console.log('Response from server: ',response.data.email);
-        self.setState({email:response.data.email});
-        self.setState({owner:response.data.owner})
+      .then((response) => {
+        this.setState({email:response.data});
+        this.setState({owner:response.data.owner})
       })
-      .catch(function (error) {
+      .catch((error) => {
         console.log('error is ',error);
       })
+  }
 
+  componentDidMount = () => {
 
-
+      this.socket = new WebSocket('ws://localhost:3001');
 
   }
 
@@ -123,6 +115,8 @@ class App extends Component {
     //   return (<Redirect to="/login"/>)
     // }
 
+
+
     return (
 
       <div className="App">
@@ -130,7 +124,7 @@ class App extends Component {
         <div className="main">
           <Switch>
             <Route path='/register' render={(props) => <Register updateSignIn = {this.updateSignIn} />} />
-            <Route path='/menu' render={(props) => <Menu sendWSMessage= {this.sendWSMessage} showUserOrderView = {this.showUserOrderView} email = {this.state.email} />} />
+            <Route path='/menu' render={(props) => <Menu sendWSMessage= {this.sendWSMessage} showUserOrderView = {this.showUserOrderView} email = {this.state.email}  owner = {this.state.owner} />} />
             <Route path='/ownerview' render={(props) => <OwnerView socket={this.socket}  sendWSMessage= {this.sendWSMessage} />} />
             <Route path='/reportsview' render={(props) => <ReportsView />} />
             <Route path='/userorderview' render={(props) => <UserOrderView socket={this.socket}/>} />
@@ -143,4 +137,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default withRouter(App);

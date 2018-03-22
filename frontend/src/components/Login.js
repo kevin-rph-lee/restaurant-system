@@ -14,7 +14,7 @@ class Login extends Component {
     this.handleLogin = this.handleLogin.bind(this);
 
     this.state = {
-      email:'',
+      emailInput:'',
       password:'',
       showRegistration: false,
       signedIn:false
@@ -22,12 +22,12 @@ class Login extends Component {
   }
 
   componentDidMount(){
-    console.log('Email: ',this.props.email);
-    console.log('Props: ', this.props);
+    console.log('email in login.js: ', this.props.email)
+    console.log('Props in login.js: ', this.props)
   }
 
   handleEmailInput(event){
-    this.setState({email: event.target.value});
+    this.setState({emailInput: event.target.value});
   }
 
   handlePasswordInput(event){
@@ -37,7 +37,7 @@ class Login extends Component {
 
   handleLogin = (event) => {
     axios.post('users/login', {
-      email: this.state.email,
+      email: this.state.emailInput,
       password: this.state.password,
       phoneNumber: this.state.phoneNumber
     })
@@ -59,12 +59,8 @@ class Login extends Component {
 
 
   render() {
-    if( (this.props.email !== 'Guest' || this.props.email !== undefined) || this.props.owner === false ){
-      console.log('attempting')
-      return(<Redirect to='/menu' />)
-    }
 
-    if( (this.props.email !== 'Guest' || this.props.email !== undefined) || this.props.owner === true ){
+    if( (this.props.email !== 'Guest') && this.props.owner === false ){
       console.log('attempting')
       return(<Redirect to='/menu' />)
     }

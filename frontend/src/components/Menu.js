@@ -236,10 +236,8 @@ class Menu extends Component {
   }
 
   render() {
-
-
-    if(this.props.email === undefined || this.props.email === "Guest"){
-      return(<Redirect to='/' />)
+    if( (this.props.email === 'Guest') || this.props.owner === true){
+      return(<Redirect to='/login' />)
     }
 
     let mainsCards = this.state.mains.map(item => {
