@@ -24,10 +24,7 @@ class App extends Component {
 
     this.state = {
       email: 'Guest',
-      toggleRegistration:false,
-      owner: false,
-      toggleUserOrderView: false,
-      toggleReportsView: false
+      owner: false
     };
 
 
@@ -35,7 +32,7 @@ class App extends Component {
 
       })
       .then((response) => {
-        this.setState({email:response.data});
+        this.setState({email:response.data.email});
         this.setState({owner:response.data.owner})
       })
       .catch((error) => {
@@ -44,9 +41,6 @@ class App extends Component {
   }
 
   componentDidMount = () => {
-
-
-
 
   }
 
@@ -57,19 +51,6 @@ class App extends Component {
 
   sendWSMessage = message => {
       this.socket.send(JSON.stringify(message));
-  }
-
-  showUserOrderView = () => {
-    this.setState({
-      toggleUserOrderView: !this.state.toggleUserOrderView
-    });
-  }
-
-  showReportsView = () => {
-    console.log('Toggle?');
-    this.setState({
-      toggleReportsView: !this.state.toggleReportsView
-    });
   }
 
   logout = () => {

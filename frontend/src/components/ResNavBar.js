@@ -30,6 +30,24 @@ class ResNavBar extends Component {
     });
   }
 
+  showReportsView = () => {
+    this.props.history.push('/reportsview');
+  }
+
+  showOrdersView = () => {
+    this.props.history.push('/ordersview');
+  }
+
+  showOwnerView = () => {
+    this.props.history.push('/ownersview');
+  }
+
+
+  showMenu = () => {
+    this.props.history.push('/menu');
+  }
+
+
   render() {
 
     let dropDown = null;
@@ -43,7 +61,10 @@ class ResNavBar extends Component {
                 />
               </DropdownToggle>
               <DropdownMenu right>
-                <DropdownItem onClick={this.props.showUserOrderView}>
+                <DropdownItem onClick={this.showMenu}>
+                  Menu
+                </DropdownItem>
+                <DropdownItem onClick={this.showUserOrderView}>
                   See your orders
                 </DropdownItem>
                 <DropdownItem divider />
@@ -62,7 +83,10 @@ class ResNavBar extends Component {
                 />
               </DropdownToggle>
               <DropdownMenu right>
-                <DropdownItem onClick={this.props.showReportsView}>
+                <DropdownItem onClick={this.showOwnerView}>
+                  Dashboard
+                </DropdownItem>
+                <DropdownItem onClick={this.showReportsView}>
                   Business Intelligence
                 </DropdownItem>
                 <DropdownItem divider />
