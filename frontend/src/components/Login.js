@@ -61,8 +61,11 @@ class Login extends Component {
   render() {
 
     if( (this.props.email !== 'Guest') && this.props.owner === false ){
-      console.log('attempting')
       return(<Redirect to='/menu' />)
+    }
+
+    if( (this.props.email !== 'Guest') && this.props.owner === true ){
+      return(<Redirect to='/ownerview' />)
     }
 
     return (

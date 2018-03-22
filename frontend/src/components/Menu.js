@@ -9,7 +9,7 @@ import FontAwesome from 'react-fontawesome'
 import {HashRouter,
   Switch,
   Route,
-  Link, BrowserRouter, Redirect} from 'react-router-dom';
+  Link, BrowserRouter, Redirect, withRouter} from 'react-router-dom';
 
 
 
