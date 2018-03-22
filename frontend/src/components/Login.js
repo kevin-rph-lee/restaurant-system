@@ -34,6 +34,10 @@ class Login extends Component {
     this.setState({password: event.target.value});
   }
 
+  showRegistration = () =>{
+    this.props.history.push('/register')
+  }
+
 
   handleLogin = (event) => {
     axios.post('users/login', {
@@ -45,7 +49,7 @@ class Login extends Component {
       console.log(response.data);
       this.props.updateSignIn({email:response.data.email, owner:response.data.owner});
       if(response.data.owner === true){
-        this.props.history.push('/OwnerView');
+        this.props.history.push('/ownerview');
       } else {
         this.props.history.push('/menu');
       }
@@ -59,7 +63,7 @@ class Login extends Component {
 
 
   render() {
-
+    console.log('Login props: ', this.props);
     if( (this.props.email !== 'Guest') && this.props.owner === false ){
       return(<Redirect to='/menu' />)
     }
@@ -80,7 +84,7 @@ class Login extends Component {
           <Input type="password" name="password" value={this.state.value}  onChange={this.handlePasswordInput} id="examplePassword" placeholder="Your password" />
         </FormGroup>
         <Button onClick={this.handleLogin}>Login</Button>
-        <Link to="/Register">Register</Link>
+        <Button onClick={this.showRegistration}>Register</Button>
       </Form>
     );
   }

@@ -59,10 +59,6 @@ class App extends Component {
       this.socket.send(JSON.stringify(message));
   }
 
-  showRegistration = () => {
-    console.log('test');
-  }
-
   showUserOrderView = () => {
     this.setState({
       toggleUserOrderView: !this.state.toggleUserOrderView

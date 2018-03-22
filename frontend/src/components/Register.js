@@ -4,7 +4,7 @@ import axios from 'axios'
 import {HashRouter,
   Switch,
   Route,
-  Link, BrowserRouter, browserHistory, Redirect } from 'react-router-dom';
+  Link, BrowserRouter, browserHistory, Redirect, withRouter } from 'react-router-dom';
 
 class Register extends Component {
   constructor(props) {
@@ -36,6 +36,10 @@ class Register extends Component {
 
   handlePasswordInput(event){
     this.setState({password: event.target.value});
+  }
+
+  showLogin = () =>{
+    this.props.history.push('/login')
   }
 
 
@@ -73,10 +77,10 @@ class Register extends Component {
           <Input type="password" name="password" value={this.state.value}  onChange={this.handlePasswordInput} id="examplePassword" placeholder="Your password" />
         </FormGroup>
         <Button onClick={this.handleRegister}>Register</Button>
-        <Link to="/login">Register</Link>
+        <Button onClick={this.showLogin}>Login</Button>
 
       </Form>
     );
   }
 }
-export default Register;
+export default withRouter(Register);
