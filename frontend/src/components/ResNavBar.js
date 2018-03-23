@@ -34,7 +34,8 @@ class ResNavBar extends Component {
     this.props.history.push('/reportsview');
   }
 
-  showOrdersView = () => {
+  showUserOrdersView = () => {
+    console.log('attempting')
     this.props.history.push('/userorderview');
   }
 
@@ -64,8 +65,8 @@ class ResNavBar extends Component {
                 <DropdownItem onClick={this.showMenu}>
                   Menu
                 </DropdownItem>
-                <DropdownItem onClick={this.showUserOrderView}>
-                  See your orders
+                <DropdownItem onClick={this.showUserOrdersView}>
+                  Your Orders
                 </DropdownItem>
                 <DropdownItem divider />
                 <DropdownItem onClick={this.props.logout}>
