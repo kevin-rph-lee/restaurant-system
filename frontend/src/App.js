@@ -7,7 +7,10 @@ import UserOrderView from './components/UserOrderView.js';
 import ReportsView from './components/ReportsView.js';
 import axios from 'axios';
 import Register from './components/Register.js';
-import { BrowserRouter } from 'react-router-dom';
+import {HashRouter,
+  Switch,
+  Route,
+  Link, BrowserRouter, Redirect, withRouter} from 'react-router-dom';
 
 // import './App.css';
 
@@ -17,39 +20,28 @@ class App extends Component {
 
     super(props);
 
-    this.socket = null;
+    this.socket = new WebSocket('ws://localhost:3001');
 
     this.state = {
-      email: '',
-      toggleRegistration:false,
-      owner: false,
-      toggleUserOrderView: false,
-      toggleReportsView: false
+      email: 'Guest',
+      owner: false
     };
-
-
-  }
-
-  componentDidMount = () => {
-      //binding this
-      const self = this;
-      this.socket = new WebSocket('ws://localhost:3001');
 
 
       axios.get('users/', {
 
       })
-      .then(function (response) {
-        console.log('Response from server: ',response.data.email);
-        self.setState({email:response.data.email});
-        self.setState({owner:response.data.owner})
+      .then((response) => {
+        console.log("Response Data: ", response.data)
+        this.setState({email:response.data.email});
+        this.setState({owner:response.data.owner})
       })
-      .catch(function (error) {
+      .catch((error) => {
         console.log('error is ',error);
       })
+  }
 
-
-
+  componentDidMount = () => {
 
   }
 
@@ -60,26 +52,6 @@ class App extends Component {
 
   sendWSMessage = message => {
       this.socket.send(JSON.stringify(message));
-  }
-
-  showRegistration = () => {
-    console.log('toggle')
-    this.setState({
-      toggleRegistration: !this.state.toggleRegistration
-    });
-  }
-
-  showUserOrderView = () => {
-    this.setState({
-      toggleUserOrderView: !this.state.toggleUserOrderView
-    });
-  }
-
-  showReportsView = () => {
-    console.log('Toggle?');
-    this.setState({
-      toggleReportsView: !this.state.toggleReportsView
-    });
   }
 
   logout = () => {
@@ -102,32 +74,27 @@ class App extends Component {
 
 
   render() {
-    const isLoggedIn = this.state.email;
-    let page = null;
-    if(this.state.owner === true && this.state.toggleReportsView === true){
-      page = <ReportsView />
-    } else if(this.state.owner === true && this.state.toggleReportsView === false){
-      page = <OwnerView socket={this.socket}  sendWSMessage= {this.sendWSMessage}/>
-    } else if((isLoggedIn === "Guest" || isLoggedIn === undefined) && this.state.toggleRegistration === false){
-      page = <Login updateSignIn = {this.updateSignIn} showRegistration = {this.showRegistration} />
-    } else if(this.state.toggleRegistration === true) {
-      page = <Register updateSignIn = {this.updateSignIn} showRegistration = {this.showRegistration} />
-    } else if(this.state.toggleUserOrderView === false){
-      page = <div className = 'container'><Menu sendWSMessage= {this.sendWSMessage} showUserOrderView = {this.showUserOrderView} /></div>
-    } else if(this.state.toggleUserOrderView === true) {
-      page = <div className = 'container'><UserOrderView socket={this.socket}/></div>
-    }
+
 
 
     return (
+
       <div className="App">
         <ResNavBar email = {this.state.email} logout = {this.logout} owner = {this.state.owner} showUserOrderView = {this.showUserOrderView} showReportsView = {this.showReportsView}  />
         <div className="main">
-          {page}
+          <Switch>
+            <Route path='/register' render={(props) => <Register updateSignIn = {this.updateSignIn} />} />
+            <Route path='/menu' render={(props) => <Menu sendWSMessage= {this.sendWSMessage} showUserOrderView = {this.showUserOrderView} email = {this.state.email}  owner = {this.state.owner} />} />
+            <Route path='/ownerview' render={(props) => <OwnerView socket={this.socket}  sendWSMessage= {this.sendWSMessage} owner = {this.state.owner} email = {this.state.email} />} />
+            <Route path='/reportsview' render={(props) => <ReportsView  owner = {this.state.owner} email = {this.state.email} />} />
+            <Route path='/userorderview' render={(props) => <UserOrderView socket={this.socket}  owner = {this.state.owner} email = {this.state.email}/> } />
+            <Route path='/' render={(props) => <Login updateSignIn = {this.updateSignIn} owner = {this.state.owner} email = {this.state.email}/>}  />
+          </Switch>
         </div>
       </div>
+
     );
   }
 }
 
-export default App;
+export default withRouter(App);

@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
 import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
-import axios from 'axios'
-
+import axios from 'axios';
+import {HashRouter,
+  Switch,
+  Route,
+  Link, BrowserRouter, browserHistory, Redirect, withRouter  } from 'react-router-dom';
 
 class Login extends Component {
   constructor(props) {
@@ -11,34 +14,46 @@ class Login extends Component {
     this.handleLogin = this.handleLogin.bind(this);
 
     this.state = {
-      email:'',
+      emailInput:'',
       password:'',
-      showRegistration: false
+      showRegistration: false,
+      signedIn:false
     };
   }
 
   componentDidMount(){
-
+    console.log('email in login.js: ', this.props.email)
+    console.log('Props in login.js: ', this.props)
   }
 
   handleEmailInput(event){
-    this.setState({email: event.target.value});
+    this.setState({emailInput: event.target.value});
   }
 
   handlePasswordInput(event){
     this.setState({password: event.target.value});
   }
 
+  showRegistration = () =>{
+    this.props.history.push('/register')
+  }
+
 
   handleLogin = (event) => {
     axios.post('users/login', {
-      email: this.state.email,
+      email: this.state.emailInput,
       password: this.state.password,
       phoneNumber: this.state.phoneNumber
     })
     .then((response) => {
       console.log(response.data);
-      this.props.updateSignIn({email:response.data.email, owner:response.data.owner})
+      this.props.updateSignIn({email:response.data.email, owner:response.data.owner});
+      if(response.data.owner === true){
+        this.props.history.push('/ownerview');
+      } else {
+        this.props.history.push('/menu');
+      }
+
     })
     .catch((error) => {
       console.log('ERror! ', error);
@@ -48,6 +63,16 @@ class Login extends Component {
 
 
   render() {
+    console.log('Login props: ', this.props);
+    if( (this.props.email !== 'Guest') && this.props.owner === false ){
+      console.log('WHy?')
+      return(<Redirect to='/menu' />)
+    }
+
+    if( (this.props.email !== 'Guest') && this.props.owner === true ){
+      return(<Redirect to='/ownerview' />)
+    }
+
     return (
       <Form>
         <h1>Login</h1>
@@ -60,9 +85,9 @@ class Login extends Component {
           <Input type="password" name="password" value={this.state.value}  onChange={this.handlePasswordInput} id="examplePassword" placeholder="Your password" />
         </FormGroup>
         <Button onClick={this.handleLogin}>Login</Button>
-        <Button onClick={this.props.showRegistration}>Go to registration page</Button>
+        <Button onClick={this.showRegistration}>Register</Button>
       </Form>
     );
   }
 }
-export default Login;
+export default withRouter(Login);

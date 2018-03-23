@@ -2,6 +2,10 @@ import React, { Component } from 'react';
 import { Container, Card, CardText, CardBody,
   CardTitle, CardSubtitle, Row, Col, Button, Table, CardHeader, CardFooter } from 'reactstrap';
 import axios from 'axios'
+import {HashRouter,
+  Switch,
+  Route,
+  Link, BrowserRouter, Redirect, withRouter} from 'react-router-dom';
 
 
 
@@ -52,7 +56,7 @@ class OwnerView extends Component {
       .catch((error) => {
 
       })
-      //Listening for newly created orders
+
       this.props.socket.addEventListener('message', (event) => {
         const newOrder = JSON.parse(event.data);
         if(!newOrder.type){
@@ -117,6 +121,13 @@ class OwnerView extends Component {
   }
 
   render() {
+
+    if( (this.props.email === 'Guest') || this.props.owner === false){
+      return(<Redirect to='/login' />)
+    }
+
+
+
     let orderCards = this.state.orders.map(order => {
       const finishTime = order.finishTime;
       if(order.finished === false){
@@ -201,4 +212,4 @@ class OwnerView extends Component {
     )
   }
 }
-export default OwnerView;
+export default withRouter(OwnerView);

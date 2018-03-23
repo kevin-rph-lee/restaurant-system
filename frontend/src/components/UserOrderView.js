@@ -2,7 +2,10 @@ import React, { Component } from 'react';
 import { Container, Card, CardText, CardBody,
   CardTitle, CardSubtitle, Row, Col, Button, Table, CardHeader, CardFooter } from 'reactstrap';
 import axios from 'axios'
-
+import {HashRouter,
+  Switch,
+  Route,
+  Link, BrowserRouter, browserHistory, Redirect, withRouter  } from 'react-router-dom';
 
 
 class UserOrderView extends Component {
@@ -100,6 +103,13 @@ class UserOrderView extends Component {
   }
 
   render() {
+
+    if( (this.props.email === 'Guest') || this.props.owner === true ){
+      return(<Redirect to='/login' />)
+    }
+
+
+
     let orderCards = this.state.orders.map(order => {
       const finishTime = order.finishTime;
       if(order.finished === false){
@@ -181,4 +191,4 @@ class UserOrderView extends Component {
     )
   }
 }
-export default UserOrderView;
+export default withRouter(UserOrderView);

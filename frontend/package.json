@@ -9,6 +9,7 @@
 		"@fortawesome/react-fontawesome": "0.0.17",
 		"axios": "^0.17.1",
 		"bootstrap": "^4.0.0",
+		"history": "^4.7.2",
 		"momentjs": "^2.0.0",
 		"react": "^16.2.0",
 		"react-alert": "^3.4.0",

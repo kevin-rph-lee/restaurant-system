@@ -12,6 +12,7 @@ import {
   DropdownMenu,
   DropdownItem } from 'reactstrap';
 import FontAwesome from 'react-fontawesome'
+import {withRouter} from 'react-router-dom';
 
 class ResNavBar extends Component {
   constructor(props) {
@@ -19,7 +20,8 @@ class ResNavBar extends Component {
 
     this.toggle = this.toggle.bind(this);
     this.state = {
-      isOpen: false
+      isOpen: false,
+      location: ''
     };
   }
   toggle() {
@@ -27,6 +29,25 @@ class ResNavBar extends Component {
       isOpen: !this.state.isOpen
     });
   }
+
+  showReportsView = () => {
+    this.props.history.push('/reportsview');
+  }
+
+  showUserOrdersView = () => {
+    console.log('attempting')
+    this.props.history.push('/userorderview');
+  }
+
+  showOwnerView = () => {
+    this.props.history.push('/ownersview');
+  }
+
+
+  showMenu = () => {
+    this.props.history.push('/menu');
+  }
+
 
   render() {
 
@@ -41,8 +62,11 @@ class ResNavBar extends Component {
                 />
               </DropdownToggle>
               <DropdownMenu right>
-                <DropdownItem onClick={this.props.showUserOrderView}>
-                  See your orders
+                <DropdownItem onClick={this.showMenu}>
+                  Menu
+                </DropdownItem>
+                <DropdownItem onClick={this.showUserOrdersView}>
+                  Your Orders
                 </DropdownItem>
                 <DropdownItem divider />
                 <DropdownItem onClick={this.props.logout}>
@@ -60,7 +84,10 @@ class ResNavBar extends Component {
                 />
               </DropdownToggle>
               <DropdownMenu right>
-                <DropdownItem onClick={this.props.showReportsView}>
+                <DropdownItem onClick={this.showOwnerView}>
+                  Dashboard
+                </DropdownItem>
+                <DropdownItem onClick={this.showReportsView}>
                   Business Intelligence
                 </DropdownItem>
                 <DropdownItem divider />
@@ -90,4 +117,4 @@ class ResNavBar extends Component {
     );
   }
 }
-export default ResNavBar;
+export default withRouter(ResNavBar);

@@ -9,15 +9,16 @@ module.exports = (knex) => {
   router.get('/', (req, res) => {
     if(!req.session.email){
       console.log("user is guest");
-      res.json('Guest');
+      res.json({email:'Guest', owner:false});
     } else{
       knex
         .select('owner')
         .from('users')
         .where({email:req.session.email})
         .then((results) => {
+          console.log('results: ', results[0])
           if(results.length === 0){
-            res.json('Guest');
+            res.json({email:'Guest', owner:false});
           } else if (results[0].owner === true) {
             res.json({email:req.session.email, owner:true});
           } else {
@@ -34,10 +35,13 @@ module.exports = (knex) => {
       .from('users')
       .where({email:req.body.email})
       .then((results) => {
-
+        console.log('Input from frontend: ', req.body.email)
+        console.log('User: ', results[0])
         if(results.length===0){
+          console.log('no length')
           res.status(400).send('Invalid email format!')
         }else if(results[0].password !== req.body.password){
+          console.log('wrong password')
           res.status(400).send('Invalid email format!')
         } else {
           if(results[0].owner === true){

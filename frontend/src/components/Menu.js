@@ -6,7 +6,10 @@ import Countdown from 'react-countdown-moment'
 import ReactModal from 'react-modal';
 import { withAlert } from 'react-alert'
 import FontAwesome from 'react-fontawesome'
-
+import {HashRouter,
+  Switch,
+  Route,
+  Link, BrowserRouter, Redirect, withRouter} from 'react-router-dom';
 
 
 
@@ -233,6 +236,10 @@ class Menu extends Component {
   }
 
   render() {
+    if( (this.props.email === 'Guest') || this.props.owner === true){
+      return(<Redirect to='/login' />)
+    }
+
     let mainsCards = this.state.mains.map(item => {
       return (
           <Col md="4">
