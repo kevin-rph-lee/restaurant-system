@@ -3,7 +3,10 @@ import { Container, Card, CardText, CardBody,
   CardTitle, CardSubtitle, Row, Col, Button, Table} from 'reactstrap';
 import axios from 'axios'
 import {BarChart} from 'react-easy-chart';
-
+import {HashRouter,
+  Switch,
+  Route,
+  Link, BrowserRouter, browserHistory, Redirect, withRouter  } from 'react-router-dom';
 
 
 class ReportsView extends Component {
@@ -100,6 +103,11 @@ class ReportsView extends Component {
 
   render() {
 
+    if( (this.props.email === 'Guest') || this.props.owner === false ){
+      return(<Redirect to='/login' />)
+    }
+
+
     return (
       <div>
         <h2>Mains</h2>
@@ -166,4 +174,4 @@ class ReportsView extends Component {
     );
   }
 }
-export default ReportsView;
+export default withRouter(ReportsView);
