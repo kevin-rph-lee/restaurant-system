@@ -9,7 +9,7 @@ module.exports = (knex) => {
   router.get('/', (req, res) => {
     if(!req.session.email){
       console.log("user is guest");
-      res.json('Guest');
+      res.json({email:'Guest', owner:false});
     } else{
       knex
         .select('owner')

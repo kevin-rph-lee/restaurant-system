@@ -35,7 +35,7 @@ class ResNavBar extends Component {
   }
 
   showOrdersView = () => {
-    this.props.history.push('/ordersview');
+    this.props.history.push('/userorderview');
   }
 
   showOwnerView = () => {

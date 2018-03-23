@@ -32,6 +32,7 @@ class App extends Component {
 
       })
       .then((response) => {
+        console.log("Response Data: ", response.data)
         this.setState({email:response.data.email});
         this.setState({owner:response.data.owner})
       })
