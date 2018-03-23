@@ -242,14 +242,14 @@ class Menu extends Component {
 
     let mainsCards = this.state.mains.map(item => {
       return (
-          <Col md="4">
-            <Card>
+            <div>
+            <Card className="menu-card">
               <CardBody>
                 <CardTitle>{item.name}</CardTitle>
                 <CardSubtitle>${item.price}</CardSubtitle>
-              </CardBody>
-              <img width="100%" src={item.image} alt="Card image cap" />
-              <CardBody>
+
+              <img src={item.image} alt="Card image cap" />
+
                 <CardText>{item.description}</CardText>
               </CardBody>
               <form id = {item.id}>
@@ -264,19 +264,20 @@ class Menu extends Component {
                 </div>
               </form>
             </Card>
-          </Col>
+            </div>
+
       )
     })
 
     let drinksCards = this.state.drinks.map(item => {
       return (
-          <Col md="4">
-            <Card>
+
+            <Card className="menu-card">
               <CardBody>
                 <CardTitle>{item.name}</CardTitle>
                 <CardSubtitle>${item.price}</CardSubtitle>
               </CardBody>
-              <img width="100%" src={item.image} alt="Card image cap" />
+              <img src={item.image} alt="Card image cap" />
               <CardBody>
                 <CardText>{item.description}</CardText>
               </CardBody>
@@ -292,19 +293,19 @@ class Menu extends Component {
                 </div>
               </form>
             </Card>
-          </Col>
+
       )
     })
 
     let sidesCards = this.state.sides.map(item => {
       return (
-          <Col md="4">
-            <Card >
+
+            <Card className="menu-card">
               <CardBody>
                 <CardTitle>{item.name}</CardTitle>
                 <CardSubtitle>${item.price}</CardSubtitle>
               </CardBody>
-              <img width="100%" src={item.image} alt="Card image cap" />
+              <img src={item.image} alt="Card image cap" />
               <CardBody>
                 <CardText>{item.description}</CardText>
               </CardBody>
@@ -320,7 +321,7 @@ class Menu extends Component {
                 </div>
               </form>
             </Card>
-          </Col>
+
       )
     })
 

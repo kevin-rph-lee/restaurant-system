@@ -31,11 +31,22 @@ body {
 
 
 .finish-button {
-  margin-bottom: 50px;
+    margin-bottom: 50px;
 }
 
 .arrow-buttons {
     display: block;
     margin-left: auto;
     margin-right: auto;
+}
+
+.menu-card {
+    width: 300px;
+    height: 400px;
+}
+
+img {
+    width: 200px;
+    height: 150px;
+    object-fit: cover;
 }
