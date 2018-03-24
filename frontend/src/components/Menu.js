@@ -247,9 +247,7 @@ class Menu extends Component {
               <CardBody>
                 <CardTitle>{item.name}</CardTitle>
                 <CardSubtitle>${item.price}</CardSubtitle>
-
-              <img src={item.image} alt="Card image cap" />
-
+                <img src={item.image} alt="Card image cap" />
                 <CardText>{item.description}</CardText>
               </CardBody>
               <form id = {item.id}>
@@ -262,6 +260,7 @@ class Menu extends Component {
                     -
                   </Button>
                 </div>
+
               </form>
             </Card>
             </div>
@@ -276,9 +275,7 @@ class Menu extends Component {
               <CardBody>
                 <CardTitle>{item.name}</CardTitle>
                 <CardSubtitle>${item.price}</CardSubtitle>
-
-              <img src={item.image} alt="Card image cap" />
-
+                <img src={item.image} alt="Card image cap" />
                 <CardText>{item.description}</CardText>
               </CardBody>
               <form id = {item.id}>
@@ -304,9 +301,7 @@ class Menu extends Component {
               <CardBody>
                 <CardTitle>{item.name}</CardTitle>
                 <CardSubtitle>${item.price}</CardSubtitle>
-
-              <img src={item.image} alt="Card image cap" />
-
+                <img src={item.image} alt="Card image cap" />
                 <CardText>{item.description}</CardText>
               </CardBody>
               <form id = {item.id}>
