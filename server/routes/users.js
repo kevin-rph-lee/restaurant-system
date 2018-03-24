@@ -59,13 +59,23 @@ module.exports = (knex) => {
   router.post('/register', (req, res) => {
     console.log(req.body);
     knex
-      .insert({email: req.body.email, password: req.body.password, phone_number: req.body.phoneNumber, owner: false})
-      .into('users')
-      .returning('id')
+      .select('*')
+      .from('users')
+      .where({email:req.body.email})
       .then((results) => {
-        req.session.email = req.body.email;
-        res.json(req.body.email);
-      });
+        if(results.length === 0){
+          knex
+            .insert({email: req.body.email, password: req.body.password, phone_number: req.body.phoneNumber, owner: false})
+            .into('users')
+            .returning('id')
+            .then((results) => {
+              req.session.email = req.body.email;
+              res.json({email:req.session.email, owner:false});
+            });
+        } else {
+          res.sendStatus(400);
+        }
+      })
   });
 
   //Log user out

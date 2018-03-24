@@ -5,6 +5,7 @@ import {HashRouter,
   Switch,
   Route,
   Link, BrowserRouter, browserHistory, Redirect, withRouter } from 'react-router-dom';
+import { withAlert } from 'react-alert';
 
 class Register extends Component {
   constructor(props) {
@@ -54,7 +55,7 @@ class Register extends Component {
       this.props.showRegistration();
     })
     .catch((error) => {
-      console.log('ERror! ', error);
+      this.props.alert.show("User already exists");
     });
     event.preventDefault();
   }
@@ -83,4 +84,4 @@ class Register extends Component {
     );
   }
 }
-export default withRouter(Register);
+export default withRouter(withAlert(Register));
