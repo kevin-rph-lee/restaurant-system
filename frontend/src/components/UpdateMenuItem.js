@@ -66,12 +66,33 @@ class UpdateMenuItem extends Component {
   }
 
   handleSubmit = () => {
+
+    if(isNaN(parseFloat(this.state.price).toFixed(2))){
+      console.log('nan')
+      this.props.alert.show('Invalid input! Price not a number!');
+      return;
+    }
+
     for(let i = 0; i < this.state.items.length; i ++){
       if(this.state.name.toLowerCase() === this.state.items[i].name.toLowerCase()){
         this.props.alert.show('Invalid input! Item name already exists');
         return;
       }
     }
+
+    axios.post('menu_items/' + this.state.selectedItem.id, {
+      name:this.state.name,
+      description:this.state.description,
+      price:parseFloat(this.state.price).toFixed(2)
+
+    })
+    .then((response) => {
+
+    })
+    .catch((error) => {
+      console.log('error is ',error);
+    })
+
   }
 
   render() {
