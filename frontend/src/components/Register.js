@@ -55,7 +55,7 @@ class Register extends Component {
       })
       .then((response) => {
         this.props.updateSignIn({email:response.data.email, owner:response.data.owner})
-        this.props.showRegistration();
+        this.props.history.push('/menu')
       })
       .catch((error) => {
         this.props.alert.show("User already exists");
@@ -63,9 +63,6 @@ class Register extends Component {
     } else {
       this.props.alert.show("Passwords don't match");
     }
-
-
-
   }
 
 
