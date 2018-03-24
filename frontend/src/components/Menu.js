@@ -122,13 +122,13 @@ class Menu extends Component {
         //Sends the data to the websocket server
         this.props.sendWSMessage(response.data);
         //Clearing inputs and the states
-        this.clearInputs();
-        this.handleCloseModal();
+        // this.clearInputs();
+        // this.handleCloseModal();
 
         //Alerting the user of their order #
         // const alertString = 'Your order is submitted! Order #: ' + response.data['id'];
         // this.props.alert.show(alertString);
-        this.props.showUserOrderView()
+        this.props.history.push('/userorderview');
 
       })
       .catch((error) => {
@@ -236,6 +236,7 @@ class Menu extends Component {
   }
 
   render() {
+
     if( (this.props.email === 'Guest') || this.props.owner === true){
       return(<Redirect to='/login' />)
     }
@@ -374,4 +375,4 @@ class Menu extends Component {
     )
   }
 }
-export default withAlert(Menu);
+export default withRouter(withAlert(Menu));

@@ -3,7 +3,7 @@
 const express = require('express');
 const router  = express.Router();
 
-module.exports = (knex) => {
+module.exports = (knex, cookieSession, bcrypt) => {
 
   //Checking if logging in. If logged in, sends the email of the user back. If not, sends "Guest"
   router.get('/', (req, res) => {
@@ -40,10 +40,7 @@ module.exports = (knex) => {
         if(results.length===0){
           console.log('no length')
           res.status(400).send('Invalid email format!')
-        }else if(results[0].password !== req.body.password){
-          console.log('wrong password')
-          res.status(400).send('Invalid email format!')
-        } else {
+        }else if(bcrypt.compareSync(req.body.password, results[0].password)){
           if(results[0].owner === true){
             req.session.email = req.body.email;
             res.json({email:req.session.email, owner:true});
@@ -52,20 +49,32 @@ module.exports = (knex) => {
             res.json({email:req.session.email, owner:false});
 
           }
+        } else {
+          console.log('wrong password')
+          res.status(400).send('Invalid email format!')
         }
       });
   });
 
   router.post('/register', (req, res) => {
-    console.log(req.body);
     knex
-      .insert({email: req.body.email, password: req.body.password, phone_number: req.body.phoneNumber, owner: false})
-      .into('users')
-      .returning('id')
+      .select('*')
+      .from('users')
+      .where({email:req.body.email})
       .then((results) => {
-        req.session.email = req.body.email;
-        res.json(req.body.email);
-      });
+        if(results.length === 0){
+          knex
+            .insert({email: req.body.email, password: bcrypt.hashSync(req.body.password, 10), owner: false})
+            .into('users')
+            .returning('id')
+            .then((results) => {
+              req.session.email = req.body.email;
+              res.json({email:req.session.email, owner:false});
+            });
+        } else {
+          res.sendStatus(400);
+        }
+      })
   });
 
   //Log user out
