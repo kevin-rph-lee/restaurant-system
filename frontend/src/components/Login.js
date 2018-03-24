@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
+import { Button, Form, FormGroup, Label, Input, Card, CardText, CardBody,
+  CardTitle, CardSubtitle, Row, Col, Table, Container } from 'reactstrap';
 import axios from 'axios';
 import { withAlert } from 'react-alert'
 import {HashRouter,
@@ -15,11 +16,47 @@ class Login extends Component {
     this.handleLogin = this.handleLogin.bind(this);
 
     this.state = {
+      mains: [],
+      drinks: [],
+      sides: [],
       emailInput:'',
       password:'',
       showRegistration: false,
       signedIn:false
     };
+
+    axios.get('menu_items/mains', {
+
+    })
+    .then((response) => {
+      this.setState({mains: response.data})
+    })
+    .catch((error) => {
+      console.log('error is ',error);
+    })
+
+
+    axios.get('menu_items/drinks', {
+
+    })
+    .then((response) => {
+      this.setState({drinks: response.data})
+    })
+    .catch((error) => {
+      console.log('error is ',error);
+    })
+
+
+    axios.get('menu_items/sides', {
+
+    })
+    .then((response) => {
+      this.setState({sides: response.data})
+    })
+    .catch((error) => {
+      console.log('error is ',error);
+    })
+
   }
 
   componentDidMount(){
@@ -37,10 +74,6 @@ class Login extends Component {
   showRegistration = () =>{
     this.props.history.push('/register')
   }
-
-
-
-
 
   handleLogin = (event) => {
     axios.post('users/login', {
@@ -76,20 +109,84 @@ class Login extends Component {
       return(<Redirect to='/ownerview' />)
     }
 
+
+
+    let mainsCards = this.state.mains.map(item => {
+      return (
+            <Card className="menu-card">
+              <CardBody>
+                <CardTitle>{item.name}</CardTitle>
+                <CardSubtitle>${item.price}</CardSubtitle>
+                <img src={item.image} alt="Card image cap" />
+                <CardText>{item.description}</CardText>
+              </CardBody>
+            </Card>
+      )
+    })
+
+    let drinksCards = this.state.drinks.map(item => {
+      return (
+            <Card className="menu-card">
+              <CardBody>
+                <CardTitle>{item.name}</CardTitle>
+                <CardSubtitle>${item.price}</CardSubtitle>
+                <img src={item.image} alt="Card image cap" />
+                <CardText>{item.description}</CardText>
+              </CardBody>
+            </Card>
+      )
+    })
+
+    let sidesCards = this.state.sides.map(item => {
+      return (
+            <Card className="menu-card">
+              <CardBody>
+                <CardTitle>{item.name}</CardTitle>
+                <CardSubtitle>${item.price}</CardSubtitle>
+                <img src={item.image} alt="Card image cap" />
+                <CardText>{item.description}</CardText>
+              </CardBody>
+            </Card>
+
+      )
+    })
+
+
     return (
-      <Form>
-        <h1>Login</h1>
-        <FormGroup>
-          <Label for="exampleEmail">Email</Label>
-          <Input type="email" name="email" value={this.state.value} onChange={this.handleEmailInput}  id="exampleEmail" placeholder="Your email" />
-        </FormGroup>
-        <FormGroup>
-          <Label for="examplePassword">Password</Label>
-          <Input type="password" name="password" value={this.state.value}  onChange={this.handlePasswordInput} id="examplePassword" placeholder="Your password" />
-        </FormGroup>
-        <Button onClick={this.handleLogin}>Login</Button>
-        <Button onClick={this.showRegistration}>Register</Button>
-      </Form>
+      <div>
+        <Form>
+          <h1>Login</h1>
+          <FormGroup>
+            <Label for="exampleEmail">Email</Label>
+            <Input type="email" name="email" value={this.state.value} onChange={this.handleEmailInput}  id="exampleEmail" placeholder="Your email" />
+          </FormGroup>
+          <FormGroup>
+            <Label for="examplePassword">Password</Label>
+            <Input type="password" name="password" value={this.state.value}  onChange={this.handlePasswordInput} id="examplePassword" placeholder="Your password" />
+          </FormGroup>
+          <Button onClick={this.handleLogin}>Login</Button>
+          <Button onClick={this.showRegistration}>Register</Button>
+        </Form>
+        <h2>Mains</h2>
+        <Container fluid>
+          <Row>
+            {mainsCards}
+          </Row>
+        </Container>
+        <h2>Sides</h2>
+        <Container fluid>
+          <Row>
+            {sidesCards}
+          </Row>
+        </Container>
+        <h2>Drinks</h2>
+        <Container fluid>
+          <Row>
+            {drinksCards}
+          </Row>
+        </Container>
+
+      </div>
     );
   }
 }
