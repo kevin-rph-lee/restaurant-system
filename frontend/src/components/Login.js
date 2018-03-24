@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
 import axios from 'axios';
+import { withAlert } from 'react-alert'
 import {HashRouter,
   Switch,
   Route,
@@ -55,7 +56,7 @@ class Login extends Component {
 
     })
     .catch((error) => {
-      console.log('ERror! ', error);
+      this.props.alert.show("Wrong password or email");
     });
     event.preventDefault();
   }
@@ -89,4 +90,4 @@ class Login extends Component {
     );
   }
 }
-export default withRouter(Login);
+export default withRouter(withAlert(Login));
