@@ -22,8 +22,7 @@ class Login extends Component {
   }
 
   componentDidMount(){
-    console.log('email in login.js: ', this.props.email)
-    console.log('Props in login.js: ', this.props)
+
   }
 
   handleEmailInput(event){
@@ -63,9 +62,9 @@ class Login extends Component {
 
 
   render() {
-    console.log('Login props: ', this.props);
+
     if( (this.props.email !== 'Guest') && this.props.owner === false ){
-      console.log('WHy?')
+
       return(<Redirect to='/menu' />)
     }
 
