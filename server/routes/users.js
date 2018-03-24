@@ -64,7 +64,7 @@ module.exports = (knex, cookieSession, bcrypt) => {
       .then((results) => {
         if(results.length === 0){
           knex
-            .insert({email: req.body.email, password: req.body.password, owner: false})
+            .insert({email: req.body.email, password: bcrypt.hashSync(req.body.password, 10), owner: false})
             .into('users')
             .returning('id')
             .then((results) => {
