@@ -6,6 +6,7 @@ import helmet from 'helmet';
 import compression from 'compression';
 import path from 'path';
 
+
 import env from './config/env';
 
 const ENV = process.env.ENV || "development";
@@ -14,7 +15,7 @@ const knexConfig = require("./../knexfile.js");
 const knex = require("knex")(knexConfig[ENV]);
 const cookieSession = require('cookie-session');
 const moment = require('moment');
-
+const bcrypt = require('bcrypt');
 
 // console.log(ENV);
 /*==================================
@@ -45,7 +46,7 @@ app.use('/static', express.static(path.join(__dirname, 'public', 'static')));
 const usersRoutes = require("./routes/users");
 const menuItemsRoutes = require("./routes/menu_items");
 const ordersRoutes = require("./routes/orders");
-app.use("/users", usersRoutes(knex, cookieSession));
+app.use("/users", usersRoutes(knex, cookieSession, bcrypt));
 app.use("/menu_items", menuItemsRoutes(knex));
 app.use("/orders", ordersRoutes(knex, moment));
 
