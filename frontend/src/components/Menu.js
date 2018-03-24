@@ -253,12 +253,12 @@ class Menu extends Component {
                 <CardText>{item.description}</CardText>
               </CardBody>
               <form id = {item.id}>
-                <input type="text" name={item.id} ref={item.id} onChange={this.handleQuantityChange} className="form-control"/>
                 <div className="arrow-buttons">
-                  <Button onClick={this.handleUpArrow} name={item.id}>
+                  <Button className="up-button" onClick={this.handleUpArrow} name={item.id}>
                     +
                   </Button>
-                  <Button onClick={this.handleDownArrow} name={item.id}>
+                  <input type="text" name={item.id} ref={item.id} onChange={this.handleQuantityChange} className="form-control"/>
+                  <Button className="down-button" onClick={this.handleDownArrow} name={item.id}>
                     -
                   </Button>
                 </div>
@@ -276,18 +276,18 @@ class Menu extends Component {
               <CardBody>
                 <CardTitle>{item.name}</CardTitle>
                 <CardSubtitle>${item.price}</CardSubtitle>
-              </CardBody>
+
               <img src={item.image} alt="Card image cap" />
-              <CardBody>
+
                 <CardText>{item.description}</CardText>
               </CardBody>
               <form id = {item.id}>
-                <input type="text" name={item.id} ref={item.id} onChange={this.handleQuantityChange} className="form-control"/>
                 <div className="arrow-buttons">
-                  <Button onClick={this.handleUpArrow} name={item.id}>
+                  <Button className="up-button" onClick={this.handleUpArrow} name={item.id}>
                     +
                   </Button>
-                  <Button onClick={this.handleDownArrow} name={item.id}>
+                  <input type="text" name={item.id} ref={item.id} onChange={this.handleQuantityChange} className="form-control"/>
+                  <Button className="down-button" onClick={this.handleDownArrow} name={item.id}>
                     -
                   </Button>
                 </div>
@@ -304,18 +304,18 @@ class Menu extends Component {
               <CardBody>
                 <CardTitle>{item.name}</CardTitle>
                 <CardSubtitle>${item.price}</CardSubtitle>
-              </CardBody>
+
               <img src={item.image} alt="Card image cap" />
-              <CardBody>
+
                 <CardText>{item.description}</CardText>
               </CardBody>
               <form id = {item.id}>
-                <input type="text" name={item.id} ref={item.id} onChange={this.handleQuantityChange} className="form-control"/>
                 <div className="arrow-buttons">
-                  <Button onClick={this.handleUpArrow} name={item.id}>
+                  <Button className="up-button" onClick={this.handleUpArrow} name={item.id}>
                     +
                   </Button>
-                  <Button onClick={this.handleDownArrow} name={item.id}>
+                  <input type="text" name={item.id} ref={item.id} onChange={this.handleQuantityChange} className="form-control"/>
+                  <Button className="down-button" onClick={this.handleDownArrow} name={item.id}>
                     -
                   </Button>
                 </div>

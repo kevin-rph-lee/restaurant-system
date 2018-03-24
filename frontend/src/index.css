@@ -35,9 +35,7 @@ body {
 }
 
 .arrow-buttons {
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
+    display: inline-flex;
 }
 
 .menu-card {
@@ -45,8 +43,8 @@ body {
     height: 400px;
 }
 
-img {
-    width: 200px;
-    height: 150px;
+.card img {
+    width: 250px;
+    height: 200px;
     object-fit: cover;
 }
