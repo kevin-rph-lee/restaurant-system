@@ -19,7 +19,10 @@ class UpdateMenuItem extends Component {
 
     this.state = {
       items: [],
-      selectedItem: {}
+      selectedItem: {},
+      name: '',
+      price: null,
+      description: ''
     };
 
     this.componentDidMount = this.componentDidMount.bind(this);
@@ -50,6 +53,18 @@ class UpdateMenuItem extends Component {
     }
   }
 
+
+  handleNameChange = (event) => {
+    this.setState({name:event.target.value});
+  }
+
+  handlePriceChange = (event) => {
+    this.setState({price:event.target.value});
+  }
+  handleDescriptionChange = (event) => {
+    this.setState({description:event.target.value});
+  }
+
   render() {
 
     if(this.props.owner === false){
@@ -65,20 +80,29 @@ class UpdateMenuItem extends Component {
     })
 
     let menuItemPreview = null;
-    console.log('Selecte item: ', this.state.selectedItem)
     if(this.state.selectedItem.name === undefined){
-      console.log('Selected')
       menuItemPreview = null
     } else {
       menuItemPreview =
-        <Card className="menu-card">
-          <CardBody>
-            <CardTitle>{this.state.selectedItem.name}</CardTitle>
-            <CardSubtitle>${this.state.selectedItem.price}</CardSubtitle>
-            <img src={this.state.selectedItem.image} alt="Card image cap" />
-            <CardText>{this.state.selectedItem.description}</CardText>
-          </CardBody>
-        </Card>
+        <div>
+          <Card className="menu-card">
+            <CardBody>
+              <CardTitle>{this.state.selectedItem.name}</CardTitle>
+              <CardSubtitle>${this.state.selectedItem.price}</CardSubtitle>
+              <img src={this.state.selectedItem.image} alt="Card image cap" />
+              <CardText>{this.state.selectedItem.description}</CardText>
+            </CardBody>
+          </Card>
+          <FormGroup>
+            <Label for="name">Name</Label>
+            <Input type="text" name="name" id="name" placeholder="New Name" onChange = {this.handleNameChange} />
+            <Label for="price">price</Label>
+            <Input type="number" name="price" id="price" onChange = {this.handlePriceChange} />
+            <Label for="description">Description</Label>
+            <Input type="text" name="description" id="description" placeholder="Description" onChange = {this.handleDescriptionChange} />
+          </FormGroup>
+          <Button>Submit!</Button>
+        </div>
     }
 
     return (
