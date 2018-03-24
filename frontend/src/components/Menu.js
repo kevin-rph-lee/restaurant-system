@@ -242,85 +242,81 @@ class Menu extends Component {
 
     let mainsCards = this.state.mains.map(item => {
       return (
-          <Col md="4">
-            <Card>
+            <div>
+            <Card className="menu-card">
               <CardBody>
                 <CardTitle>{item.name}</CardTitle>
                 <CardSubtitle>${item.price}</CardSubtitle>
-              </CardBody>
-              <img width="100%" src={item.image} alt="Card image cap" />
-              <CardBody>
+                <img src={item.image} alt="Card image cap" />
                 <CardText>{item.description}</CardText>
               </CardBody>
               <form id = {item.id}>
-                <input type="text" name={item.id} ref={item.id} onChange={this.handleQuantityChange} className="form-control"/>
                 <div className="arrow-buttons">
-                  <Button onClick={this.handleUpArrow} name={item.id}>
+                  <Button className="up-button" onClick={this.handleUpArrow} name={item.id}>
                     +
                   </Button>
-                  <Button onClick={this.handleDownArrow} name={item.id}>
+                  <input type="text" name={item.id} ref={item.id} onChange={this.handleQuantityChange} className="form-control"/>
+                  <Button className="down-button" onClick={this.handleDownArrow} name={item.id}>
                     -
                   </Button>
                 </div>
+
               </form>
             </Card>
-          </Col>
+            </div>
+
       )
     })
 
     let drinksCards = this.state.drinks.map(item => {
       return (
-          <Col md="4">
-            <Card>
+
+            <Card className="menu-card">
               <CardBody>
                 <CardTitle>{item.name}</CardTitle>
                 <CardSubtitle>${item.price}</CardSubtitle>
-              </CardBody>
-              <img width="100%" src={item.image} alt="Card image cap" />
-              <CardBody>
+                <img src={item.image} alt="Card image cap" />
                 <CardText>{item.description}</CardText>
               </CardBody>
               <form id = {item.id}>
-                <input type="text" name={item.id} ref={item.id} onChange={this.handleQuantityChange} className="form-control"/>
                 <div className="arrow-buttons">
-                  <Button onClick={this.handleUpArrow} name={item.id}>
+                  <Button className="up-button" onClick={this.handleUpArrow} name={item.id}>
                     +
                   </Button>
-                  <Button onClick={this.handleDownArrow} name={item.id}>
+                  <input type="text" name={item.id} ref={item.id} onChange={this.handleQuantityChange} className="form-control"/>
+                  <Button className="down-button" onClick={this.handleDownArrow} name={item.id}>
                     -
                   </Button>
                 </div>
               </form>
             </Card>
-          </Col>
+
       )
     })
 
     let sidesCards = this.state.sides.map(item => {
       return (
-          <Col md="4">
-            <Card >
+
+            <Card className="menu-card">
               <CardBody>
                 <CardTitle>{item.name}</CardTitle>
                 <CardSubtitle>${item.price}</CardSubtitle>
-              </CardBody>
-              <img width="100%" src={item.image} alt="Card image cap" />
-              <CardBody>
+                <img src={item.image} alt="Card image cap" />
                 <CardText>{item.description}</CardText>
               </CardBody>
               <form id = {item.id}>
-                <input type="text" name={item.id} ref={item.id} onChange={this.handleQuantityChange} className="form-control"/>
                 <div className="arrow-buttons">
-                  <Button onClick={this.handleUpArrow} name={item.id}>
+                  <Button className="up-button" onClick={this.handleUpArrow} name={item.id}>
                     +
                   </Button>
-                  <Button onClick={this.handleDownArrow} name={item.id}>
+                  <input type="text" name={item.id} ref={item.id} onChange={this.handleQuantityChange} className="form-control"/>
+                  <Button className="down-button" onClick={this.handleDownArrow} name={item.id}>
                     -
                   </Button>
                 </div>
               </form>
             </Card>
-          </Col>
+
       )
     })
 

@@ -31,11 +31,38 @@ body {
 
 
 .finish-button {
-  margin-bottom: 50px;
+    margin-bottom: 50px;
+}
+
+.menu-card {
+    width: 300px;
+    height: 400px;
+}
+
+.card img {
+    width: 250px;
+    height: 200px;
+    object-fit: cover;
+}
+
+.up-button {
+  text-align: center;
+  width: 31.33px;
+}
+
+.card input {
+  width: 80px;
+  text-align: center;
 }
 
 .arrow-buttons {
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
+    margin-left: 70px;
+    margin-bottom: 30px;
+    display: inline-flex;
+    align-content: center;
+
+}
+.card {
+  margin-left: 30px;
+  margin-bottom: 30px
 }
