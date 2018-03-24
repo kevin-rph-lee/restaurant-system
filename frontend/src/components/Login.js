@@ -147,15 +147,14 @@ class Login extends Component {
                 <CardText>{item.description}</CardText>
               </CardBody>
             </Card>
-
       )
     })
 
 
     return (
       <div>
-        <Form>
-          <h1>Login</h1>
+        <Form className="login-form">
+          <h1>Login to order!</h1>
           <FormGroup>
             <Label for="exampleEmail">Email</Label>
             <Input type="email" name="email" value={this.state.value} onChange={this.handleEmailInput}  id="exampleEmail" placeholder="Your email" />
@@ -185,7 +184,6 @@ class Login extends Component {
             {drinksCards}
           </Row>
         </Container>
-
       </div>
     );
   }

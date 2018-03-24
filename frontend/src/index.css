@@ -66,3 +66,9 @@ body {
   margin-left: 30px;
   margin-bottom: 30px
 }
+
+.login-form {
+  border-style: solid;
+  padding: 30px;
+  width: 50%;
+}
