@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Container, Card, CardText, CardBody,
-  CardTitle, CardSubtitle, Row, Col, Button, Table} from 'reactstrap';
+  CardTitle, CardSubtitle, Row, Col, Button, Table, Form, Input, Label, FormGroup} from 'reactstrap';
 import axios from 'axios'
 import Countdown from 'react-countdown-moment'
 import ReactModal from 'react-modal';
@@ -18,13 +18,7 @@ class UpdateMenuItem extends Component {
     super(props);
 
     this.state = {
-      mains: [],
-      drinks: [],
-      sides: [],
-      orderQuantities: {},
-      orderQuantitiesArray: [],
-      showModal: false,
-      subTotal: 0
+      items: []
     };
 
     this.componentDidMount = this.componentDidMount.bind(this);
@@ -33,33 +27,11 @@ class UpdateMenuItem extends Component {
 
   componentDidMount = () => {
 
-      axios.get('menu_items/mains', {
+      axios.get('menu_items/', {
 
       })
       .then((response) => {
-        this.setState({mains: response.data})
-      })
-      .catch((error) => {
-        console.log('error is ',error);
-      })
-
-
-      axios.get('menu_items/drinks', {
-
-      })
-      .then((response) => {
-        this.setState({drinks: response.data})
-      })
-      .catch((error) => {
-        console.log('error is ',error);
-      })
-
-
-      axios.get('menu_items/sides', {
-
-      })
-      .then((response) => {
-        this.setState({sides: response.data})
+        this.setState({items: response.data})
       })
       .catch((error) => {
         console.log('error is ',error);
@@ -73,8 +45,24 @@ class UpdateMenuItem extends Component {
       return(<Redirect to='/login' />)
     }
 
+    let items = this.state.items.map(item => {
+      return (
+
+            <option>{item.name}</option>
+
+      )
+    })
+
     return (
-      <h1>Update a menu item</h1>
+      <div>
+        <h1>Update a menu item</h1>
+        <FormGroup>
+          <Label for="exampleSelect">Item</Label>
+          <Input type="select" name="select" id="exampleSelect">
+            {items}
+          </Input>
+        </FormGroup>
+      </div>
     )
   }
 }
