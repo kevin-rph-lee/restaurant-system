@@ -65,6 +65,15 @@ class UpdateMenuItem extends Component {
     this.setState({description:event.target.value});
   }
 
+  handleSubmit = () => {
+    for(let i = 0; i < this.state.items.length; i ++){
+      if(this.state.name.toLowerCase() === this.state.items[i].name.toLowerCase()){
+        this.props.alert.show('Invalid input! Item name already exists');
+        return;
+      }
+    }
+  }
+
   render() {
 
     if(this.props.owner === false){
@@ -101,7 +110,7 @@ class UpdateMenuItem extends Component {
             <Label for="description">Description</Label>
             <Input type="text" name="description" id="description" placeholder="Description" onChange = {this.handleDescriptionChange} />
           </FormGroup>
-          <Button>Submit!</Button>
+          <Button onClick = {this.handleSubmit}>Submit!</Button>
         </div>
     }
 
