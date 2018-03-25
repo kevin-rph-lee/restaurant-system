@@ -59,7 +59,7 @@ module.exports = (knex) => {
   });
 
   router.post('/:id', (req, res) => {
-    console.log(req.params.id)
+
     console.log(req.body);
     const promiseArray = [];
 
@@ -79,13 +79,20 @@ module.exports = (knex) => {
       )
     }
 
-    if(req.body.description !== NaN){
+    if( !(isNaN(req.body.price)) ){
+      console.log('NAAAN')
       promiseArray.push(
         knex('menu_items')
           .where({ id:req.params.id })
           .update({ price:req.body.price })
       )
     }
+
+    promiseArray.push(
+      knex('menu_items')
+        .where({ id:req.params.id })
+        .update({ sold_out:req.body.soldOut })
+    )
 
     Promise.all(promiseArray).then(() => {
       res.sendStatus(200);

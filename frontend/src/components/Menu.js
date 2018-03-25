@@ -236,13 +236,16 @@ class Menu extends Component {
   }
 
   render() {
-
+    console.log(this.state.mains)
+    console.log(this.state.drinks)
+    console.log(this.state.sides)
     if( (this.props.email === 'Guest') || this.props.owner === true){
       return(<Redirect to='/login' />)
     }
 
     let mainsCards = this.state.mains.map(item => {
-      return (
+      if(!item.sold_out){
+       return (
             <div>
             <Card className="menu-card">
               <CardBody>
@@ -265,13 +268,30 @@ class Menu extends Component {
               </form>
             </Card>
             </div>
+       )
+      }
+      if(item.sold_out){
+       return (
 
-      )
+            <div>
+            <Card className="menu-card">
+              <CardBody>
+                <CardTitle>{item.name}</CardTitle>
+                <CardSubtitle>${item.price}</CardSubtitle>
+                <img src={item.image} alt="Card image cap" className="sold-out-image" />
+                <CardText>{item.description}</CardText>
+                <CardSubtitle className="sold-out-notification">SOLD OUT</CardSubtitle>
+              </CardBody>
+            </Card>
+            </div>
+       )
+      }
     })
 
     let drinksCards = this.state.drinks.map(item => {
-      return (
-
+      if(!item.sold_out){
+       return (
+            <div>
             <Card className="menu-card">
               <CardBody>
                 <CardTitle>{item.name}</CardTitle>
@@ -289,15 +309,34 @@ class Menu extends Component {
                     -
                   </Button>
                 </div>
+
               </form>
             </Card>
+            </div>
+       )
+      }
+      if(item.sold_out){
+       return (
 
-      )
+            <div>
+            <Card className="menu-card">
+              <CardBody>
+                <CardTitle>{item.name}</CardTitle>
+                <CardSubtitle>${item.price}</CardSubtitle>
+                <img src={item.image} alt="Card image cap" className="sold-out-image" />
+                <CardText>{item.description}</CardText>
+                <CardSubtitle className="sold-out-notification">SOLD OUT</CardSubtitle>
+              </CardBody>
+            </Card>
+            </div>
+       )
+      }
     })
 
     let sidesCards = this.state.sides.map(item => {
-      return (
-
+      if(!item.sold_out){
+       return (
+            <div>
             <Card className="menu-card">
               <CardBody>
                 <CardTitle>{item.name}</CardTitle>
@@ -315,10 +354,28 @@ class Menu extends Component {
                     -
                   </Button>
                 </div>
+
               </form>
             </Card>
+            </div>
+       )
+      }
+      if(item.sold_out){
+       return (
 
-      )
+            <div>
+            <Card className="menu-card">
+              <CardBody>
+                <CardTitle>{item.name}</CardTitle>
+                <CardSubtitle>${item.price}</CardSubtitle>
+                <img src={item.image} alt="Card image cap" className="sold-out-image" />
+                <CardText>{item.description}</CardText>
+                <CardSubtitle className="sold-out-notification">SOLD OUT</CardSubtitle>
+              </CardBody>
+            </Card>
+            </div>
+       )
+      }
     })
 
 
