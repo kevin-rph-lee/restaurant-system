@@ -6,8 +6,8 @@ exports.up = function(knex, Promise) {
     table.string('image');
     table.string('description');
     table.string('type');
-    table.string('ref');
     table.integer('prep_time');
+    table.boolean('sold_out')
   });
 };
 

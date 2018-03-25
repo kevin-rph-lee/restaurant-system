@@ -152,6 +152,12 @@ class UpdateMenuItem extends Component {
             <Label for="description">Description</Label>
             <Input type="text" name="description" id="description" placeholder="Description" onChange = {this.handleDescriptionChange} />
           </FormGroup>
+
+          <FormGroup row>
+            <Label for="checkbox2">Sold Out</Label>
+            <Input type="checkbox" id="checkbox2" />
+
+          </FormGroup>
           <Button onClick = {this.handleSubmit}>Submit!</Button>
         </div>
     }
