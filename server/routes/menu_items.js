@@ -79,6 +79,14 @@ module.exports = (knex) => {
       )
     }
 
+    if(req.body.description !== NaN){
+      promiseArray.push(
+        knex('menu_items')
+          .where({ id:req.params.id })
+          .update({ price:req.body.price })
+      )
+    }
+
     Promise.all(promiseArray).then(() => {
       res.sendStatus(200);
     })
