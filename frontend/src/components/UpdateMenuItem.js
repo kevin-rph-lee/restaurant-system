@@ -21,7 +21,7 @@ class UpdateMenuItem extends Component {
       items: [],
       selectedItem: {},
       name: '',
-      price: null,
+      price: '',
       description: ''
     };
 
@@ -45,6 +45,10 @@ class UpdateMenuItem extends Component {
 
 
   handleDropDownChange = (event) => {
+    if(event.target.value === 'Select an Item'){
+      this.setState({selectedItem:{}});
+      return;
+    }
     console.log(event.target.value)
     for(let i = 0; i < this.state.items.length; i ++){
       if(this.state.items[i].name === event.target.value){
@@ -59,6 +63,7 @@ class UpdateMenuItem extends Component {
   }
 
   handlePriceChange = (event) => {
+    console.log(event.target.value);
     this.setState({price:event.target.value});
   }
   handleDescriptionChange = (event) => {
@@ -66,11 +71,15 @@ class UpdateMenuItem extends Component {
   }
 
   handleSubmit = () => {
+    console.log('Price: ', this.state.price)
 
-    if(isNaN(parseFloat(this.state.price).toFixed(2))){
-      console.log('nan')
-      this.props.alert.show('Invalid input! Price not a number!');
-      return;
+    if((this.state.price !== '')){
+      console.log('WHHHHYYY')
+      if(isNaN(parseFloat(this.state.price).toFixed(2)) && (this.state.price === null || this.state.price === '')){
+        console.log('nan')
+        this.props.alert.show('Invalid input! Price not a number!');
+        return;
+      }
     }
 
     for(let i = 0; i < this.state.items.length; i ++){
@@ -87,6 +96,18 @@ class UpdateMenuItem extends Component {
 
     })
     .then((response) => {
+
+      axios.get('menu_items/', {
+
+      })
+      .then((response) => {
+        this.setState({items:response.data});
+        this.setState({selectedItem:{}})
+        this.props.alert.show('Update successful!');
+      })
+      .catch((error) => {
+        console.log('error is ',error);
+      })
 
     })
     .catch((error) => {
@@ -141,6 +162,7 @@ class UpdateMenuItem extends Component {
         <FormGroup>
           <Label for="exampleSelect">Item</Label>
           <Input type="select" name="select" onChange={this.handleDropDownChange} id="exampleSelect">
+            <option>Select an Item</option>
             {items}
           </Input>
         </FormGroup>

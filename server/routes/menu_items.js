@@ -58,5 +58,31 @@ module.exports = (knex) => {
       });
   });
 
+  router.post('/:id', (req, res) => {
+    console.log(req.params.id)
+    console.log(req.body);
+    const promiseArray = [];
+
+    if(req.body.name !== ''){
+      promiseArray.push(
+        knex('menu_items')
+          .where({ id:req.params.id })
+          .update({ name:req.body.name })
+      )
+    }
+
+    if(req.body.description !== ''){
+      promiseArray.push(
+        knex('menu_items')
+          .where({ id:req.params.id })
+          .update({ description:req.body.description })
+      )
+    }
+
+    Promise.all(promiseArray).then(() => {
+      res.sendStatus(200);
+    })
+  });
+
   return router;
 };
