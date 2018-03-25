@@ -111,44 +111,85 @@ class Login extends Component {
 
 
     let mainsCards = this.state.mains.map(item => {
-      return (
-            <Card className="menu-card">
-              <CardBody>
-                <CardTitle>{item.name}</CardTitle>
-                <CardSubtitle>${item.price}</CardSubtitle>
-                <img src={item.image} alt="Card image cap" />
-                <CardText>{item.description}</CardText>
-              </CardBody>
-            </Card>
-      )
+      if(!item.sold_out){
+        return (
+              <Card className="menu-card">
+                <CardBody>
+                  <CardTitle>{item.name}</CardTitle>
+                  <CardSubtitle>${item.price}</CardSubtitle>
+                  <img src={item.image} alt="Card image cap" />
+                  <CardText>{item.description}</CardText>
+                </CardBody>
+              </Card>
+        )
+      } else {
+        return (
+              <Card className="menu-card">
+                <CardBody>
+                  <CardTitle>{item.name}</CardTitle>
+                  <CardSubtitle>${item.price}</CardSubtitle>
+                  <img src={item.image} alt="Card image cap" className="sold-out-image"  />
+                  <CardText>{item.description}</CardText>
+                  <CardSubtitle className="sold-out-notification">SOLD OUT</CardSubtitle>
+                </CardBody>
+              </Card>
+        )
+      }
     })
 
     let drinksCards = this.state.drinks.map(item => {
-      return (
-            <Card className="menu-card">
-              <CardBody>
-                <CardTitle>{item.name}</CardTitle>
-                <CardSubtitle>${item.price}</CardSubtitle>
-                <img src={item.image} alt="Card image cap" />
-                <CardText>{item.description}</CardText>
-              </CardBody>
-            </Card>
-      )
+      if(!item.sold_out){
+        return (
+              <Card className="menu-card">
+                <CardBody>
+                  <CardTitle>{item.name}</CardTitle>
+                  <CardSubtitle>${item.price}</CardSubtitle>
+                  <img src={item.image} alt="Card image cap" />
+                  <CardText>{item.description}</CardText>
+                </CardBody>
+              </Card>
+        )
+      } else {
+        return (
+              <Card className="menu-card">
+                <CardBody>
+                  <CardTitle>{item.name}</CardTitle>
+                  <CardSubtitle>${item.price}</CardSubtitle>
+                  <img src={item.image} alt="Card image cap" className="sold-out-image"  />
+                  <CardText>{item.description}</CardText>
+                  <CardSubtitle className="sold-out-notification">SOLD OUT</CardSubtitle>
+                </CardBody>
+              </Card>
+        )
+      }
     })
 
     let sidesCards = this.state.sides.map(item => {
-      return (
-            <Card className="menu-card">
-              <CardBody>
-                <CardTitle>{item.name}</CardTitle>
-                <CardSubtitle>${item.price}</CardSubtitle>
-                <img src={item.image} alt="Card image cap" />
-                <CardText>{item.description}</CardText>
-              </CardBody>
-            </Card>
-      )
+      if(!item.sold_out){
+        return (
+              <Card className="menu-card">
+                <CardBody>
+                  <CardTitle>{item.name}</CardTitle>
+                  <CardSubtitle>${item.price}</CardSubtitle>
+                  <img src={item.image} alt="Card image cap" />
+                  <CardText>{item.description}</CardText>
+                </CardBody>
+              </Card>
+        )
+      } else {
+        return (
+              <Card className="menu-card">
+                <CardBody>
+                  <CardTitle>{item.name}</CardTitle>
+                  <CardSubtitle>${item.price}</CardSubtitle>
+                  <img src={item.image} alt="Card image cap" className="sold-out-image"  />
+                  <CardText>{item.description}</CardText>
+                  <CardSubtitle className="sold-out-notification">SOLD OUT</CardSubtitle>
+                </CardBody>
+              </Card>
+        )
+      }
     })
-
 
     return (
       <div>
