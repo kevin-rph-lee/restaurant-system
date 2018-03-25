@@ -89,7 +89,6 @@ class Login extends Component {
       } else {
         this.props.history.push('/menu');
       }
-
     })
     .catch((error) => {
       this.props.alert.show("Wrong password or email");

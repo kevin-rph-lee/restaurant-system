@@ -34,6 +34,10 @@ class ResNavBar extends Component {
     this.props.history.push('/reportsview');
   }
 
+  showUpdateMenuItemView = () => {
+    this.props.history.push('/updatemenuitem');
+  }
+
   showUserOrdersView = () => {
     console.log('attempting')
     this.props.history.push('/userorderview');
@@ -89,6 +93,9 @@ class ResNavBar extends Component {
                 </DropdownItem>
                 <DropdownItem onClick={this.showReportsView}>
                   Business Intelligence
+                </DropdownItem>
+                <DropdownItem onClick={this.showUpdateMenuItemView}>
+                  Update Menu Item
                 </DropdownItem>
                 <DropdownItem divider />
                 <DropdownItem onClick={this.props.logout}>
