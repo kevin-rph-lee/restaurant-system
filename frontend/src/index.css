@@ -72,3 +72,11 @@ body {
   padding: 30px;
   width: 50%;
 }
+
+.sold-out-image{
+    opacity: 0.3;
+}
+
+.sold-out-notification{
+  color:red;
+}
