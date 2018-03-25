@@ -22,7 +22,8 @@ class UpdateMenuItem extends Component {
       selectedItem: {},
       name: '',
       price: '',
-      description: ''
+      description: '',
+      soldOut:false
     };
 
     this.componentDidMount = this.componentDidMount.bind(this);
@@ -53,6 +54,7 @@ class UpdateMenuItem extends Component {
     for(let i = 0; i < this.state.items.length; i ++){
       if(this.state.items[i].name === event.target.value){
         this.setState({selectedItem:this.state.items[i]});
+        this.setState({soldOut:this.state.items[i].sold_out})
       }
     }
   }
@@ -66,8 +68,13 @@ class UpdateMenuItem extends Component {
     console.log(event.target.value);
     this.setState({price:event.target.value});
   }
+
   handleDescriptionChange = (event) => {
     this.setState({description:event.target.value});
+  }
+
+  handleSoldOutChange = (event) => {
+    this.setState({soldOut:!this.state.soldOut})
   }
 
   handleSubmit = () => {
@@ -92,8 +99,8 @@ class UpdateMenuItem extends Component {
     axios.post('menu_items/' + this.state.selectedItem.id, {
       name:this.state.name,
       description:this.state.description,
-      price:parseFloat(this.state.price).toFixed(2)
-
+      price:parseFloat(this.state.price).toFixed(2),
+      soldOut: this.state.soldOut
     })
     .then((response) => {
 
@@ -117,16 +124,14 @@ class UpdateMenuItem extends Component {
   }
 
   render() {
-
+    console.log(this.state.selectedItem);
     if(this.props.owner === false){
       return(<Redirect to='/login' />)
     }
 
     let items = this.state.items.map(item => {
       return (
-
             <option>{item.name}</option>
-
       )
     })
 
@@ -155,7 +160,7 @@ class UpdateMenuItem extends Component {
 
           <FormGroup row>
             <Label for="checkbox2">Sold Out</Label>
-            <Input type="checkbox" id="checkbox2" />
+            <input type="checkbox" id="checkbox2" checked={this.state.soldOut} onChange = {this.handleSoldOutChange} />
 
           </FormGroup>
           <Button onClick = {this.handleSubmit}>Submit!</Button>
