@@ -60,32 +60,16 @@ class AddMenuItem extends Component {
     //     return;
     //   }
     // }
+    const data = new FormData()
+    data.append('file', this.state.selectedFile);
 
-
-    // axios.post('menu_items/' + this.state.selectedItem.id, {
-    //   name:this.state.name,
-    //   description:this.state.description,
-    //   price:parseFloat(this.state.price).toFixed(2),
-    //   soldOut: this.state.soldOut
-    // })
-    // .then((response) => {
-
-    //   axios.get('menu_items/', {
-
-    //   })
-    //   .then((response) => {
-    //     this.setState({items:response.data});
-    //     this.setState({selectedItem:{}})
-    //     this.props.alert.show('Update successful!');
-    //   })
-    //   .catch((error) => {
-    //     console.log('error is ',error);
-    //   })
-
-    // })
-    // .catch((error) => {
-    //   console.log('error is ',error);
-    // })
+    axios.post('test/', data)
+    .then((response) => {
+      console.log('Success!')
+    })
+    .catch((error) => {
+      console.log('error is ',error);
+    })
 
   }
   render() {
