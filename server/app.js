@@ -17,6 +17,11 @@ const cookieSession = require('cookie-session');
 const moment = require('moment');
 const bcrypt = require('bcrypt');
 
+
+
+
+
+
 // console.log(ENV);
 /*==================================
 =            Middleware            =
@@ -47,8 +52,11 @@ const usersRoutes = require("./routes/users");
 const menuItemsRoutes = require("./routes/menu_items");
 const ordersRoutes = require("./routes/orders");
 app.use("/users", usersRoutes(knex, cookieSession, bcrypt));
-app.use("/menu_items", menuItemsRoutes(knex));
+app.use("/menu_items", menuItemsRoutes(knex, path));
 app.use("/orders", ordersRoutes(knex, moment));
+
+
+
 
 // Load React App
 // Serve HTML file for production
