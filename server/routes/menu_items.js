@@ -24,6 +24,11 @@ module.exports = (knex, path) => {
 
 
   router.post('/add', (req, res) => {
+
+    if(req.body.name === null || req.body.price === null || req.body.description === null || req.body.type === null || req.body.prep_time === null){
+      res.sendStatus(400);
+    }
+
     knex
       .select("owner")
       .from("users")
