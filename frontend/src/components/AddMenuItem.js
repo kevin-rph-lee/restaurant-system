@@ -18,12 +18,12 @@ class AddMenuItem extends Component {
     super(props);
 
     this.state = {
-      name: '',
-      price: '',
-      description: '',
+      name: null,
+      price: null,
+      description: null,
       selectedFile: null,
       type: null,
-      prepTime: ''
+      prepTime: null
     };
 
     this.componentDidMount = this.componentDidMount.bind(this);
@@ -69,8 +69,10 @@ class AddMenuItem extends Component {
       return;
     }
 
-
-    console.log('State: ', this.state)
+    if(this.state.name === null || this.state.price === null || this.state.description === null || this.state.selectedFile === null || this.state.type === null || this.state.prepTime === null ){
+      this.props.alert.show('All fields must be filled');
+      return;
+    }
 
     axios.post('menu_items/add', {
       name:this.state.name,
@@ -112,12 +114,12 @@ class AddMenuItem extends Component {
         <FormGroup>
           <Label for="name">Name</Label>
           <Input type="text" name="name" id="name" placeholder="New Name" onChange = {this.handleNameChange} />
+          <Label for="description">Description</Label>
+          <Input type="text" name="description" id="description" placeholder="Description" onChange = {this.handleDescriptionChange} />
           <Label for="price">price</Label>
           <Input type="number" name="price" id="price" onChange = {this.handlePriceChange} />
           <Label for="prep-time">Prep time</Label>
           <Input type="number" name="prep-time" id="prep-time" onChange = {this.handlePrepTimeChange} />
-          <Label for="description">Description</Label>
-          <Input type="text" name="description" id="description" placeholder="Description" onChange = {this.handleDescriptionChange} />
           <Label for="image">Image</Label>
           <Input type="select" name="select" onChange={this.handleDropDownChange} id="type">
             <option>Select a category</option>
