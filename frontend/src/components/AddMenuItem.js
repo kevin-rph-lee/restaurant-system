@@ -21,7 +21,8 @@ class AddMenuItem extends Component {
       name: '',
       price: '',
       description: '',
-      selectedFile: null
+      selectedFile: null,
+      type: ''
     };
 
     this.componentDidMount = this.componentDidMount.bind(this);
@@ -34,6 +35,10 @@ class AddMenuItem extends Component {
 
   handleNameChange = (event) => {
     this.setState({name:event.target.value});
+  }
+
+  handleDropDownChange = (event) => {
+    this.setState({type:event.target.value});
   }
 
   handlePriceChange = (event) => {
@@ -55,7 +60,8 @@ class AddMenuItem extends Component {
     axios.post('menu_items/add', {
       name:this.state.name,
       price:parseFloat(this.state.price).toFixed(2),
-      description:this.state.description
+      description:this.state.description,
+      type:this.state.type.toLowerCase()
     })
     .then((response) => {
       console.log('New ID:', response.data.id)
@@ -95,7 +101,14 @@ class AddMenuItem extends Component {
           <Label for="description">Description</Label>
           <Input type="text" name="description" id="description" placeholder="Description" onChange = {this.handleDescriptionChange} />
           <Label for="image">Image</Label>
+          <Input type="select" name="select" onChange={this.handleDropDownChange} id="type">
+            <option>Main</option>
+            <option>Drink</option>
+            <option>Side</option>
+          </Input>
           <Input name="image" type="file" onChange={this.fileChangedHandler} />
+          <Label for="type">Dish Type</Label>
+
           <Button onClick = {this.handleSubmit}>Submit!</Button>
         </FormGroup>
       </div>
