@@ -16,22 +16,10 @@ const knex = require("knex")(knexConfig[ENV]);
 const cookieSession = require('cookie-session');
 const moment = require('moment');
 const bcrypt = require('bcrypt');
-const multer = require('multer');
 
 
 
-var storage = multer.diskStorage({
-  destination: function(req, file, callback) {
-    callback(null, './server/uploads')
-  },
-  filename: function(req, file, callback) {
-    console.log(file)
-    callback(null, 'Test' + path.extname(file.originalname))
-  }
-})
 
-
-const upload = multer({ storage });
 
 
 // console.log(ENV);
@@ -64,15 +52,9 @@ const usersRoutes = require("./routes/users");
 const menuItemsRoutes = require("./routes/menu_items");
 const ordersRoutes = require("./routes/orders");
 app.use("/users", usersRoutes(knex, cookieSession, bcrypt));
-app.use("/menu_items", menuItemsRoutes(knex));
+app.use("/menu_items", menuItemsRoutes(knex, path));
 app.use("/orders", ordersRoutes(knex, moment));
 
-
-app.post('/test',upload.single('file'), (req, res) =>{
-
-      res.sendStatus(200);
-
-});
 
 
 

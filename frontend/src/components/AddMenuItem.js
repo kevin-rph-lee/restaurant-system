@@ -52,24 +52,31 @@ class AddMenuItem extends Component {
   handleSubmit = () => {
     console.log('State: ', this.state)
 
-    // if((this.state.price !== '')){
-    //   console.log('WHHHHYYY')
-    //   if(isNaN(parseFloat(this.state.price).toFixed(2)) && (this.state.price === null || this.state.price === '')){
-    //     console.log('nan')
-    //     this.props.alert.show('Invalid input! Price not a number!');
-    //     return;
-    //   }
-    // }
-    const data = new FormData()
-    data.append('file', this.state.selectedFile);
-
-    axios.post('test/', data)
+    axios.post('menu_items/add', {
+      name:this.state.name,
+      price:parseFloat(this.state.price).toFixed(2),
+      description:this.state.description
+    })
     .then((response) => {
-      console.log('Success!')
+      console.log('New ID:', response.data.id)
+
+      const data = new FormData()
+      data.append('file', this.state.selectedFile);
+
+      axios.post('menu_items/add/image/' + response.data.id, data)
+      .then((response) => {
+        console.log('Success!')
+      })
+      .catch((error) => {
+        console.log('error is ',error);
+      })
+
     })
     .catch((error) => {
       console.log('error is ',error);
     })
+
+
 
   }
   render() {
