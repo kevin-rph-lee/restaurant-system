@@ -22,7 +22,8 @@ class AddMenuItem extends Component {
       price: '',
       description: '',
       selectedFile: null,
-      type: ''
+      type: null,
+      prepTime: ''
     };
 
     this.componentDidMount = this.componentDidMount.bind(this);
@@ -38,7 +39,14 @@ class AddMenuItem extends Component {
   }
 
   handleDropDownChange = (event) => {
+    if(event.target.value === 'Select a category'){
+      this.setState({type:null});
+    }
     this.setState({type:event.target.value});
+  }
+
+  handlePrepTimeChange = (event) => {
+    this.setState({prepTime:parseInt(Math.round(event.target.value))});
   }
 
   handlePriceChange = (event) => {
@@ -55,13 +63,21 @@ class AddMenuItem extends Component {
   }
 
   handleSubmit = () => {
+
+    if(this.state.type === null){
+      this.props.alert.show('Invalid input! New item needs a category!');
+      return;
+    }
+
+
     console.log('State: ', this.state)
 
     axios.post('menu_items/add', {
       name:this.state.name,
       price:parseFloat(this.state.price).toFixed(2),
       description:this.state.description,
-      type:this.state.type.toLowerCase()
+      type:this.state.type.toLowerCase(),
+      prepTime: this.state.prepTime
     })
     .then((response) => {
       console.log('New ID:', response.data.id)
@@ -98,10 +114,13 @@ class AddMenuItem extends Component {
           <Input type="text" name="name" id="name" placeholder="New Name" onChange = {this.handleNameChange} />
           <Label for="price">price</Label>
           <Input type="number" name="price" id="price" onChange = {this.handlePriceChange} />
+          <Label for="prep-time">Prep time</Label>
+          <Input type="number" name="prep-time" id="prep-time" onChange = {this.handlePrepTimeChange} />
           <Label for="description">Description</Label>
           <Input type="text" name="description" id="description" placeholder="Description" onChange = {this.handleDescriptionChange} />
           <Label for="image">Image</Label>
           <Input type="select" name="select" onChange={this.handleDropDownChange} id="type">
+            <option>Select a category</option>
             <option>Main</option>
             <option>Drink</option>
             <option>Side</option>
