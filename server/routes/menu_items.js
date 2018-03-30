@@ -34,7 +34,7 @@ module.exports = (knex, path) => {
           return;
         } else {
           knex
-            .insert({name:req.body.name, price:req.body.price, description:req.body.description, type:req.body.type})
+            .insert({name:req.body.name, price:req.body.price, description:req.body.description, type:req.body.type, sold_out:false})
             .into('menu_items')
             .returning('id')
             .then((results) => {
