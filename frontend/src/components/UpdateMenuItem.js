@@ -141,10 +141,13 @@ class UpdateMenuItem extends Component {
     } else {
       menuItemPreview =
         <div>
-          <Card className="menu-card">
+          <Card className="update-card">
             <CardBody>
               <CardTitle>{this.state.selectedItem.name}</CardTitle>
-              <CardSubtitle>${this.state.selectedItem.price}</CardSubtitle>
+              <CardSubtitle>Price</CardSubtitle>
+              <CardText>${this.state.selectedItem.price}</CardText>
+              <CardSubtitle>Prep Time</CardSubtitle>
+              <CardText>{this.state.selectedItem.prep_time} minutes</CardText>
               <img src={this.state.selectedItem.image} alt="Card image cap" />
               <CardText>{this.state.selectedItem.description}</CardText>
             </CardBody>
