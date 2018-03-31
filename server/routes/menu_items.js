@@ -174,12 +174,29 @@ module.exports = (knex, path) => {
       )
     }
 
-    if( !(isNaN(req.body.price)) ){
+    if(req.body.type !== null){
+      promiseArray.push(
+        knex('menu_items')
+          .where({ id:req.params.id })
+          .update({ type:req.body.type })
+      )
+    }
+
+    if( req.body.price !== '' ){
       console.log('NAAAN')
       promiseArray.push(
         knex('menu_items')
           .where({ id:req.params.id })
           .update({ price:req.body.price })
+      )
+    }
+
+    if( req.body.prepTime !== '' ){
+      console.log('NAAAN')
+      promiseArray.push(
+        knex('menu_items')
+          .where({ id:req.params.id })
+          .update({ prep_time:req.body.prepTime })
       )
     }
 
