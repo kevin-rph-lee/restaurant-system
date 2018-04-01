@@ -23,7 +23,10 @@ class UpdateMenuItem extends Component {
       name: '',
       price: '',
       description: '',
-      soldOut:false
+      soldOut:'',
+      selectedFile: null,
+      type: null,
+      prepTime: ''
     };
 
     this.componentDidMount = this.componentDidMount.bind(this);
@@ -73,21 +76,36 @@ class UpdateMenuItem extends Component {
     this.setState({description:event.target.value});
   }
 
+  handlePrepTimeChange = (event) => {
+    this.setState({prepTime:parseInt(Math.round(event.target.value))});
+  }
+
+  fileChangedHandler = (event) => {
+    this.setState({selectedFile: event.target.files[0]});
+  }
+
   handleSoldOutChange = (event) => {
     this.setState({soldOut:!this.state.soldOut})
   }
 
-  handleSubmit = () => {
-    console.log('Price: ', this.state.price)
-
-    if((this.state.price !== '')){
-      console.log('WHHHHYYY')
-      if(isNaN(parseFloat(this.state.price).toFixed(2)) && (this.state.price === null || this.state.price === '')){
-        console.log('nan')
-        this.props.alert.show('Invalid input! Price not a number!');
-        return;
-      }
+  handleDropDownTypeChange = (event) => {
+    if(event.target.value === 'Select a category'){
+      this.setState({type:null});
     }
+    this.setState({type:event.target.value.toLowerCase()});
+  }
+
+
+  handleSubmit = () => {
+
+    let price = this.state.price;
+    let prepTime = this.state.prepTime;
+    const id = this.state.selectedItem.id;
+    if(this.state.price !== ''){
+      price = parseFloat(this.state.price).toFixed(2);
+    }
+
+
 
     for(let i = 0; i < this.state.items.length; i ++){
       if(this.state.name.toLowerCase() === this.state.items[i].name.toLowerCase()){
@@ -96,21 +114,44 @@ class UpdateMenuItem extends Component {
       }
     }
 
-    axios.post('menu_items/' + this.state.selectedItem.id, {
+    axios.post('menu_items/update/' + this.state.selectedItem.id, {
       name:this.state.name,
       description:this.state.description,
-      price:parseFloat(this.state.price).toFixed(2),
-      soldOut: this.state.soldOut
+      price:price,
+      soldOut: this.state.soldOut,
+      type: this.state.type,
+      prepTime: this.state.prepTime
     })
-    .then((response) => {
+    .then((updatedItem) => {
+
+
 
       axios.get('menu_items/', {
 
       })
       .then((response) => {
-        this.setState({items:response.data});
-        this.setState({selectedItem:{}})
-        this.props.alert.show('Update successful!');
+
+        if(this.state.selectedFile !== null){
+
+            const data = new FormData()
+            data.append('file', this.state.selectedFile);
+
+            axios.post('menu_items/add/image/' + id, data)
+            .then((response) => {
+
+              this.setState({items:response.data});
+              this.setState({selectedItem:{}})
+              this.props.alert.show('Update successful!');
+            })
+            .catch((error) => {
+              console.log('error is ',error);
+            })
+
+        } else {
+          this.setState({items:response.data});
+          this.setState({selectedItem:{}})
+          this.props.alert.show('Update successful!');
+        }
       })
       .catch((error) => {
         console.log('error is ',error);
@@ -124,7 +165,7 @@ class UpdateMenuItem extends Component {
   }
 
   render() {
-    console.log(this.state.selectedItem);
+
     if(this.props.owner === false){
       return(<Redirect to='/login' />)
     }
@@ -141,10 +182,15 @@ class UpdateMenuItem extends Component {
     } else {
       menuItemPreview =
         <div>
-          <Card className="menu-card">
+          <Card className="update-card">
             <CardBody>
               <CardTitle>{this.state.selectedItem.name}</CardTitle>
-              <CardSubtitle>${this.state.selectedItem.price}</CardSubtitle>
+              <CardSubtitle>Type</CardSubtitle>
+              <CardText>{this.state.selectedItem.type}</CardText>
+              <CardSubtitle>Price</CardSubtitle>
+              <CardText>${this.state.selectedItem.price}</CardText>
+              <CardSubtitle>Prep Time</CardSubtitle>
+              <CardText>{this.state.selectedItem.prep_time} minutes</CardText>
               <img src={this.state.selectedItem.image} alt="Card image cap" />
               <CardText>{this.state.selectedItem.description}</CardText>
             </CardBody>
@@ -156,6 +202,16 @@ class UpdateMenuItem extends Component {
             <Input type="number" name="price" id="price" onChange = {this.handlePriceChange} />
             <Label for="description">Description</Label>
             <Input type="text" name="description" id="description" placeholder="Description" onChange = {this.handleDescriptionChange} />
+            <Label for="prep-time">Prep time</Label>
+            <Input type="number" name="prep-time" id="prep-time" onChange = {this.handlePrepTimeChange} />
+            <Label for="image">Image</Label>
+            <Input type="select" name="select" onChange={this.handleDropDownTypeChange} id="type">
+              <option>Select a category</option>
+              <option>Main</option>
+              <option>Drink</option>
+              <option>Side</option>
+            </Input>
+            <Input name="image" type="file" onChange={this.fileChangedHandler} />
           </FormGroup>
 
           <FormGroup row>

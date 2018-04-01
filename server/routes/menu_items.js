@@ -153,45 +153,126 @@ module.exports = (knex, path) => {
       });
   });
 
-  router.post('/:id', (req, res) => {
+  router.post('/update/:id', (req, res) => {
 
     console.log(req.body);
-    const promiseArray = [];
+
+
+
 
     if(req.body.name !== ''){
+      knex
+        .select("id")
+        .from("menu_items")
+        .where({name:req.body.name})
+        .then((results) => {
+          if(results.length === 0){
+            const promiseArray = [];
+            promiseArray.push(
+              knex('menu_items')
+                .where({ id:req.params.id })
+                .update({ name:req.body.name })
+            )
+
+            if(req.body.description !== ''){
+              promiseArray.push(
+                knex('menu_items')
+                  .where({ id:req.params.id })
+                  .update({ description:req.body.description })
+              )
+            }
+
+            if(req.body.type !== null){
+              promiseArray.push(
+                knex('menu_items')
+                  .where({ id:req.params.id })
+                  .update({ type:req.body.type })
+              )
+            }
+
+            if(req.body.price !== ''){
+              console.log('Price')
+              promiseArray.push(
+                knex('menu_items')
+                  .where({ id:req.params.id })
+                  .update({ price:req.body.price })
+              )
+            }
+
+            if(req.body.prepTime !== ''){
+              console.log('PrepTime')
+              promiseArray.push(
+                knex('menu_items')
+                  .where({ id:req.params.id })
+                  .update({ prep_time:req.body.prepTime })
+              )
+            }
+
+            promiseArray.push(
+              knex('menu_items')
+                .where({ id:req.params.id })
+                .update({ sold_out:req.body.soldOut })
+            )
+
+            Promise.all(promiseArray).then(() => {
+              res.sendStatus(200);
+            })
+          } else {
+            res.sendStatus(400);
+          }
+        });
+
+    } else{
+
+      const promiseArray = [];
+
+      if(req.body.description !== ''){
+        promiseArray.push(
+          knex('menu_items')
+            .where({ id:req.params.id })
+            .update({ description:req.body.description })
+        )
+      }
+
+      if(req.body.type !== null){
+        promiseArray.push(
+          knex('menu_items')
+            .where({ id:req.params.id })
+            .update({ type:req.body.type })
+        )
+      }
+
+      if(req.body.price !== ''){
+        console.log('Price')
+        promiseArray.push(
+          knex('menu_items')
+            .where({ id:req.params.id })
+            .update({ price:req.body.price })
+        )
+      }
+
+      if(req.body.prepTime !== ''){
+        console.log('PrepTime')
+        promiseArray.push(
+          knex('menu_items')
+            .where({ id:req.params.id })
+            .update({ prep_time:req.body.prepTime })
+        )
+      }
+
       promiseArray.push(
         knex('menu_items')
           .where({ id:req.params.id })
-          .update({ name:req.body.name })
+          .update({ sold_out:req.body.soldOut })
       )
+
+      Promise.all(promiseArray).then(() => {
+        res.sendStatus(200);
+      })
+
     }
 
-    if(req.body.description !== ''){
-      promiseArray.push(
-        knex('menu_items')
-          .where({ id:req.params.id })
-          .update({ description:req.body.description })
-      )
-    }
 
-    if( !(isNaN(req.body.price)) ){
-      console.log('NAAAN')
-      promiseArray.push(
-        knex('menu_items')
-          .where({ id:req.params.id })
-          .update({ price:req.body.price })
-      )
-    }
-
-    promiseArray.push(
-      knex('menu_items')
-        .where({ id:req.params.id })
-        .update({ sold_out:req.body.soldOut })
-    )
-
-    Promise.all(promiseArray).then(() => {
-      res.sendStatus(200);
-    })
   });
 
   return router;

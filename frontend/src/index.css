@@ -64,7 +64,12 @@ body {
 }
 .card {
   margin-left: 30px;
-  margin-bottom: 30px
+  margin-bottom: 30px;
+}
+
+.update-card{
+  width: 300px;
+  height: 480px;
 }
 
 .login-form {
