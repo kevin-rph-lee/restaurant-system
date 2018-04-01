@@ -87,12 +87,12 @@ class App extends Component {
         <div className="main">
           <Switch>
             <Route path='/register' render={(props) => <Register updateSignIn = {this.updateSignIn} />} />
-            <Route path='/menu' render={(props) => <Menu sendWSMessage= {this.sendWSMessage} showUserOrderView = {this.showUserOrderView} email = {this.state.email}  owner = {this.state.owner} />} />
+            <Route path='/menu' render={(props) => <Menu socket={this.socket} sendWSMessage= {this.sendWSMessage} showUserOrderView = {this.showUserOrderView} email = {this.state.email}  owner = {this.state.owner} />} />
             <Route path='/ownerview' render={(props) => <OwnerView socket={this.socket}  sendWSMessage= {this.sendWSMessage} owner = {this.state.owner} email = {this.state.email} />} />
             <Route path='/reportsview' render={(props) => <ReportsView  owner = {this.state.owner} email = {this.state.email} />} />
             <Route path='/userorderview' render={(props) => <UserOrderView socket={this.socket}  owner = {this.state.owner} email = {this.state.email}/> } />
             <Route path='/addmenuitem' render={(props) => <AddMenuItem owner = {this.state.owner} email = {this.state.email}/>}  />
-            <Route path='/updatemenuitem' render={(props) => <UpdateMenuItem owner = {this.state.owner} email = {this.state.email}/>}  />
+            <Route path='/updatemenuitem' render={(props) => <UpdateMenuItem sendWSMessage= {this.sendWSMessage} owner = {this.state.owner} email = {this.state.email}/>}  />
             <Route path='/userprofile' render={(props) => <UserProfile owner = {this.state.owner} email = {this.state.email}/> } />
             <Route path='/' render={(props) => <Login updateSignIn = {this.updateSignIn} owner = {this.state.owner} email = {this.state.email}/>}  />
 

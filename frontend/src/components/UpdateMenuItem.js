@@ -113,6 +113,12 @@ class UpdateMenuItem extends Component {
         return;
       }
     }
+    if(this.state.soldOut === true){
+      this.props.sendWSMessage({id:id, type:'sold out message', soldOut: true});
+    } else {
+      this.props.sendWSMessage({id:id, type:'sold out message', soldOut: false});
+    }
+
 
     axios.post('menu_items/update/' + this.state.selectedItem.id, {
       name:this.state.name,
