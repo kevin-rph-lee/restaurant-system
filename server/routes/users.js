@@ -56,6 +56,30 @@ module.exports = (knex, cookieSession, bcrypt) => {
       });
   });
 
+  router.post('/update', (req, res) => {
+    knex
+      .select('id')
+      .from('users')
+      .where({email:req.session.email})
+      .then((results) => {
+        console.log('Input from frontend: ', req.body.email)
+        console.log('User: ', results[0])
+        if(results.length===0){
+          console.log('User not found')
+          res.status(400).send('Invalid email format!')
+        } else {
+          knex('users')
+            .where({ email:req.session.email })
+            .update({ password:bcrypt.hashSync(req.body.password, 10) })
+            .then(()=>{
+              res.sendStatus(200);
+            });
+        }
+      });
+  });
+
+
+
   router.post('/register', (req, res) => {
     knex
       .select('*')
