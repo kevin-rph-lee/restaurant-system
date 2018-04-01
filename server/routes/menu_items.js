@@ -182,8 +182,8 @@ module.exports = (knex, path) => {
       )
     }
 
-    if( req.body.price !== '' ){
-      console.log('NAAAN')
+    if(req.body.price !== ''){
+      console.log('Price')
       promiseArray.push(
         knex('menu_items')
           .where({ id:req.params.id })
@@ -191,8 +191,8 @@ module.exports = (knex, path) => {
       )
     }
 
-    if( req.body.prepTime !== '' ){
-      console.log('NAAAN')
+    if(req.body.prepTime !== ''){
+      console.log('PrepTime')
       promiseArray.push(
         knex('menu_items')
           .where({ id:req.params.id })

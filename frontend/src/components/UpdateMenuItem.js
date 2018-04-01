@@ -21,7 +21,7 @@ class UpdateMenuItem extends Component {
       items: [],
       selectedItem: {},
       name: '',
-      price: null,
+      price: '',
       description: '',
       soldOut:'',
       selectedFile: null,
@@ -98,6 +98,15 @@ class UpdateMenuItem extends Component {
 
   handleSubmit = () => {
     console.log('Submit!')
+    console.log('Name, ', this.state.name)
+    console.log('Price: ', this.state.price)
+    let price = this.state.price;
+    let prepTime = this.state.prepTime;
+    const id = this.state.selectedItem.id;
+    if(this.state.price !== ''){
+      price = parseFloat(this.state.price).toFixed(2);
+    }
+
 
 
     for(let i = 0; i < this.state.items.length; i ++){
@@ -110,20 +119,41 @@ class UpdateMenuItem extends Component {
     axios.post('menu_items/' + this.state.selectedItem.id, {
       name:this.state.name,
       description:this.state.description,
-      price:parseFloat(this.state.price).toFixed(2),
+      price:price,
       soldOut: this.state.soldOut,
       type: this.state.type,
       prepTime: this.state.prepTime
     })
-    .then((response) => {
+    .then((updatedItem) => {
+
+
 
       axios.get('menu_items/', {
 
       })
       .then((response) => {
-        this.setState({items:response.data});
-        this.setState({selectedItem:{}})
-        this.props.alert.show('Update successful!');
+
+        if(this.state.selectedFile !== null){
+
+            const data = new FormData()
+            data.append('file', this.state.selectedFile);
+
+            axios.post('menu_items/add/image/' + id, data)
+            .then((response) => {
+              console.log('ID: ',response.data.id)
+              this.setState({items:response.data});
+              this.setState({selectedItem:{}})
+              this.props.alert.show('Update successful!');
+            })
+            .catch((error) => {
+              console.log('error is ',error);
+            })
+
+        } else {
+          this.setState({items:response.data});
+          this.setState({selectedItem:{}})
+          this.props.alert.show('Update successful!');
+        }
       })
       .catch((error) => {
         console.log('error is ',error);
@@ -137,7 +167,7 @@ class UpdateMenuItem extends Component {
   }
 
   render() {
-    console.log(this.state.selectedItem);
+    console.log('Selected Item: ', this.state.selectedItem);
     if(this.props.owner === false){
       return(<Redirect to='/login' />)
     }
@@ -157,6 +187,8 @@ class UpdateMenuItem extends Component {
           <Card className="update-card">
             <CardBody>
               <CardTitle>{this.state.selectedItem.name}</CardTitle>
+              <CardSubtitle>Type</CardSubtitle>
+              <CardText>{this.state.selectedItem.type}</CardText>
               <CardSubtitle>Price</CardSubtitle>
               <CardText>${this.state.selectedItem.price}</CardText>
               <CardSubtitle>Prep Time</CardSubtitle>
