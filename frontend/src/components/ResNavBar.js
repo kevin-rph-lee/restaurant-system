@@ -51,6 +51,10 @@ class ResNavBar extends Component {
     this.props.history.push('/ownersview');
   }
 
+  showUserProfileView = () => {
+    console.log('attempting')
+    this.props.history.push('/userprofile');
+  }
 
   showMenu = () => {
     this.props.history.push('/menu');
@@ -75,6 +79,9 @@ class ResNavBar extends Component {
                 </DropdownItem>
                 <DropdownItem onClick={this.showUserOrdersView}>
                   Your Orders
+                </DropdownItem>
+                <DropdownItem onClick={this.showUserProfileView}>
+                  User Profile
                 </DropdownItem>
                 <DropdownItem divider />
                 <DropdownItem onClick={this.props.logout}>
@@ -103,6 +110,9 @@ class ResNavBar extends Component {
                 </DropdownItem>
                 <DropdownItem onClick={this.showAddMenuItemView}>
                   Add Menu Item
+                </DropdownItem>
+                <DropdownItem onClick={this.showUserProfileView}>
+                  User Profile
                 </DropdownItem>
                 <DropdownItem divider />
                 <DropdownItem onClick={this.props.logout}>

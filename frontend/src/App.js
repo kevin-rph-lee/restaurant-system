@@ -7,6 +7,7 @@ import UserOrderView from './components/UserOrderView.js';
 import UpdateMenuItem from './components/UpdateMenuItem.js';
 import AddMenuItem from './components/AddMenuItem.js';
 import ReportsView from './components/ReportsView.js';
+import UserProfile from './components/UserProfile.js';
 import axios from 'axios';
 import Register from './components/Register.js';
 import {HashRouter,
@@ -92,7 +93,9 @@ class App extends Component {
             <Route path='/userorderview' render={(props) => <UserOrderView socket={this.socket}  owner = {this.state.owner} email = {this.state.email}/> } />
             <Route path='/addmenuitem' render={(props) => <AddMenuItem owner = {this.state.owner} email = {this.state.email}/>}  />
             <Route path='/updatemenuitem' render={(props) => <UpdateMenuItem owner = {this.state.owner} email = {this.state.email}/>}  />
+            <Route path='/userprofile' render={(props) => <UserProfile owner = {this.state.owner} email = {this.state.email}/> } />
             <Route path='/' render={(props) => <Login updateSignIn = {this.updateSignIn} owner = {this.state.owner} email = {this.state.email}/>}  />
+
           </Switch>
         </div>
       </div>
