@@ -153,7 +153,7 @@ module.exports = (knex, path) => {
       });
   });
 
-  router.post('/:id', (req, res) => {
+  router.post('/update/:id', (req, res) => {
 
     console.log(req.body);
     const promiseArray = [];

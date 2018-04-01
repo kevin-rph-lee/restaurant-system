@@ -116,7 +116,7 @@ class UpdateMenuItem extends Component {
       }
     }
 
-    axios.post('menu_items/' + this.state.selectedItem.id, {
+    axios.post('menu_items/update/' + this.state.selectedItem.id, {
       name:this.state.name,
       description:this.state.description,
       price:price,
