@@ -97,9 +97,7 @@ class UpdateMenuItem extends Component {
 
 
   handleSubmit = () => {
-    console.log('Submit!')
-    console.log('Name, ', this.state.name)
-    console.log('Price: ', this.state.price)
+
     let price = this.state.price;
     let prepTime = this.state.prepTime;
     const id = this.state.selectedItem.id;
@@ -140,7 +138,7 @@ class UpdateMenuItem extends Component {
 
             axios.post('menu_items/add/image/' + id, data)
             .then((response) => {
-              console.log('ID: ',response.data.id)
+
               this.setState({items:response.data});
               this.setState({selectedItem:{}})
               this.props.alert.show('Update successful!');
@@ -167,7 +165,7 @@ class UpdateMenuItem extends Component {
   }
 
   render() {
-    console.log('Selected Item: ', this.state.selectedItem);
+
     if(this.props.owner === false){
       return(<Redirect to='/login' />)
     }
