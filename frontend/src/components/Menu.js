@@ -43,7 +43,6 @@ class Menu extends Component {
         console.log('error is ',error);
       })
 
-
       axios.get('menu_items/drinks', {
 
       })
@@ -65,6 +64,39 @@ class Menu extends Component {
         console.log('error is ',error);
       })
 
+
+
+      this.props.socket.addEventListener('message', (event) => {
+        console.log('Got message')
+        const soldOutMessage = JSON.parse(event.data);
+        if(soldOutMessage.type === 'sold out message'){
+          console.log('Sold Out message: ', soldOutMessage.id)
+          const mains = this.state.mains;
+          const drinks = this.state.drinks;
+          const sides = this.state.sides;
+
+          for(let i = 0; i < mains.length; i ++){
+            if(mains[i].id === soldOutMessage.id){
+              mains[i].sold_out = soldOutMessage.soldOut
+              this.setState({mains:mains})
+            }
+          }
+
+          for(let i = 0; i < drinks.length; i ++){
+            if(drinks[i].id === soldOutMessage.id){
+              drinks[i].sold_out = soldOutMessage.soldOut
+              this.setState({drinks:drinks})
+            }
+          }
+
+          for(let i = 0; i < sides.length; i ++){
+            if(sides[i].id === soldOutMessage.id){
+              sides[i].sold_out = soldOutMessage.soldOut
+              this.setState({sides:sides})
+            }
+          }
+        }
+      });
   }
 
   handleOpenModal = () => {
