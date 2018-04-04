@@ -126,7 +126,7 @@ class ResNavBar extends Component {
     return (
       <div>
         <Navbar color="grey" className="navbar-dark bg-dark" light expand="md">
-          <NavbarBrand href="/">Rikimaru Ramen</NavbarBrand>
+          <NavbarBrand href="/">The Noodle Box</NavbarBrand>
           <NavbarToggler onClick={this.toggle} />
           <Collapse isOpen={this.state.isOpen} navbar>
             <Nav className="ml-auto" navbar>
