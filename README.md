@@ -15,6 +15,22 @@ npm run knex seed:run
 npm run start
 ```
 
+## Features
+
+### Menu Ordering
+
+### Kitchen Tracking
+
+### Menu Managment
+
+#### Editing Menu Items
+
+#### Adding Menu Items
+
+#### Marking Items Sold Out
+
+### Business Intelligence
+
 ## Contributors
 
 * <a href="https://github.com/kevin-rph-lee">Kevin Lee</a>
