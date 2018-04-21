@@ -8,6 +8,8 @@ A menu ordering and management system for the fictional noodle restaurant *The N
 
 ## Getting Started
 
+Create env file based off of .env.example for postgresql DB configuration.
+
 ```
 npm install
 npm run knex migrate:latest
