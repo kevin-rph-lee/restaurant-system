@@ -119,7 +119,7 @@ class UserOrderView extends Component {
                 <CardHeader tag="h3" >Order # {order.id}</CardHeader>
                 <CardBody>
                   <CardText>Expected Finish Time: {order.finishTime}</CardText>
-                  <CardText ><span className={order.timeStatus}>Time left: {order.timeDiff}</span></CardText>
+                  <CardText ><span className={order.timeStatus}>Time left: {order.timeDiff} minutes</span></CardText>
                   <Table>
                     <thead>
                       <tr>
