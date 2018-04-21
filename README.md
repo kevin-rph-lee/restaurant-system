@@ -35,7 +35,7 @@ Finally, start the websocket server within the wss folder with npm start, and in
 
 As a customer, you can make your order directly from the system and the order will be automatically pushed to the kitchen staff.
 
-
+<img src="https://i.imgur.com/VXbRu6t.gif" width="40%" height="40%" align="middle" />
 
 
 After submitting your order, your order information is presented to you including cost, order status, and estimated order finish time.
