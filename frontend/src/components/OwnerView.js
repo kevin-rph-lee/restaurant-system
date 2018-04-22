@@ -138,7 +138,7 @@ class OwnerView extends Component {
                 <CardBody>
                   <CardText>Finish time: {order.finishTime}</CardText>
                   <CardText>Account: {order.email}</CardText>
-                  <CardText ><span className={order.timeStatus}>Time left: {order.timeDiff}</span></CardText>
+                  <CardText ><span className={order.timeStatus}>Time left: {order.timeDiff} mineutes</span></CardText>
                   <Button className="finish-button" name={order.id} onClick={(e) => this.finishOrder(e)}>Finish Order</Button>
                   <Table>
                     <thead>
