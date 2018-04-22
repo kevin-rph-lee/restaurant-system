@@ -4,6 +4,10 @@ A menu ordering and management system built for the fictional noodle restaurant 
 
 The backend server is built with Node/Express, ReactJS for the frontend, websockets to allow real-time updates, and PostgreSQL for the database.
 
+<p align="center">
+<img src="https://i.imgur.com/tsqd9mO.jpg" width="75%" height="75%" align="middle" />
+</p>
+
 
 ## Getting Started
 
@@ -64,6 +68,7 @@ Both customers and kitchen staff see how long left until their order is ready (o
 
 The system has the ability to edit/add menu items if logged in as the owner. The restaurant owner has the ability to mark items "sold out" which is updated real-time on the restaurant menu for customers.
 
+<img src="https://i.imgur.com/0tgCGKD.jpg" width="40%" height="40%" align="middle" />
 
 ### Business Intelligence
 
